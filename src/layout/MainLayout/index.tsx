@@ -7,10 +7,9 @@ import RhsWrapper from "./RhsWrapper";
 import NavList from "./navlist";
 // import Breadcrumbs from "@/component/atoms/breadcrumb";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { IProducts } from "@/store/slices/gatewaySlice";
+import { IProducts } from "@/store/slices/dashboardSlice";
 import { useRouter } from "next/router";
 import { IAllRoutes } from "@/constants/allRoutes";
-import ChannelSelectDropDown from "./channelSelectDropdown";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import { useSearchParams } from "next/navigation";
 import { Cookies } from "react-cookie";
@@ -41,7 +40,7 @@ const MainLayout = (props: IProps) => {
   const [productType, setProductType] = useState<IProducts>();
 
   const { userChannelMappings, selectedChannel, pdType } = useAppSelector(
-    (state) => state.gateway
+    (state) => state.dashboard
   );
 
   const isDashboard = useMemo(

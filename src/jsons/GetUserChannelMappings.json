@@ -1,0 +1,32 @@
+[
+  {
+    "userName": "user2",
+    "email": "yogesh123@gmail.com",
+    "channelName": "SS.com",
+    "channelId": "SS"
+  },
+  {
+    "userName": "user2",
+    "email": "yogesh123@gmail.com",
+    "channelName": "intune.com",
+    "channelId": "intune"
+  },
+  {
+    "userName": "user2",
+    "email": "yogesh123@gmail.com",
+    "channelName": "ssbeauty.com",
+    "channelId": "beauty"
+  },
+  {
+    "userName": "user2",
+    "email": "yogesh123@gmail.com",
+    "channelName": "channel name1",
+    "channelId": "cannel 1"
+  },
+  {
+    "userName": "user2",
+    "email": "yogesh123@gmail.com",
+    "channelName": "channel name2",
+    "channelId": "cannel 2"
+  }
+]

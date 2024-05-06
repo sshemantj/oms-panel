@@ -2,7 +2,7 @@ import { useAppSelector } from "@/store/hooks";
 import ReactLoading from "react-loading";
 
 const Loader = () => {
-  const { isLoading } = useAppSelector((state) => state.gateway);
+  const { isLoading } = useAppSelector((state) => state.dashboard);
 
   return isLoading ? (
     <div

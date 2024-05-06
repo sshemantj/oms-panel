@@ -4,6 +4,7 @@
   min-height: 100vh;
   z-index: 3;
   background-color: $color_2;
+  width: 100%;
   .navContainer {
     position: sticky;
     left: 0;
@@ -104,6 +105,7 @@
   }
   .mainBodyWrapper {
     height: 100%;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     gap: 1rem;

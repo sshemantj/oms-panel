@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {} from "@/services/thunks/tableApis";
+import userChannelMappings from "@/jsons/GetUserChannelMappings.json";
 
 export type IProducts = "";
 
@@ -20,13 +21,13 @@ const initialState = {
   // data: getApprovedUnmappedSizeVariants || tableJson,
   // styleVariants: styleVariantsJson,
   // sizeVariants: sizeVariantsJson,
-  // userChannelMappings: userChannelMappings,
+  userChannelMappings: userChannelMappings,
   // channelMasters: channelMastersJson,
   //
   data: { sizevariantData: [] },
   styleVariants: [],
   sizeVariants: [],
-  userChannelMappings: [],
+  // userChannelMappings: [],
   channelMasters: [],
   //
   selectedChannel: "",
@@ -35,8 +36,8 @@ const initialState = {
   isLoading: false,
 } as IGatewaySlice;
 
-export const gatewaySlice = createSlice({
-  name: "gateway",
+export const dashboardSlice = createSlice({
+  name: "dashboard",
   initialState,
   reducers: {
     setLoader: (state, action: PayloadAction<boolean>) => {
@@ -54,5 +55,5 @@ export const gatewaySlice = createSlice({
   },
 });
 
-export const { setLoader } = gatewaySlice.actions;
-export default gatewaySlice.reducer;
+export const { setLoader } = dashboardSlice.actions;
+export default dashboardSlice.reducer;

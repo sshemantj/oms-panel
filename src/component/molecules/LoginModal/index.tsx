@@ -12,7 +12,7 @@ import {
   persistUsername,
 } from "@/store/slices/loginSlice";
 import { Cookies } from "react-cookie";
-import { setLoader } from "@/store/slices/gatewaySlice";
+import { setLoader } from "@/store/slices/dashboardSlice";
 
 const cookie = new Cookies();
 

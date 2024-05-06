@@ -1,12 +1,12 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import gatewaySlice from "./slices/gatewaySlice";
+import dashboardSlice from "./slices/dashboardSlice";
 import menu from "./slices/menu";
 import login from "./slices/loginSlice";
 
 const rootReducer = combineReducers({
   menu,
   login,
-  gateway: gatewaySlice,
+  dashboard: dashboardSlice,
 });
 
 export { rootReducer };
