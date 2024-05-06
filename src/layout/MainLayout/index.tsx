@@ -11,9 +11,11 @@ import { IProducts } from "@/store/slices/gatewaySlice";
 import { useRouter } from "next/router";
 import { IAllRoutes } from "@/constants/allRoutes";
 import ChannelSelectDropDown from "./channelSelectDropdown";
-import styles from "./newNavbar.module.scss";
+import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import { useSearchParams } from "next/navigation";
 import { Cookies } from "react-cookie";
+import HeaderLabel from "@/component/atoms/headerLabel";
+import styles from "./newNavbar.module.scss";
 
 const cookie = new Cookies();
 
@@ -33,9 +35,7 @@ const MainLayout = (props: IProps) => {
   const [isSearchActive, setIsSearchActive] = useState<boolean>(
     window.innerWidth < 768
   );
-  const [isNavOpen, setisNavOpen] = useState<boolean>(
-    typeof shouldNavOpen === "undefined" ? !isMobile : shouldNavOpen
-  );
+  const [isNavOpen, setisNavOpen] = useState<boolean>(false);
   const [openSelect, setOpenSelect] = useState<boolean>(false);
   const [currValue, setCurrValue] = useState("");
   const [productType, setProductType] = useState<IProducts>();
@@ -145,70 +145,33 @@ const MainLayout = (props: IProps) => {
 
   return (
     <div className={styles.newNavWrapper}>
-      {/* {isDashboard && !isUnapprovedScreen ? ( */}
-      <ChannelSelectDropDown
-        {...{
-          ref: inputRef,
-          channelMappingsArr,
-          currValue,
-          handleSelectChange,
-          openSelect,
-          setOpenSelect,
-        }}
-      />
-      {/* ) : null} */}
       <nav className={styles.navContainer}>
         <div className={styles.lhs_Wrapper}>
           <div
             onClick={() => router.replace("/", undefined, { shallow: true })}
             className={styles.logoText}
           >
-            <p className={styles.first}>Configuration</p>
+            <p className={styles.first}>OMS</p>
             <p className={styles.second}>Panel</p>
-          </div>
-          <div onClick={(e) => handleHamClick(e)} className={styles.hamBurger}>
-            {/* <HamIcon checked={isNavOpen} /> */}
-          </div>
-          {!isMobile ? (
-            <div className={styles.searchIcon}>
-              <SearchIcon
-                onClick={() => setIsSearchActive((prev) => !prev)}
-                color="inherit"
-              />
+            <div className={styles.divider} />
+            <div style={{ color: "#fff" }}>
+              <LocalGroceryStoreIcon color="inherit" />
             </div>
-          ) : null}
+            <p className={styles.omsStore}>OMS store</p>
+          </div>
+          <div
+            onClick={(e) => handleHamClick(e)}
+            className={styles.hamBurger}
+          ></div>
         </div>
-        {!isMobile ? (
-          <RhsWrapper />
-        ) : (
-          <>
-            <div
-              className={styles.m_logoText}
-              onClick={() => router.replace("/", undefined, { shallow: true })}
-            >
-              <p className={styles.first}>Configuration</p>
-              <p className={styles.second}>Panel</p>
-            </div>
-            <div className={styles.searchIcon}>
-              <SearchIcon
-                onClick={() => setIsSearchActive((prev) => !prev)}
-                color="inherit"
-              />
-            </div>
-          </>
-        )}
+        <RhsWrapper />
       </nav>
-      <div className={styles.navListWrapper}>
-        <NavList {...{ handleTypeClick, isNavOpen }} />
-        <main className={styles.mainWrapper}>
-          <div className={styles.breadcrumbWrapper}>
-            {/* <Breadcrumbs /> */}
-            {/* {pdType && isDashboard && (
-              <SearchComponent {...{ isSearchActive, setIsSearchActive }} />
-            )} */}
-          </div>
-          {children}
-        </main>
+      <HeaderLabel />
+      <div className={styles.mainBodyWrapper}>
+        <div className={styles.navListWrapper}>
+          <NavList {...{ handleTypeClick, isNavOpen, setisNavOpen }} />
+        </div>
+        <main className={styles.mainWrapper}>{children}</main>
       </div>
     </div>
   );

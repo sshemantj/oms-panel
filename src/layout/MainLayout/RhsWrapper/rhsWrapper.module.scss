@@ -1,13 +1,18 @@
 @import "@/styles/variables.scss";
 
 .rhs_Wrapper {
+  // padding-top: 8px;
+  height: max-content;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
   gap: 1rem;
   .notificatin_container {
     color: $color_white;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .profile_container {
     color: $color_white;
