@@ -1,0 +1,61 @@
+@import "@/styles/variables.scss";
+
+.small_variant_card {
+  min-width: 200px;
+  min-height: 100px;
+  border-radius: 6px;
+  background: $color_white;
+  box-shadow: $shadow_1;
+  transition: box-shadow 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+  .topContainer {
+    padding: 1rem 1.5rem;
+    height: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    .text_section {
+      .count {
+        font-size: 28px;
+        color: $lightsalmon;
+      }
+      .subtitle {
+        line-height: 18px;
+        font-size: 14px;
+        color: $color_8;
+        font-weight: 300;
+      }
+    }
+    .icon_wrapper {
+      color: $lightslategray;
+    }
+  }
+  .bottomContainer {
+    padding: 0 1.4rem;
+    min-height: 50px;
+    border-radius: 0 0 6px 6px;
+    color: $color_white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.primary {
+  background-color: $color_1;
+}
+.success {
+  background-color: $color_5;
+}
+.warning {
+  background-color: $color_6;
+}
+.red {
+  background-color: $color_7;
+}

@@ -1,0 +1,73 @@
+@import "@/styles/variables.scss";
+
+.customTableWrapper {
+  padding-bottom: 1rem;
+  min-height: 83vh;
+  position: relative;
+  box-shadow: $shadow_1;
+  background-color: $color_white;
+  border-radius: 6px;
+  .btnWrapper {
+    margin-bottom: 6px;
+    position: relative;
+    @media (max-width: 668px) {
+      // height: 8rem;
+    }
+  }
+  .tableWrapper {
+    // padding-top: 3rem;
+  }
+
+  .tableRow {
+    &:hover {
+      background-color: $lightcyan;
+      cursor: pointer;
+    }
+  }
+  .open {
+    background-color: $lightblue !important;
+  }
+  .submitBtnWrapper {
+    margin-top: 1rem;
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    background-color: $color_white;
+    .lhs_wrapper {
+      display: flex;
+      align-items: center;
+      .button {
+        white-space: nowrap;
+        width: 12rem;
+        height: 2.2rem;
+        @media (max-width: 600px) {
+          width: max-content;
+          margin-bottom: 1rem;
+        }
+      }
+      .paginationWrapper {
+        width: 360px;
+        display: flex;
+        justify-content: center;
+      }
+    }
+    .rhs_wrapper {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      .totalRecordWrapper {
+        p {
+          color: $color_10;
+        }
+      }
+    }
+    // @media (max-width: 600px) {
+    //   right: unset;
+    //   bottom: -4rem;
+    //   left: 50%;
+    //   transform: translateX(-50%);
+    // }
+  }
+}
