@@ -4,6 +4,7 @@ import Cards, { IBaseCardProps } from "@/component/atoms/cards";
 import ChannelSelectDropDown from "@/component/molecules/channelSelectDropdown";
 import HomeTabs from "./homeTabs";
 import SearchComponent from "@/component/molecules/searchComponent";
+import HomeTable from "./homeTable";
 
 const cardsList: IBaseCardProps[] = [
   {
@@ -56,6 +57,9 @@ const HomeModule = () => {
           </Grid>
           <Grid sm={12} md={12} item>
             <SearchComponent label="Fulfilment Ref..." />
+          </Grid>
+          <Grid sm={12} md={12} item>
+            <HomeTable />
           </Grid>
         </Grid>
       </Grid>

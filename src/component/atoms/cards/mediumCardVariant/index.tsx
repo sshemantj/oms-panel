@@ -1,4 +1,3 @@
-import Linechart from "@/charts/linechart";
 import { IBaseCardProps } from "..";
 import styles from "./mediumCard.module.scss";
 
@@ -14,7 +13,6 @@ const MediumCardVariant = (props: Omit<IBaseCardProps, "variant">) => {
         </p>
       </div>
       <div className={styles.bottomContainer}>
-        <Linechart />
         <div className={`${styles.pannel_wrapper} ${styles[color]}`}>
           <div className={styles.b_panel_parent}>
             <p className={styles.b_panel_number}>10</p>
