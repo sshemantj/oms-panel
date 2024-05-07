@@ -31,9 +31,9 @@ const HomeModule = () => {
     <Grid container spacing={2} padding={"0 1rem"}>
       <Grid sm={12} md={12} mt={3} item style={{ padding: 0 }}>
         <Grid container spacing={2} mt={1}>
-          {cardsList.map(({ text, count, color }) => {
+          {cardsList.map(({ text, count, color }, index) => {
             return (
-              <Grid item md={4}>
+              <Grid key={index} item md={4}>
                 <Cards {...{ count, text, color }} variant="sm" />
               </Grid>
             );
