@@ -1,30 +1,35 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useRef, useState } from "react";
 import styles from "./channelSelect.module.scss";
-import { useMobileCheck } from "@/hooks/useMobileCheck";
 import SelectDropdown from "@/component/atoms/selectDropdown";
+import { useAppSelector } from "@/store/hooks";
 
 interface IProps {
-  openSelect: boolean;
-  setOpenSelect: React.Dispatch<React.SetStateAction<boolean>>;
-  handleSelectChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => Promise<void>;
-  channelMappingsArr: {
-    label: any;
-    value: any;
-  }[];
   currValue: string;
+  setCurrValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const ChannelSelectDropDown = forwardRef((props: IProps, inputRef) => {
-  const {
-    channelMappingsArr,
-    currValue,
-    handleSelectChange,
-    openSelect,
-    setOpenSelect,
-  } = props;
-  const isMobile = useMobileCheck();
+const ChannelSelectDropDown = (props: IProps) => {
+  const { currValue, setCurrValue } = props;
+  const inputRef = useRef<any>(null);
+  const [openSelect, setOpenSelect] = useState<boolean>(false);
+  const { userChannelMappings } = useAppSelector((state) => state.dashboard);
+
+  const channelMappingsArr =
+    (Array.isArray(userChannelMappings) &&
+      userChannelMappings?.map((item: any) => {
+        return {
+          label: item.channelName,
+          value: item.channelId,
+        };
+      })) ||
+    [];
+
+  const handleChannelSelect = async (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { value } = e.target;
+    setCurrValue(value);
+  };
 
   return (
     <div className={styles.channel_select_wrapper}>
@@ -38,7 +43,7 @@ const ChannelSelectDropDown = forwardRef((props: IProps, inputRef) => {
         onMenuClick={() => {
           setOpenSelect((v) => !v);
         }}
-        handleOnChange={handleSelectChange}
+        handleOnChange={handleChannelSelect}
         label={"Select channel..."}
         data={channelMappingsArr}
         value={currValue}
@@ -65,8 +70,6 @@ const ChannelSelectDropDown = forwardRef((props: IProps, inputRef) => {
       />
     </div>
   );
-});
-
-ChannelSelectDropDown.displayName = "ChannelSelectDropDown";
+};
 
 export default ChannelSelectDropDown;

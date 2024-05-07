@@ -6,7 +6,7 @@ import AppBar from "@mui/material/AppBar";
 import { SxProps, Theme } from "@mui/material";
 
 interface IProps {
-  buttonList: { label: string; value: string }[];
+  tabList: { label: string; value: string }[];
   value: any;
   setValue?: React.Dispatch<React.SetStateAction<any>>;
   type: 1 | 2;
@@ -16,7 +16,7 @@ interface IProps {
 
 const CustomTab = (props: IProps) => {
   const {
-    buttonList,
+    tabList,
     value,
     setValue,
     type,
@@ -32,7 +32,7 @@ const CustomTab = (props: IProps) => {
   };
 
   return (
-    <Box sx={{ display: "flex", justifyContent: "center", ...containerSx }}>
+    <Box sx={{ ...containerSx }}>
       {type === 1 ? (
         <Tabs
           value={value}
@@ -41,7 +41,7 @@ const CustomTab = (props: IProps) => {
           indicatorColor="primary"
           aria-label="secondary tabs example"
         >
-          {buttonList.map((item, index) => {
+          {tabList.map((item, index) => {
             return <Tab key={index} value={item.value} label={item.label} />;
           })}
         </Tabs>
@@ -54,7 +54,7 @@ const CustomTab = (props: IProps) => {
 export default CustomTab;
 
 function FullWidthTabs(props: IProps) {
-  const { buttonList, value, setValue } = props;
+  const { tabList, value, setValue } = props;
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue?.(newValue);
@@ -78,7 +78,7 @@ function FullWidthTabs(props: IProps) {
           variant="fullWidth"
           aria-label="full width tabs example"
         >
-          {buttonList.map((item, index) => {
+          {tabList.map((item, index) => {
             return (
               <Tab
                 key={index}
