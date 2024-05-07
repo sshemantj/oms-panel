@@ -1,11 +1,11 @@
 import React from "react";
-import BasicTable from "@/tables/basicTable";
-import { basicTableColumns, basicTableRows } from "@/constants/tableConstant";
+import { featuredColumns, featuredRows } from "@/constants/tableConstant";
+import FeaturedTable from "@/tables/featuredTable";
 
 const HomeTable = () => {
   return (
     <div>
-      <BasicTable {...{ columns: basicTableColumns, rows: basicTableRows }} />
+      <FeaturedTable {...{ columns: featuredColumns, rows: featuredRows }} />
     </div>
   );
 };

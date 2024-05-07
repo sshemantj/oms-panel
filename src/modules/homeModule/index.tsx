@@ -39,24 +39,29 @@ const HomeModule = () => {
             );
           })}
         </Grid>
-        <Grid container mt={3}>
-          <Grid style={{ margin: "0 0 0 auto", padding: "0" }} item md={2}>
-            <ChannelSelectDropDown
-              {...{
-                currValue,
-                setCurrValue,
-              }}
-            />
-          </Grid>
-        </Grid>
       </Grid>
       <Grid sm={12} md={12} mt={3} item style={{ padding: 0 }}>
         <Grid container spacing={2} mt={1}>
           <Grid sm={12} md={12} item>
             <HomeTabs />
           </Grid>
-          <Grid sm={12} md={12} item>
-            <SearchComponent label="Fulfilment Ref..." />
+          <Grid container mt={2}>
+            <Grid sm={12} md={10} pl={"1rem"} item>
+              <SearchComponent label="Fulfilment Ref..." />
+            </Grid>
+            <Grid
+              style={{ marginLeft: "auto", padding: "0" }}
+              item
+              sm={12}
+              md={2}
+            >
+              <ChannelSelectDropDown
+                {...{
+                  currValue,
+                  setCurrValue,
+                }}
+              />
+            </Grid>
           </Grid>
           <Grid sm={12} md={12} item>
             <HomeTable />
