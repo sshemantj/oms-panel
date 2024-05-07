@@ -1,13 +1,13 @@
 import React from "react";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, DataGridProps, GridColDef } from "@mui/x-data-grid";
 
-interface IProps {
+interface IProps extends DataGridProps {
   columns: GridColDef[];
   rows: any[];
 }
 
 const FeaturedTable = (props: IProps) => {
-  const { columns, rows } = props;
+  const { columns, rows, ...rest } = props;
 
   return (
     <div style={{ height: 400, width: "100%" }}>
@@ -22,6 +22,7 @@ const FeaturedTable = (props: IProps) => {
         pageSizeOptions={[10, 30, 50, 100]}
         // checkboxSelection
         disableColumnResize
+        {...rest}
       />
     </div>
   );

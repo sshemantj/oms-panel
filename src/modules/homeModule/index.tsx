@@ -5,6 +5,7 @@ import ChannelSelectDropDown from "@/component/molecules/channelSelectDropdown";
 import HomeTabs from "./homeTabs";
 import SearchComponent from "@/component/molecules/searchComponent";
 import HomeTable from "./homeTable";
+import { ITabList } from "@/interfaces/home.interface";
 
 const cardsList: IBaseCardProps[] = [
   {
@@ -26,6 +27,9 @@ const cardsList: IBaseCardProps[] = [
 
 const HomeModule = () => {
   const [currValue, setCurrValue] = useState<string>("");
+  const [currTabValue, setCurrTabValue] = useState<ITabList>(
+    ITabList.FULFILMENTS
+  );
 
   return (
     <Grid container spacing={2} padding={"0 1rem"}>
@@ -43,7 +47,7 @@ const HomeModule = () => {
       <Grid sm={12} md={12} mt={3} item style={{ padding: 0 }}>
         <Grid container spacing={2} mt={1}>
           <Grid sm={12} md={12} item>
-            <HomeTabs />
+            <HomeTabs {...{ currTabValue, setCurrTabValue }} />
           </Grid>
           <Grid container mt={2}>
             <Grid sm={12} md={10} pl={"1rem"} item>
@@ -64,7 +68,7 @@ const HomeModule = () => {
             </Grid>
           </Grid>
           <Grid sm={12} md={12} item>
-            <HomeTable />
+            <HomeTable {...{ currTabValue }} />
           </Grid>
         </Grid>
       </Grid>
