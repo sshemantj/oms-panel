@@ -3,6 +3,7 @@ import { Grid } from "@mui/material";
 import Cards, { IBaseCardProps } from "@/component/atoms/cards";
 import ChannelSelectDropDown from "@/component/molecules/channelSelectDropdown";
 import HomeTabs from "./homeTabs";
+import SearchComponent from "@/component/molecules/searchComponent";
 
 const cardsList: IBaseCardProps[] = [
   {
@@ -52,6 +53,9 @@ const HomeModule = () => {
         <Grid container spacing={2} mt={1}>
           <Grid sm={12} md={12} item>
             <HomeTabs />
+          </Grid>
+          <Grid sm={12} md={12} item>
+            <SearchComponent label="Fulfilment Ref..." />
           </Grid>
         </Grid>
       </Grid>
