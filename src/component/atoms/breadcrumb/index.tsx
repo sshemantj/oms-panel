@@ -9,6 +9,7 @@ import styles from "./breadcrumb.module.scss";
 
 const LAST_PATHS = {
   [IListRoutes.AWAITING_PICK]: "Orders Awaiting Picks",
+  [IListRoutes.WAVES_IN_PROGRESS]: "In Progress",
 };
 
 const Breadcrumbs = () => {
@@ -39,7 +40,8 @@ const Breadcrumbs = () => {
 
   const handleLastPath = (lastpath: IListRoutes) => {
     const updatedLastPath = "/" + lastpath;
-    return LAST_PATHS[updatedLastPath as IListRoutes] || lastpath;
+    // @ts-ignore
+    return LAST_PATHS[updatedLastPath] || lastpath;
   };
 
   return (

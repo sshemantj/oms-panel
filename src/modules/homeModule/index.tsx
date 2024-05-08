@@ -19,7 +19,7 @@ const cardsList: IBaseCardProps[] = [
     text: "waves in progress",
     count: 10,
     color: "warning",
-    path: "/",
+    path: IStoreListRoutes.WAVES_IN_PROGRESS,
   },
   {
     text: "completed waves",
