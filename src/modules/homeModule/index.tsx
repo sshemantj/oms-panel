@@ -6,13 +6,14 @@ import HomeTabs from "./homeTabs";
 import SearchComponent from "@/component/molecules/searchComponent";
 import HomeTable from "./homeTable";
 import { ITabList } from "@/interfaces/home.interface";
+import { IStoreListRoutes } from "@/constants/allRoutes";
 
 const cardsList: IBaseCardProps[] = [
   {
     text: "oreders awaiting pick",
     count: 10,
     color: "red",
-    path: "/store",
+    path: IStoreListRoutes.AWAITING_PICK,
   },
   {
     text: "waves in progress",

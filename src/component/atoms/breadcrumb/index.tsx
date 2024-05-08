@@ -4,7 +4,12 @@ import BreadcrumbsMui from "@mui/material/Breadcrumbs";
 import Link from "@mui/material/Link";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
+import { IListRoutes } from "@/constants/allRoutes";
 import styles from "./breadcrumb.module.scss";
+
+const LAST_PATHS = {
+  [IListRoutes.AWAITING_PICK]: "Orders Awaiting Picks",
+};
 
 const Breadcrumbs = () => {
   const paths = usePathname();
@@ -30,6 +35,11 @@ const Breadcrumbs = () => {
     if (!isLastPath) {
       router.replace("/" + pathStr, undefined, { shallow: true });
     }
+  };
+
+  const handleLastPath = (lastpath: IListRoutes) => {
+    const updatedLastPath = "/" + lastpath;
+    return LAST_PATHS[updatedLastPath as IListRoutes] || lastpath;
   };
 
   return (
@@ -61,7 +71,7 @@ const Breadcrumbs = () => {
                 </Link>
               ) : (
                 <Typography key={index} color="black">
-                  {pathStr}
+                  {handleLastPath(pathStr)}
                 </Typography>
               );
             })}

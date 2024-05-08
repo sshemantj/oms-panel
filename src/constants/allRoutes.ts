@@ -1,15 +1,11 @@
 export enum IAllRoutes {
   HOME = "/",
-  DASHBOARD = "/dashboard",
-  LOGIN = "/login",
-  MANAGE_CHANNELS = "/manage-channels",
-  USER_PROFILE = "/user-profile",
-  FILE_MANAGEMENT = "/file-management",
-  CHANNEL_MAPPINGS = "/channel-mappings",
+  STORE = "/store",
 }
 
-export enum IChannelSubRoutes {
-  ADD_CHANNEL = "addChannel",
-  UPDATE_CHANNEL = "updateChannel",
-  VIEW_ALL_CHANNEL = "viewAllChannel",
+export enum IListRoutes {
+  AWAITING_PICK = "/awaiting-pick",
+}
+export enum IStoreListRoutes {
+  AWAITING_PICK = IAllRoutes.STORE + IListRoutes.AWAITING_PICK,
 }
