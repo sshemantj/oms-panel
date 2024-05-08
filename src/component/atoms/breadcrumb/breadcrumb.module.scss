@@ -1,0 +1,12 @@
+@import "@/styles/variables.scss";
+
+.breadCrumbWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
+  .breadcrumbTitle {
+    color: $color_white;
+    font-weight: 400;
+  }
+}
