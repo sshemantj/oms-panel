@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import Cards, { IBaseCardProps } from "@/component/atoms/cards";
 import ChannelSelectDropDown from "@/component/molecules/channelSelectDropdown";
 import HomeTabs from "./homeTabs";
@@ -11,17 +11,17 @@ const cardsList: IBaseCardProps[] = [
   {
     text: "oreders awaiting pick",
     count: 10,
-    color: "warning",
+    color: "red",
   },
   {
     text: "waves in progress",
     count: 10,
-    color: "red",
+    color: "warning",
   },
   {
     text: "completed waves",
     count: 10,
-    color: "warning",
+    color: "success",
   },
 ];
 
@@ -46,8 +46,13 @@ const HomeModule = () => {
       </Grid>
       <Grid sm={12} md={12} mt={3} item style={{ padding: 0 }}>
         <Grid container spacing={2} mt={1}>
-          <Grid sm={12} md={12} item>
+          <Grid sm={12} md={10} item>
             <HomeTabs {...{ currTabValue, setCurrTabValue }} />
+          </Grid>
+          <Grid sm={12} md={2} item textAlign="right">
+            {currTabValue !== ITabList.FULFILMENTS ? (
+              <Button variant="contained">Create Wave</Button>
+            ) : null}
           </Grid>
           <Grid container mt={2}>
             <Grid sm={12} md={10} pl={"1rem"} item>

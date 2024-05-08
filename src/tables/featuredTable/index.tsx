@@ -1,12 +1,12 @@
 import React from "react";
 import { DataGrid, DataGridProps, GridColDef } from "@mui/x-data-grid";
 
-interface IProps extends DataGridProps {
+export interface IFeaturedTableProps extends DataGridProps {
   columns: GridColDef[];
   rows: any[];
 }
 
-const FeaturedTable = (props: IProps) => {
+const FeaturedTable = (props: IFeaturedTableProps) => {
   const { columns, rows, ...rest } = props;
 
   return (
