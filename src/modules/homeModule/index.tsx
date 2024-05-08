@@ -12,16 +12,19 @@ const cardsList: IBaseCardProps[] = [
     text: "oreders awaiting pick",
     count: 10,
     color: "red",
+    path: "/store",
   },
   {
     text: "waves in progress",
     count: 10,
     color: "warning",
+    path: "/",
   },
   {
     text: "completed waves",
     count: 10,
     color: "success",
+    path: "/",
   },
 ];
 
@@ -35,10 +38,10 @@ const HomeModule = () => {
     <Grid container spacing={2} padding={"0 1rem"}>
       <Grid sm={12} md={12} mt={3} item style={{ padding: 0 }}>
         <Grid container spacing={2} mt={1}>
-          {cardsList.map(({ text, count, color }, index) => {
+          {cardsList.map((item, index) => {
             return (
               <Grid key={index} item md={4}>
-                <Cards {...{ count, text, color }} variant="sm" />
+                <Cards {...item} variant="sm" />
               </Grid>
             );
           })}

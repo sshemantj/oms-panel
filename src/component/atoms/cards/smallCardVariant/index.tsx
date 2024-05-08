@@ -1,10 +1,20 @@
+import { useRouter } from "next/router";
 import { IBaseCardProps } from "..";
 import styles from "./smallCard.module.scss";
 
 const SmallCardVariant = (props: Omit<IBaseCardProps, "variant">) => {
-  const { color = "primary", count, text } = props;
+  const { color = "primary", count, text, path } = props;
+  const router = useRouter();
+
+  const handleCardClick = () => {
+    router.push(path);
+  };
+
   return (
-    <div className={styles.small_variant_card}>
+    <div
+      onClick={() => handleCardClick()}
+      className={styles.small_variant_card}
+    >
       <div className={`${styles.bottomContainer} ${styles[color]}`}></div>
       <div className={styles.topContainer}>
         <div className={styles.titleWrapper}>

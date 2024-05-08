@@ -8,6 +8,7 @@ export interface IBaseCardProps {
   variant?: "base" | "sm" | "md" | "lg" | "double";
   text: string;
   count: number;
+  path: string;
 }
 
 const Cards = (props: IBaseCardProps) => {
