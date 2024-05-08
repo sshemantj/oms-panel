@@ -12,6 +12,7 @@ const FeaturedTable = (props: IFeaturedTableProps) => {
   return (
     <div style={{ height: 400, width: "100%" }}>
       <DataGrid
+        sx={{ maxWidth: "calc(100vw - 150px)" }}
         rows={rows}
         columns={columns}
         initialState={{
