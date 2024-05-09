@@ -16,31 +16,31 @@ export const navListArr: INavListArr[] = [
   {
     topHeading: "Dashboard",
     icon: <BarChartIcon color="inherit" />,
-    path: IAllRoutes.MANAGE_CHANNELS,
+    path: IAllRoutes.STORE,
   },
   {
     topHeading: "Waves",
     icon: <StoreIcon color="inherit" />,
-    path: IAllRoutes.MANAGE_CHANNELS,
+    path: IAllRoutes.STORE,
   },
   {
     topHeading: "Customer Collections",
     icon: <PersonIcon color="inherit" />,
-    path: IAllRoutes.MANAGE_CHANNELS,
+    path: IAllRoutes.STORE,
   },
   {
     topHeading: "Carrier Collections",
     icon: <LocalShippingIcon color="inherit" />,
-    path: IAllRoutes.MANAGE_CHANNELS,
+    path: IAllRoutes.STORE,
   },
   {
     topHeading: "Uncollected Articles",
     icon: <AssignmentLateIcon color="inherit" />,
-    path: IAllRoutes.MANAGE_CHANNELS,
+    path: IAllRoutes.STORE,
   },
   {
     topHeading: "Fulfillments",
     icon: <ArticleIcon color="inherit" />,
-    path: IAllRoutes.MANAGE_CHANNELS,
+    path: IAllRoutes.STORE,
   },
 ];
