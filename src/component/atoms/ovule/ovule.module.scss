@@ -1,0 +1,31 @@
+@import "@/styles/variables.scss";
+
+.ovuleWrapper {
+  padding: 0 10px;
+  min-width: 100px;
+  width: max-content;
+  height: 30px;
+  border-radius: 1rem;
+  background-color: rgba($color: $slategray, $alpha: 0.3);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  .title {
+    font-weight: 500;
+  }
+  .value {
+    margin-top: 2px;
+    font-size: 14px;
+    color: $color_8;
+  }
+  .cancelIcon {
+    margin-top: 10px;
+    color: $gray;
+    cursor: pointer;
+    svg {
+      font-size: 18px;
+      border-radius: 50%;
+      background-color: white;
+    }
+  }
+}
