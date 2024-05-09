@@ -1,6 +1,12 @@
 export enum IAllRoutes {
   HOME = "/",
   STORE = "/store",
+  DASHBOARD = "/",
+  LOGIN = "/",
+  MANAGE_CHANNELS = "/",
+  USER_PROFILE = "/",
+  FILE_MANAGEMENT = "/",
+  CHANNEL_MAPPINGS = "/",
 }
 
 export enum IListRoutes {
