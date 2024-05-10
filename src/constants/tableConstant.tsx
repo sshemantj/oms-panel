@@ -2,6 +2,7 @@ import { GridColDef } from "@mui/x-data-grid";
 import staticImg from "@/images/ss-logo.jpg";
 import { unsplashimgurl } from "@/images/AllDataIcons";
 import { ITabList } from "@/interfaces/home.interface";
+import Link from "next/link";
 
 export const initialAllTableState = {
   [ITabList.FULFILMENTS]: { rows: [], columns: [] },
@@ -401,6 +402,21 @@ export const inProgressColumns: GridColDef[] = [
     // type: "number",
     width: 170,
     align: "left",
+  },
+  {
+    field: "link",
+    headerName: "LINK",
+    // type: "number",
+    width: 170,
+    align: "left",
+    renderCell: (params) => (
+      <Link
+        style={{ color: "blue", textDecoration: "underline" }}
+        href={params.value || ""}
+      >
+        RESUME WAVE
+      </Link>
+    ),
   },
 ];
 
