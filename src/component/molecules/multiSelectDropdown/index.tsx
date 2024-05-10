@@ -42,9 +42,11 @@ const MultiSelectDropdown = (props: IProps) => {
         <InputLabel
           sx={{
             top: selectedNames.length ? 0 : "-10px",
+            color: "gray !important",
+            background: "#fff",
           }}
         >
-          {label ? "Select statuses" : ""}
+          {label}
         </InputLabel>
         <Select
           multiple
@@ -52,6 +54,11 @@ const MultiSelectDropdown = (props: IProps) => {
           onClick={(e) => e.stopPropagation()}
           onChange={handleChange}
           input={<OutlinedInput />}
+          sx={{
+            "& fieldset": {
+              borderColor: "lightgray !important",
+            },
+          }}
           renderValue={(selected) => {
             return (
               <Stack gap={1} direction="row" flexWrap="wrap">
