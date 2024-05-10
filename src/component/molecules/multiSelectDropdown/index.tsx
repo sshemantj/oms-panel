@@ -14,6 +14,8 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import { useAppSelector } from "@/store/hooks";
 
 interface IProps {
+  label: string;
+  options: string[];
   selectedNames: string[];
   setSelectedNames: React.Dispatch<React.SetStateAction<string[]>>;
 }
@@ -27,21 +29,11 @@ const style: React.CSSProperties = {
 };
 
 const MultiSelectDropdown = (props: IProps) => {
-  const { selectedNames, setSelectedNames } = props;
+  const { selectedNames, setSelectedNames, label, options } = props;
 
   const handleChange = (e: SelectChangeEvent<string[]>) => {
     const value = e.target.value as string[];
-    console.log(value);
-    if (value[0]) {
-      const currValue = value[0];
-      if (selectedNames.includes(currValue)) {
-        setSelectedNames((v) => {
-          return v.filter((item) => item !== currValue);
-        });
-      } else {
-        setSelectedNames((v) => [...v, ...value]);
-      }
-    }
+    setSelectedNames(value);
   };
 
   return (
@@ -49,19 +41,18 @@ const MultiSelectDropdown = (props: IProps) => {
       <FormControl sx={{ m: 1, width: "100%" }}>
         <InputLabel
           sx={{
-            top: "-10px",
+            top: selectedNames.length ? 0 : "-10px",
           }}
         >
-          Select statuses
+          {label ? "Select statuses" : ""}
         </InputLabel>
         <Select
           multiple
-          value={[]}
+          value={selectedNames}
           onClick={(e) => e.stopPropagation()}
           onChange={handleChange}
-          input={<OutlinedInput label="Select statuses" />}
+          input={<OutlinedInput />}
           renderValue={(selected) => {
-            console.log(selected);
             return (
               <Stack gap={1} direction="row" flexWrap="wrap">
                 <p color="black">{selected.length} channels selected</p>
@@ -74,7 +65,7 @@ const MultiSelectDropdown = (props: IProps) => {
             },
           }}
         >
-          {["PICK", "PACK"]?.map((item: any) => (
+          {options?.map((item: any) => (
             <MenuItem
               key={item}
               value={item}

@@ -391,7 +391,7 @@ export const inProgressRows = [
   {
     id: 1,
     waveId: "Snow",
-    step: "Jon",
+    step: "PICK",
     fulfilment: 35,
     userName: Math.round(Math.random() * 100),
     createdOn: new Date().toLocaleString(),
@@ -400,7 +400,7 @@ export const inProgressRows = [
   {
     id: 2,
     waveId: "Lannister",
-    step: "Cersei",
+    step: "DISPATCH",
     fulfilment: 42,
     userName: Math.round(Math.random() * 100),
     createdOn: new Date().toLocaleString(),
@@ -409,7 +409,7 @@ export const inProgressRows = [
   {
     id: 3,
     waveId: "Lannister",
-    step: "Jaime",
+    step: "PACK",
     fulfilment: 45,
     userName: Math.round(Math.random() * 100),
     createdOn: new Date().toLocaleString(),
@@ -418,7 +418,7 @@ export const inProgressRows = [
   {
     id: 4,
     waveId: "Stark",
-    step: "Arya",
+    step: "PICK",
     fulfilment: 16,
     userName: Math.round(Math.random() * 100),
     createdOn: new Date().toLocaleString(),
@@ -427,7 +427,7 @@ export const inProgressRows = [
   {
     id: 5,
     waveId: "Targaryen",
-    step: "Daenerys",
+    step: "DISPATCH",
     fulfilment: null,
     userName: Math.round(Math.random() * 100),
     createdOn: new Date().toLocaleString(),
@@ -436,7 +436,7 @@ export const inProgressRows = [
   {
     id: 6,
     waveId: "Melisandre",
-    step: null,
+    step: "PACK",
     fulfilment: 150,
     userName: Math.round(Math.random() * 100),
     createdOn: new Date().toLocaleString(),
@@ -445,7 +445,7 @@ export const inProgressRows = [
   {
     id: 7,
     waveId: "Clifford",
-    step: "Ferrara",
+    step: "PICK",
     fulfilment: 44,
     userName: Math.round(Math.random() * 100),
     createdOn: new Date().toLocaleString(),
@@ -454,7 +454,7 @@ export const inProgressRows = [
   {
     id: 8,
     waveId: "Frances",
-    step: "Rossini",
+    step: "DISPATCH",
     fulfilment: 36,
     userName: Math.round(Math.random() * 100),
     createdOn: new Date().toLocaleString(),
@@ -463,7 +463,7 @@ export const inProgressRows = [
   {
     id: 9,
     waveId: "Roxie",
-    step: "Harvey",
+    step: "PACK",
     fulfilment: 65,
     userName: Math.round(Math.random() * 100),
     createdOn: new Date().toLocaleString(),

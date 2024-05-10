@@ -4,7 +4,7 @@ import styles from "./ovule.module.scss";
 
 interface IProps {
   status: string;
-  handleCancel?: () => void;
+  handleCancel?: (status: string) => void;
 }
 
 const Ovule = (props: IProps) => {
@@ -14,7 +14,7 @@ const Ovule = (props: IProps) => {
       <p className={styles.title}>Status :</p>
       <p className={styles.value}>{status}</p>
       <div className={styles.cancelIcon}>
-        <CancelIcon onClick={() => handleCancel?.()} />
+        <CancelIcon onClick={() => handleCancel?.(status)} />
       </div>
     </div>
   );

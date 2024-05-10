@@ -5,25 +5,40 @@ import { Box } from "@mui/material";
 import Ovule from "@/component/atoms/ovule";
 import WaveSelectDropDown from "./waveSelectDropdown";
 
+const flex = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+};
+
 const WavesInProgress = () => {
-  const [currValue, setCurrValue] = useState<string>("");
+  const [selectedNames, setSelectedNames] = useState<string[]>([]);
 
   const [tableState, setTableState] = useState({
     columns: inProgressColumns,
     rows: inProgressRows,
   });
 
+  const handleOvuleCancel = (status: string) => {
+    console.log(status);
+    setSelectedNames((prev) => prev.filter((v) => v !== status));
+  };
+
   return (
     <Box width={"100%"} mt={2}>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <Ovule status={"Pick"} />
-        <WaveSelectDropDown {...{ currValue, setCurrValue }} />
+      <Box sx={{ ...flex, justifyContent: "space-between" }}>
+        <Box sx={{ ...flex, gap: "0.5rem" }}>
+          {selectedNames.map((item, index) => {
+            return (
+              <Ovule
+                handleCancel={handleOvuleCancel}
+                key={index}
+                status={item}
+              />
+            );
+          })}
+        </Box>
+        <WaveSelectDropDown {...{ selectedNames, setSelectedNames }} />
       </Box>
       <Box mt={2}>
         <FeaturedTable
