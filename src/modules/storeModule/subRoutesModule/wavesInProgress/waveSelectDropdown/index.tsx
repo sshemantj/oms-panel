@@ -19,7 +19,7 @@ const WaveSelectDropDown = (props: IProps) => {
           selectedNames,
           setSelectedNames,
           options,
-          label: "select statuses",
+          label: "Filter",
         }}
       />
       <TextField

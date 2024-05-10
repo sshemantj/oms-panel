@@ -20,7 +20,6 @@ const WavesInProgress = () => {
   });
 
   const handleOvuleCancel = (status: string) => {
-    console.log(status);
     setSelectedNames((prev) => prev.filter((v) => v !== status));
   };
 

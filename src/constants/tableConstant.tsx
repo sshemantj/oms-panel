@@ -373,20 +373,20 @@ export const awaitingPickRows = [
 
 export const inProgressColumns: GridColDef[] = [
   //   { field: "id", headerName: "ID", width: 130 },
-  { field: "waveId", headerName: "Wave Id", width: 130, align: "left" },
-  { field: "step", headerName: "Step", width: 130, align: "left" },
+  { field: "waveId", headerName: "Wave Id", width: 170, align: "left" },
+  { field: "step", headerName: "Step", width: 170, align: "left" },
   {
     field: "fulfilment",
     headerName: "Fulfilment",
     // type: "number",
-    width: 130,
+    width: 170,
     align: "left",
   },
   {
     field: "userName",
     headerName: "User Name",
     // type: "number",
-    width: 130,
+    width: 170,
     align: "left",
   },
   {
@@ -409,14 +409,17 @@ export const inProgressColumns: GridColDef[] = [
     // type: "number",
     width: 170,
     align: "left",
-    renderCell: (params) => (
-      <Link
-        style={{ color: "blue", textDecoration: "underline" }}
-        href={params.value || ""}
-      >
-        RESUME WAVE
-      </Link>
-    ),
+    valueGetter: (value, row) => `${row.step}`,
+    renderCell: (params) => {
+      return (
+        <Link
+          style={{ color: "blue", textDecoration: "underline" }}
+          href={`${params.value}`.toLowerCase() || ""}
+        >
+          RESUME WAVE
+        </Link>
+      );
+    },
   },
 ];
 

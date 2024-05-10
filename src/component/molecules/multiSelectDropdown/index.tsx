@@ -19,7 +19,7 @@ interface IProps {
 
 const style: React.CSSProperties = {
   height: "100%",
-  width: "8.5rem",
+  width: "7rem",
   display: "flex",
   alignItems: "flex-start",
   justifyContent: "center",
@@ -49,7 +49,7 @@ const MultiSelectDropdown = (props: IProps) => {
     if (isSONumber) {
       return `SONumber`;
     }
-    return `${selected.length} item selected`;
+    return `${selected.length} selected`;
   };
 
   return (
@@ -59,10 +59,8 @@ const MultiSelectDropdown = (props: IProps) => {
           sx={{
             top: selectedNames.length ? 0 : "-10px",
             borderBottom: !selectedNames.length ? "1px solid blue" : "none",
-            left: "-8px",
             color: "gray !important",
             background: "#fff",
-            fontSize: "0.9rem",
           }}
         >
           {label}
