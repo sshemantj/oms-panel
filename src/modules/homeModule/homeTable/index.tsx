@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { featuredColumns, featuredRows } from "@/constants/tableConstant";
-import { ITabList } from "@/interfaces/home.interface";
+import {
+  featuredColumns,
+  featuredRows,
+  initialAllTableIdsList,
+} from "@/constants/tableConstant";
+import {
+  IAllTableIdsList,
+  IAllTableState,
+  ITabList,
+} from "@/interfaces/home.interface";
 import {
   ClickAndCollectTable,
   ExchangesFulfilmentsTable,
@@ -8,18 +16,15 @@ import {
   FulfilmentTable,
   StandardFulfilmentsTable,
 } from "./allTables";
+import { GridRowSelectionModel } from "@mui/x-data-grid";
 
 interface IProps {
   currTabValue: ITabList;
+  tableState: IAllTableState;
+  setTableState: React.Dispatch<React.SetStateAction<IAllTableState>>;
+  allSelectedRowList: IAllTableIdsList;
+  setAllSelectedRowList: React.Dispatch<React.SetStateAction<IAllTableIdsList>>;
 }
-
-const initialAllTableState = {
-  [ITabList.FULFILMENTS]: { rows: [], columns: [] },
-  [ITabList.STANDARD_FULFILMENTS]: { rows: [], columns: [] },
-  [ITabList.EXPRESS_FULFILMENTS]: { rows: [], columns: [] },
-  [ITabList.EXCHANGES_FULFILMENTS]: { rows: [], columns: [] },
-  [ITabList.CLICK_AND_COLLECT]: { rows: [], columns: [] },
-};
 
 const emtyTableData = {
   rows: featuredRows,
@@ -27,8 +32,13 @@ const emtyTableData = {
 };
 
 const HomeTable = (props: IProps) => {
-  const { currTabValue } = props;
-  const [tableState, setTableState] = useState(initialAllTableState);
+  const {
+    currTabValue,
+    tableState,
+    setTableState,
+    allSelectedRowList,
+    setAllSelectedRowList,
+  } = props;
 
   const handleFulfilmentCall = () => {
     return {
@@ -103,6 +113,14 @@ const HomeTable = (props: IProps) => {
   const columns = tableState[currTabValue]?.columns || [];
   const rows = tableState[currTabValue]?.rows || [];
 
+  const onRowSelectionModelChange = (selectedIds: GridRowSelectionModel) => {
+    setAllSelectedRowList((prev) => {
+      // @ts-ignore
+      prev[currTabValue] = selectedIds;
+      return prev;
+    });
+  };
+
   return (
     <>
       {currTabValue === ITabList.FULFILMENTS ? (
@@ -111,6 +129,7 @@ const HomeTable = (props: IProps) => {
             columns,
             rows,
             showCheckbox,
+            onRowSelectionModelChange,
           }}
         />
       ) : null}
@@ -120,6 +139,7 @@ const HomeTable = (props: IProps) => {
             columns,
             rows,
             showCheckbox,
+            onRowSelectionModelChange,
           }}
         />
       ) : null}
@@ -129,6 +149,7 @@ const HomeTable = (props: IProps) => {
             columns,
             rows,
             showCheckbox,
+            onRowSelectionModelChange,
           }}
         />
       ) : null}
@@ -138,6 +159,7 @@ const HomeTable = (props: IProps) => {
             columns,
             rows,
             showCheckbox,
+            onRowSelectionModelChange,
           }}
         />
       ) : null}
@@ -147,6 +169,7 @@ const HomeTable = (props: IProps) => {
             columns,
             rows,
             showCheckbox,
+            onRowSelectionModelChange,
           }}
         />
       ) : null}

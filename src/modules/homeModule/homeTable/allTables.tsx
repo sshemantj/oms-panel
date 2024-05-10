@@ -1,4 +1,3 @@
-import React from "react";
 import FeaturedTable, { IFeaturedTableProps } from "@/tables/featuredTable";
 
 interface IAllTableProps extends IFeaturedTableProps {
@@ -6,13 +5,22 @@ interface IAllTableProps extends IFeaturedTableProps {
 }
 
 const FulfilmentTable = (props: IAllTableProps) => {
-  const { columns, rows, showCheckbox, ...rest } = props;
+  const {
+    columns,
+    rows,
+    showCheckbox,
+    processRowUpdate,
+    onRowSelectionModelChange,
+    ...rest
+  } = props;
 
   return (
     <FeaturedTable
       {...{
         columns,
         rows,
+        processRowUpdate,
+        onRowSelectionModelChange,
         checkboxSelection: showCheckbox,
         rest,
       }}
@@ -21,13 +29,22 @@ const FulfilmentTable = (props: IAllTableProps) => {
 };
 
 const StandardFulfilmentsTable = (props: IAllTableProps) => {
-  const { columns, rows, showCheckbox, ...rest } = props;
+  const {
+    columns,
+    rows,
+    showCheckbox,
+    processRowUpdate,
+    onRowSelectionModelChange,
+    ...rest
+  } = props;
 
   return (
     <FeaturedTable
       {...{
         columns,
         rows,
+        processRowUpdate,
+        onRowSelectionModelChange,
         checkboxSelection: showCheckbox,
         rest,
       }}
@@ -36,13 +53,22 @@ const StandardFulfilmentsTable = (props: IAllTableProps) => {
 };
 
 const ExpressFulfilmentsTable = (props: IAllTableProps) => {
-  const { columns, rows, showCheckbox, ...rest } = props;
+  const {
+    columns,
+    rows,
+    showCheckbox,
+    processRowUpdate,
+    onRowSelectionModelChange,
+    ...rest
+  } = props;
 
   return (
     <FeaturedTable
       {...{
         columns,
         rows,
+        processRowUpdate,
+        onRowSelectionModelChange,
         checkboxSelection: showCheckbox,
         rest,
       }}
@@ -51,13 +77,22 @@ const ExpressFulfilmentsTable = (props: IAllTableProps) => {
 };
 
 const ExchangesFulfilmentsTable = (props: IAllTableProps) => {
-  const { columns, rows, showCheckbox, ...rest } = props;
+  const {
+    columns,
+    rows,
+    showCheckbox,
+    processRowUpdate,
+    onRowSelectionModelChange,
+    ...rest
+  } = props;
 
   return (
     <FeaturedTable
       {...{
         columns,
         rows,
+        processRowUpdate,
+        onRowSelectionModelChange,
         checkboxSelection: showCheckbox,
         rest,
       }}
@@ -66,13 +101,22 @@ const ExchangesFulfilmentsTable = (props: IAllTableProps) => {
 };
 
 const ClickAndCollectTable = (props: IAllTableProps) => {
-  const { columns, rows, showCheckbox, ...rest } = props;
+  const {
+    columns,
+    rows,
+    showCheckbox,
+    processRowUpdate,
+    onRowSelectionModelChange,
+    ...rest
+  } = props;
 
   return (
     <FeaturedTable
       {...{
         columns,
         rows,
+        processRowUpdate,
+        onRowSelectionModelChange,
         checkboxSelection: showCheckbox,
         rest,
       }}

@@ -7,7 +7,13 @@ export interface IFeaturedTableProps extends DataGridProps {
 }
 
 const FeaturedTable = (props: IFeaturedTableProps) => {
-  const { columns, rows, ...rest } = props;
+  const {
+    columns,
+    rows,
+    processRowUpdate,
+    onRowSelectionModelChange,
+    ...rest
+  } = props;
 
   return (
     <div style={{ height: 400, width: "100%" }}>
@@ -20,8 +26,9 @@ const FeaturedTable = (props: IFeaturedTableProps) => {
             paginationModel: { page: 0, pageSize: 10 },
           },
         }}
+        processRowUpdate={processRowUpdate}
+        onRowSelectionModelChange={onRowSelectionModelChange}
         pageSizeOptions={[10, 30, 50, 100]}
-        // checkboxSelection
         disableColumnResize
         {...rest}
       />

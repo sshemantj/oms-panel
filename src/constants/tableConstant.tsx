@@ -1,6 +1,23 @@
 import { GridColDef } from "@mui/x-data-grid";
 import staticImg from "@/images/ss-logo.jpg";
 import { unsplashimgurl } from "@/images/AllDataIcons";
+import { ITabList } from "@/interfaces/home.interface";
+
+export const initialAllTableState = {
+  [ITabList.FULFILMENTS]: { rows: [], columns: [] },
+  [ITabList.STANDARD_FULFILMENTS]: { rows: [], columns: [] },
+  [ITabList.EXPRESS_FULFILMENTS]: { rows: [], columns: [] },
+  [ITabList.EXCHANGES_FULFILMENTS]: { rows: [], columns: [] },
+  [ITabList.CLICK_AND_COLLECT]: { rows: [], columns: [] },
+};
+
+export const initialAllTableIdsList = {
+  [ITabList.FULFILMENTS]: [],
+  [ITabList.STANDARD_FULFILMENTS]: [],
+  [ITabList.EXPRESS_FULFILMENTS]: [],
+  [ITabList.EXCHANGES_FULFILMENTS]: [],
+  [ITabList.CLICK_AND_COLLECT]: [],
+};
 
 function createData(
   name: string,

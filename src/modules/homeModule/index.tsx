@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Grid } from "@mui/material";
 import Cards, { IBaseCardProps } from "@/component/atoms/cards";
 import ChannelSelectDropDown from "@/component/molecules/channelSelectDropdown";
 import HomeTabs from "./homeTabs";
 import SearchComponent from "@/component/molecules/searchComponent";
 import HomeTable from "./homeTable";
-import { ITabList } from "@/interfaces/home.interface";
+import {
+  IAllTableIdsList,
+  IAllTableState,
+  ITabList,
+} from "@/interfaces/home.interface";
 import { IStoreListRoutes } from "@/constants/allRoutes";
+import {
+  initialAllTableIdsList,
+  initialAllTableState,
+} from "@/constants/tableConstant";
 
 const cardsList: IBaseCardProps[] = [
   {
@@ -31,6 +39,13 @@ const cardsList: IBaseCardProps[] = [
 
 const HomeModule = () => {
   const [currValue, setCurrValue] = useState<string>("");
+
+  const [allSelectedRowList, setAllSelectedRowList] =
+    useState<IAllTableIdsList>(initialAllTableIdsList);
+
+  const [tableState, setTableState] =
+    useState<IAllTableState>(initialAllTableState);
+
   const [currTabValue, setCurrTabValue] = useState<ITabList>(
     ITabList.FULFILMENTS
   );
@@ -54,7 +69,8 @@ const HomeModule = () => {
             <HomeTabs {...{ currTabValue, setCurrTabValue }} />
           </Grid>
           <Grid sm={12} md={2} item textAlign="right">
-            {currTabValue !== ITabList.FULFILMENTS ? (
+            {currTabValue !== ITabList.FULFILMENTS &&
+            allSelectedRowList[currTabValue].length ? (
               <Button variant="contained">Create Wave</Button>
             ) : null}
           </Grid>
@@ -77,7 +93,15 @@ const HomeModule = () => {
             </Grid>
           </Grid>
           <Grid sm={12} md={12} item>
-            <HomeTable {...{ currTabValue }} />
+            <HomeTable
+              {...{
+                currTabValue,
+                tableState,
+                setTableState,
+                allSelectedRowList,
+                setAllSelectedRowList,
+              }}
+            />
           </Grid>
         </Grid>
       </Grid>
