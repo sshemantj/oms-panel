@@ -28,15 +28,17 @@ const WavesInProgress = () => {
     <Box width={"100%"} mt={2}>
       <Box sx={{ ...flex, justifyContent: "space-between" }}>
         <Box sx={{ ...flex, gap: "0.5rem" }}>
-          {selectedNames.map((item, index) => {
-            return (
-              <Ovule
-                handleCancel={handleOvuleCancel}
-                key={index}
-                status={item}
-              />
-            );
-          })}
+          {selectedNames
+            .filter((v) => !["Ref", "SONumber"].includes(v))
+            .map((item, index) => {
+              return (
+                <Ovule
+                  handleCancel={handleOvuleCancel}
+                  key={index}
+                  status={item}
+                />
+              );
+            })}
         </Box>
         <WaveSelectDropDown {...{ selectedNames, setSelectedNames }} />
       </Box>

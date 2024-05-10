@@ -1,5 +1,6 @@
 import React from "react";
 import MultiSelectDropdown from "@/component/molecules/multiSelectDropdown";
+import { TextField } from "@mui/material";
 import styles from "./waveSelect.module.scss";
 
 interface IProps {
@@ -9,7 +10,7 @@ interface IProps {
 
 const WaveSelectDropDown = (props: IProps) => {
   const { selectedNames, setSelectedNames } = props;
-  const options = ["PICK", "PACK", "DISPATCH"];
+  const options = ["PICK", "PACK", "DISPATCH", "Ref", "SONumber"];
 
   return (
     <div className={styles.channel_select_wrapper}>
@@ -19,6 +20,19 @@ const WaveSelectDropDown = (props: IProps) => {
           setSelectedNames,
           options,
           label: "select statuses",
+        }}
+      />
+      <TextField
+        inputProps={{
+          sx: {
+            padding: "6px",
+          },
+        }}
+        sx={{
+          width: "7rem",
+          "& fieldset": {
+            border: "none !important",
+          },
         }}
       />
     </div>

@@ -1,17 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Stack,
   OutlinedInput,
   InputLabel,
   MenuItem,
-  Chip,
   Select,
   FormControl,
   SelectChangeEvent,
 } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
-import CancelIcon from "@mui/icons-material/Cancel";
-import { useAppSelector } from "@/store/hooks";
 
 interface IProps {
   label: string;
@@ -22,7 +19,7 @@ interface IProps {
 
 const style: React.CSSProperties = {
   height: "100%",
-  width: "14rem",
+  width: "8.5rem",
   display: "flex",
   alignItems: "flex-start",
   justifyContent: "center",
@@ -36,14 +33,36 @@ const MultiSelectDropdown = (props: IProps) => {
     setSelectedNames(value);
   };
 
+  const handleSelectedText = (selected: string[]) => {
+    const isRefExist = selected.includes("Ref");
+    const isSONumber = selected.includes("SONumber");
+
+    if (isRefExist && isSONumber) {
+      const ind = selected.indexOf("Ref");
+      const ind2 = selected.indexOf("SONumber");
+      return ind > ind2 ? "Ref" : "SONumber";
+    }
+
+    if (isRefExist) {
+      return `Ref`;
+    }
+    if (isSONumber) {
+      return `SONumber`;
+    }
+    return `${selected.length} item selected`;
+  };
+
   return (
     <div style={style}>
-      <FormControl sx={{ m: 1, width: "100%" }}>
+      <FormControl sx={{ width: "100%" }}>
         <InputLabel
           sx={{
             top: selectedNames.length ? 0 : "-10px",
+            borderBottom: !selectedNames.length ? "1px solid blue" : "none",
+            left: "-8px",
             color: "gray !important",
             background: "#fff",
+            fontSize: "0.9rem",
           }}
         >
           {label}
@@ -56,13 +75,20 @@ const MultiSelectDropdown = (props: IProps) => {
           input={<OutlinedInput />}
           sx={{
             "& fieldset": {
-              borderColor: "lightgray !important",
+              border: "none !important",
             },
           }}
           renderValue={(selected) => {
             return (
-              <Stack gap={1} direction="row" flexWrap="wrap">
-                <p color="black">{selected.length} channels selected</p>
+              <Stack
+                borderBottom="1px solid blue"
+                gap={1}
+                direction="row"
+                flexWrap="wrap"
+              >
+                <p style={{ fontSize: "0.8rem" }}>
+                  {handleSelectedText(selected)}
+                </p>
               </Stack>
             );
           }}
