@@ -1,5 +1,7 @@
+import ProductImgModal from "@/component/molecules/productImgModal";
 import { Box } from "@mui/material";
 import Image from "next/image";
+import { useState } from "react";
 
 interface IProps {
   url: string;
@@ -7,8 +9,11 @@ interface IProps {
 
 const PickImage = (props: IProps) => {
   const { url } = props;
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
-  const handleImgClick = () => {};
+  const handleImgClick = () => {
+    setOpenModal(true);
+  };
 
   return (
     <Box>
@@ -20,6 +25,7 @@ const PickImage = (props: IProps) => {
         height={50}
         alt="product"
       />
+      <ProductImgModal {...{ openModal, setOpenModal }} />
     </Box>
   );
 };
