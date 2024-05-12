@@ -4,6 +4,7 @@ import { unsplashimgurl } from "@/images/AllDataIcons";
 import { ITabList } from "@/interfaces/home.interface";
 import Link from "next/link";
 import QuantityColumn from "@/modules/storeModule/subRoutesModule/pick/quantityColumn";
+import PickImage from "@/modules/storeModule/subRoutesModule/pick/pickImage";
 
 export const initialAllTableState = {
   [ITabList.FULFILMENTS]: { rows: [], columns: [] },
@@ -515,9 +516,7 @@ export const pickScreenColumns: GridColDef[] = [
     width: 150,
     type: "custom",
     align: "left",
-    renderCell: (params) => (
-      <img width={50} height={50} src={params.value} alt="image" />
-    ),
+    renderCell: (params) => <PickImage url={params.value} />,
   },
   {
     field: "productName",
