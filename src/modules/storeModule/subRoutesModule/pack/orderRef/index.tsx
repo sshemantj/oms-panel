@@ -8,6 +8,8 @@ import {
 import FeaturedTable from "@/tables/featuredTable";
 import { Box, Button } from "@mui/material";
 import OrderTypeSelect from "./orderTypeSelect";
+import { useRouter } from "next/router";
+import { IStoreListRoutes } from "@/constants/allRoutes";
 
 const OrderReference = () => {
   const [tableState, setTableState] = useState({
@@ -19,6 +21,12 @@ const OrderReference = () => {
     columns: orderRefColumns2,
     rows: orderRefRows2,
   });
+
+  const router = useRouter();
+
+  const handleBookClick = () => {
+    router.push(IStoreListRoutes.CARRIER_BOOKING);
+  };
 
   return (
     <Box sx={{ padding: "0 1rem 1rem 1rem", background: "#fff" }}>
@@ -53,6 +61,7 @@ const OrderReference = () => {
         <Button
           sx={{ marginTop: "1rem", padding: "2px 8px" }}
           variant="contained"
+          onClick={() => handleBookClick()}
         >
           Book
         </Button>

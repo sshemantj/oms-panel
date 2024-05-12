@@ -10,6 +10,7 @@ import styles from "./breadcrumb.module.scss";
 const LAST_PATHS = {
   [IListRoutes.AWAITING_PICK]: "Orders Awaiting Picks",
   [IListRoutes.WAVES_IN_PROGRESS]: "In Progress",
+  [IListRoutes.CARRIER_BOOKING]: "Carrier Booking",
 };
 
 const Breadcrumbs = () => {

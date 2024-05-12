@@ -14,9 +14,11 @@ export enum IListRoutes {
   WAVES_IN_PROGRESS = "/in-progress",
   PICK = "/pick",
   PACK = "/pack",
+  CARRIER_BOOKING = "/carrier-booking",
 }
 export enum IStoreListRoutes {
   AWAITING_PICK = IAllRoutes.STORE + IListRoutes.AWAITING_PICK,
   WAVES_IN_PROGRESS = IAllRoutes.STORE + IListRoutes.WAVES_IN_PROGRESS,
   PICK = IAllRoutes.STORE + IListRoutes.PICK,
+  CARRIER_BOOKING = IAllRoutes.STORE + IListRoutes.CARRIER_BOOKING,
 }
