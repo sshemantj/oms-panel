@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import CustomSelect from "@/component/atoms/customSelect";
 import { Box } from "@mui/material";
+import NumberInputBasic from "@/component/atoms/numberRangeInput";
 
 const data = [
   { label: "small", value: "small" },
@@ -9,20 +10,19 @@ const data = [
 ];
 
 const OrderTypeSelect = () => {
+  const [value, setValue] = useState<number | null>(0);
+
   const handleOnChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {};
 
   return (
-    <Box>
+    <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
       <CustomSelect
         {...{
           data,
           handleOnChange,
           label: "Parcel type",
-          selectWrapperStyle: {
-            marginTop: "12px",
-          },
           selectSx: {
             width: "170px",
             "& .MuiSelect-outlined": {
@@ -40,6 +40,7 @@ const OrderTypeSelect = () => {
           },
         }}
       />
+      <NumberInputBasic {...{ value, setValue }} />
     </Box>
   );
 };
