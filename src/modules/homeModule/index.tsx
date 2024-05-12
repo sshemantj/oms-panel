@@ -18,7 +18,7 @@ import {
 
 const cardsList: IBaseCardProps[] = [
   {
-    text: "oreders awaiting pick",
+    text: "order awaiting pick",
     count: 10,
     color: "red",
     path: IStoreListRoutes.AWAITING_PICK,
