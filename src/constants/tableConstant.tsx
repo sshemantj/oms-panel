@@ -564,7 +564,7 @@ export const pickScreenColumns: GridColDef[] = [
     field: "pickQuantity",
     headerName: "Pick Quantity",
     // type: "number",
-    width: 180,
+    width: 350,
     align: "left",
     valueGetter: (value, row) => `${row.quantity}`,
     renderCell: (params) => {

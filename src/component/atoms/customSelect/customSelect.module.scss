@@ -1,0 +1,10 @@
+@import "@/styles/variables.scss";
+
+.selectWrapper {
+  background: $color_white;
+
+  .selectStyles {
+    min-width: 120px;
+    background-color: $color_white;
+  }
+}
