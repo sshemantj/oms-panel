@@ -5,6 +5,7 @@ import AwaitingPick from "./awaitingPick";
 import { Box } from "@mui/material";
 import WavesInProgress from "./wavesInProgress";
 import PickScreen from "./pick";
+import PackScreen from "./pack";
 
 const SubRoutesModule = () => {
   const router = useRouter();
@@ -15,6 +16,7 @@ const SubRoutesModule = () => {
       {subRoute === IListRoutes.AWAITING_PICK ? <AwaitingPick /> : null}
       {subRoute === IListRoutes.WAVES_IN_PROGRESS ? <WavesInProgress /> : null}
       {subRoute === IListRoutes.PICK ? <PickScreen /> : null}
+      {subRoute === IListRoutes.PACK ? <PackScreen /> : null}
     </Box>
   );
 };

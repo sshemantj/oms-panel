@@ -4,6 +4,7 @@ import { DataGrid, DataGridProps, GridColDef } from "@mui/x-data-grid";
 export interface IFeaturedTableProps extends DataGridProps {
   columns: GridColDef[];
   rows: any[];
+  tableStyleWrapper?: React.CSSProperties;
 }
 
 const FeaturedTable = (props: IFeaturedTableProps) => {
@@ -11,12 +12,13 @@ const FeaturedTable = (props: IFeaturedTableProps) => {
     columns,
     rows,
     processRowUpdate,
+    tableStyleWrapper = {},
     onRowSelectionModelChange,
     ...rest
   } = props;
 
   return (
-    <div style={{ height: 400, width: "100%" }}>
+    <div style={{ height: 400, width: "100%", ...tableStyleWrapper }}>
       <DataGrid
         sx={{ maxWidth: "calc(100vw - 110px)" }}
         rows={rows}

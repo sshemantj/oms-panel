@@ -693,3 +693,107 @@ export const pickScreenRows = [
     timeRemaining: `${Math.ceil(Math.random() * 10)} days`,
   },
 ];
+export const orderRefColumns: GridColDef[] = [
+  {
+    field: "orderReference",
+    headerName: "Order Reference",
+    width: 160,
+    align: "left",
+  },
+  {
+    field: "fullfilmentsRef",
+    headerName: "Fullfilment Ref",
+    // type: "number",
+    width: 160,
+    align: "left",
+  },
+  {
+    field: "customerName",
+    headerName: "Customer Name",
+    // type: "number",
+    width: 160,
+    align: "left",
+  },
+  {
+    field: "orderType",
+    headerName: "Order Type",
+    // type: "number",
+    width: 160,
+    align: "left",
+  },
+  {
+    field: "fullFilmentStatus",
+    headerName: "Fullfilments Status",
+    // type: "number",
+    width: 120,
+    align: "left",
+  },
+];
+
+export const orderRefRows = [
+  {
+    id: 1,
+    orderReference: "Jon",
+    fullfilmentsRef: "demo sku",
+    customerName: "product",
+    orderType: "manual",
+    fullFilmentStatus: "FULFILLED",
+  },
+];
+
+export const orderRefColumns2: GridColDef[] = [
+  {
+    field: "image",
+    headerName: "Image",
+    width: 150,
+    type: "custom",
+    align: "left",
+    renderCell: (params) => <PickImage url={params.value} />,
+  },
+  {
+    field: "productName",
+    headerName: "Product Name",
+    width: 160,
+    align: "left",
+  },
+  {
+    field: "sku",
+    headerName: "SKU",
+    // type: "number",
+    width: 160,
+    align: "left",
+  },
+  {
+    field: "filledQuantity",
+    headerName: "Filled Quantity",
+    // type: "number",
+    width: 120,
+    align: "left",
+  },
+  {
+    field: "brandValue",
+    headerName: "Brand Value",
+    // type: "number",
+    width: 160,
+    align: "left",
+  },
+  {
+    field: "eanValue",
+    headerName: "EAN Value",
+    // type: "number",
+    width: 120,
+    align: "left",
+  },
+];
+
+export const orderRefRows2 = [
+  {
+    id: 1,
+    image: unsplashimgurl,
+    productName: "Jon",
+    sku: "demo sku",
+    filledQuantity: Math.round(Math.random() * 100),
+    brandValue: Math.round(Math.random() * 100),
+    eanValue: Math.round(Math.random() * 100),
+  },
+];

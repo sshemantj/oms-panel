@@ -1,0 +1,8 @@
+@import "@/styles/variables.scss";
+
+.packWrapper {
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+  background: $color_2;
+}

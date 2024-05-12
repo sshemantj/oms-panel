@@ -17,7 +17,7 @@ const PickScreen = () => {
   });
 
   return (
-    <Box width={"100%"} mt={2}>
+    <Box sx={{ width: "100%", marginTop: "1rem", padding: "0 1rem" }}>
       <Box sx={{ ...flex, justifyContent: "space-between" }}>
         <Box sx={{ ...flex, width: "100%", justifyContent: "space-between" }}>
           <Box sx={{ ...flex, gap: "0.5rem" }}>

@@ -20,11 +20,11 @@ const cookie = new Cookies();
 
 interface IProps {
   children: JSX.Element;
-  shouldNavOpen?: boolean;
+  mainStyle?: React.CSSProperties;
 }
 
 const MainLayout = (props: IProps) => {
-  const { children, shouldNavOpen } = props;
+  const { children, mainStyle = {} } = props;
   const isMobile = useMobileCheck();
   const inputRef = useRef<any>(null);
   const dispatch = useAppDispatch();
@@ -170,7 +170,9 @@ const MainLayout = (props: IProps) => {
         <div className={styles.navListWrapper}>
           <NavList {...{ handleTypeClick, isNavOpen, setisNavOpen }} />
         </div>
-        <main className={styles.mainWrapper}>{children}</main>
+        <main style={mainStyle} className={styles.mainWrapper}>
+          {children}
+        </main>
       </div>
     </div>
   );

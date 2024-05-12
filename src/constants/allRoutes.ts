@@ -13,6 +13,7 @@ export enum IListRoutes {
   AWAITING_PICK = "/awaiting-pick",
   WAVES_IN_PROGRESS = "/in-progress",
   PICK = "/pick",
+  PACK = "/pack",
 }
 export enum IStoreListRoutes {
   AWAITING_PICK = IAllRoutes.STORE + IListRoutes.AWAITING_PICK,
