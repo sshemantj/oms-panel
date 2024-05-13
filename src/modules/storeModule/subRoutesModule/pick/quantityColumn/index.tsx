@@ -23,8 +23,14 @@ const QuantityColumn = (props: IQuantityColumn) => {
   const isAdditional = type === "additional";
 
   const handleClick = (type: "increment" | "decrement") => {
-    if (type === "increment" && quantity > count) setCount((v) => v + 1);
-    if (type === "decrement" && count > 0) setCount((v) => v - 1);
+    if (isPick) {
+      if (type === "increment" && quantity > count) setCount((v) => v + 1);
+      if (type === "decrement" && count > 0) setCount((v) => v - 1);
+    }
+    if (isAdditional) {
+      if (type === "increment") setCount((v) => v + 1);
+      if (type === "decrement" && count > 0) setCount((v) => v - 1);
+    }
   };
 
   return (
