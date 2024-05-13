@@ -9,7 +9,7 @@ const CarrierCollection: NextPage = () => {
       <Head>
         <title>OMS Panel</title>
       </Head>
-      <MainLayout>
+      <MainLayout mainStyle={{ padding: 0 }}>
         <CarrierCollectionModule />
       </MainLayout>
     </>
