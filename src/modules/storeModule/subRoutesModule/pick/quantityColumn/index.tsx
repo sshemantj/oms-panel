@@ -29,7 +29,14 @@ const QuantityColumn = (props: IQuantityColumn) => {
 
   return (
     <Box sx={{ ...flex, marginTop: isPick ? 0 : "6px" }}>
-      <CounterButtons {...{ count, handleClick }} />
+      <CounterButtons
+        {...{
+          count,
+          handleClick,
+          disablePlus: quantity <= count,
+          disableMinus: count <= 0,
+        }}
+      />
       {isPick ? <ReasonDropdown /> : null}
     </Box>
   );

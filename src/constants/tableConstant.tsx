@@ -574,9 +574,9 @@ export const pickScreenColumns: GridColDef[] = [
   },
   {
     field: "additional",
-    headerName: "Addition Quantity",
+    headerName: "Additional Defective Quantity",
     // type: "number",
-    width: 180,
+    width: 220,
     align: "left",
     valueGetter: (value, row) => `${row.quantity}`,
     renderCell: (params) => {

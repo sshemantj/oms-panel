@@ -1,5 +1,10 @@
 import React from "react";
-import { DataGrid, DataGridProps, GridColDef } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  DataGridProps,
+  GridColDef,
+  gridClasses,
+} from "@mui/x-data-grid";
 
 export interface IFeaturedTableProps extends DataGridProps {
   columns: GridColDef[];
@@ -20,7 +25,17 @@ const FeaturedTable = (props: IFeaturedTableProps) => {
   return (
     <div style={{ height: 400, width: "100%", ...tableStyleWrapper }}>
       <DataGrid
-        sx={{ maxWidth: "calc(100vw - 110px)" }}
+        sx={{
+          maxWidth: "calc(100vw - 110px)",
+          [`& .${gridClasses.cell}:focus, & .${gridClasses.cell}:focus-within`]:
+            {
+              outline: "none",
+            },
+          [`& .${gridClasses.columnHeader}:focus, & .${gridClasses.columnHeader}:focus-within`]:
+            {
+              outline: "none",
+            },
+        }}
         rows={rows}
         columns={columns}
         initialState={{
