@@ -9,7 +9,7 @@ const Demo: NextPage = () => {
       <Head>
         <title>OMS Panel</title>
       </Head>
-      <MainLayout>
+      <MainLayout mainStyle={{ padding: 0 }}>
         <CarrierBooking />
       </MainLayout>
     </>
