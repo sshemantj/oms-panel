@@ -22,8 +22,9 @@ const PackScreen = () => {
         </Box>
       </Box>
       <Box className={styles.packWrapper}>
-        <OrderReference />
-        <OrderReference />
+        {[0, 1].map((item) => (
+          <OrderReference key={item} index={item} />
+        ))}
       </Box>
     </Box>
   );

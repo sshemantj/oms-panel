@@ -11,7 +11,13 @@ import OrderTypeSelect from "./orderTypeSelect";
 import { useRouter } from "next/router";
 import { IStoreListRoutes } from "@/constants/allRoutes";
 
-const OrderReference = () => {
+interface IProps {
+  index?: number;
+}
+
+const OrderReference = (props: IProps) => {
+  const { index } = props;
+
   const [tableState, setTableState] = useState({
     columns: orderRefColumns,
     rows: orderRefRows,
@@ -58,13 +64,15 @@ const OrderReference = () => {
             hideFooter: true,
           }}
         />
-        <Button
-          sx={{ marginTop: "1rem", padding: "2px 8px" }}
-          variant="contained"
-          onClick={() => handleBookClick()}
-        >
-          Book
-        </Button>
+        {index === 1 ? (
+          <Button
+            sx={{ marginTop: "1rem", padding: "2px 8px" }}
+            variant="contained"
+            onClick={() => handleBookClick()}
+          >
+            Book
+          </Button>
+        ) : null}
       </Box>
     </Box>
   );
