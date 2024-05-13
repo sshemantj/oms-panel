@@ -5,6 +5,7 @@ import { Box, Button, Grid, Typography } from "@mui/material";
 import Cards, { IBaseCardProps } from "@/component/atoms/cards";
 import SearchComponent from "@/component/molecules/searchComponent";
 import CustomSelect from "@/component/atoms/customSelect";
+import ManifestModal from "./manifestModal";
 
 const flex = {
   display: "flex",
@@ -29,6 +30,7 @@ const CarrierCollectionModule = () => {
     rows: pickScreenRows,
   });
   const [value, setValue] = useState<number | null>(0);
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   const cardsList: IBaseCardProps[] = [
     {
@@ -42,6 +44,10 @@ const CarrierCollectionModule = () => {
   const handleOnChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {};
+
+  const handleGenerateManifest = () => {
+    setOpenModal(true);
+  };
 
   return (
     <Box sx={{ width: "100%", marginTop: "1rem", padding: "0" }}>
@@ -94,13 +100,16 @@ const CarrierCollectionModule = () => {
         </Grid>
       </Grid>
       <Box mt={2}>
-        <Button variant="contained">GENERATE MANIFEST</Button>
+        <Button onClick={() => handleGenerateManifest()} variant="contained">
+          GENERATE MANIFEST
+        </Button>
       </Box>
       <Box mt={2}>
         <FeaturedTable
           {...{ rows: tableState.rows, columns: tableState.columns }}
         />
       </Box>
+      <ManifestModal {...{ openModal, setOpenModal }} />
     </Box>
   );
 };
