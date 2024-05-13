@@ -5,7 +5,7 @@ import { ITabList } from "@/interfaces/home.interface";
 import Link from "next/link";
 import QuantityColumn from "@/modules/storeModule/subRoutesModule/pick/quantityColumn";
 import PickImage from "@/modules/storeModule/subRoutesModule/pick/pickImage";
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import PrintIcon from "@mui/icons-material/Print";
 
 export const initialAllTableState = {
@@ -380,7 +380,7 @@ export const inProgressColumns: GridColDef[] = [
   { field: "waveId", headerName: "Wave Id", width: 170, align: "left" },
   { field: "step", headerName: "Step", width: 170, align: "left" },
   {
-    field: "fulfilment",
+    field: "consignmentStatus",
     headerName: "Fulfilment",
     // type: "number",
     width: 170,
@@ -999,6 +999,152 @@ export const carrierBookingRows = [
     deliveryType: "manual",
     invoiceNumber: `${Math.ceil(Math.random() * 10000000)}`,
     fulfilmentStatus: "Fulfilled",
+    carrier: "Default Carrier",
+    consignmentStatus: "Processing",
+    assingCarrier: "",
+  },
+];
+export const carrierCollectionsColumns: GridColDef[] = [
+  { field: "orderRef", headerName: "Order Ref", width: 130, align: "left" },
+  { field: "customer", headerName: "Customer", width: 130, align: "left" },
+  {
+    field: "articleRef",
+    headerName: "Article Ref",
+    // type: "number",
+    width: 130,
+    align: "left",
+    renderCell: (params) => (
+      <Typography sx={{ color: "blue", textDecoration: "underline" }}>
+        {params.value}
+      </Typography>
+    ),
+  },
+  {
+    field: "consignmentStatus",
+    headerName: "Consignment Status",
+    // type: "number",
+    width: 160,
+    align: "left",
+  },
+  {
+    field: "orderType",
+    headerName: "Order Type",
+    // type: "number",
+    width: 160,
+    align: "left",
+  },
+  {
+    field: "deliveryType",
+    headerName: "Delivery Type",
+    // type: "number",
+    width: 130,
+    align: "left",
+  },
+  {
+    field: "carrier",
+    headerName: "Carrier",
+    // type: "number",
+    width: 130,
+    align: "left",
+  },
+];
+
+export const carrierCollectionsRows = [
+  {
+    id: 1,
+    orderRef: "Snow",
+    customer: "Jon",
+    orderType: "manual",
+    deliveryType: "manual",
+    articleRef: `${Math.ceil(Math.random() * 10000000)}`,
+    carrier: "Default Carrier",
+    consignmentStatus: "Processing",
+    assingCarrier: "",
+  },
+  {
+    id: 2,
+    orderRef: "Lannister",
+    customer: "Cersei",
+    orderType: "manual",
+    deliveryType: "manual",
+    articleRef: `${Math.ceil(Math.random() * 10000000)}`,
+    carrier: "Default Carrier",
+    consignmentStatus: "Processing",
+    assingCarrier: "",
+  },
+  {
+    id: 3,
+    orderRef: "Lannister",
+    customer: "Jaime",
+    orderType: "manual",
+    deliveryType: "manual",
+    articleRef: `${Math.ceil(Math.random() * 10000000)}`,
+    carrier: "Default Carrier",
+    consignmentStatus: "Processing",
+    assingCarrier: "",
+  },
+  {
+    id: 4,
+    orderRef: "Stark",
+    customer: "Arya",
+    orderType: "manual",
+    deliveryType: "manual",
+    articleRef: `${Math.ceil(Math.random() * 10000000)}`,
+    carrier: "Default Carrier",
+    consignmentStatus: "Processing",
+    assingCarrier: "",
+  },
+  {
+    id: 5,
+    orderRef: "Targaryen",
+    customer: "Daenerys",
+    orderType: "manual",
+    deliveryType: "manual",
+    articleRef: `${Math.ceil(Math.random() * 10000000)}`,
+    carrier: "Default Carrier",
+    consignmentStatus: "Processing",
+    assingCarrier: "",
+  },
+  {
+    id: 6,
+    orderRef: "Melisandre",
+    customer: null,
+    orderType: "manual",
+    deliveryType: "manual",
+    articleRef: `${Math.ceil(Math.random() * 10000000)}`,
+    carrier: "Default Carrier",
+    consignmentStatus: "Processing",
+    assingCarrier: "",
+  },
+  {
+    id: 7,
+    orderRef: "Clifford",
+    customer: "Ferrara",
+    orderType: "manual",
+    deliveryType: "manual",
+    articleRef: `${Math.ceil(Math.random() * 10000000)}`,
+    carrier: "Default Carrier",
+    consignmentStatus: "Processing",
+    assingCarrier: "",
+  },
+  {
+    id: 8,
+    orderRef: "Frances",
+    customer: "Rossini",
+    orderType: "manual",
+    deliveryType: "manual",
+    articleRef: `${Math.ceil(Math.random() * 10000000)}`,
+    carrier: "Default Carrier",
+    consignmentStatus: "Processing",
+    assingCarrier: "",
+  },
+  {
+    id: 9,
+    orderRef: "Roxie",
+    customer: "Harvey",
+    orderType: "manual",
+    deliveryType: "manual",
+    articleRef: `${Math.ceil(Math.random() * 10000000)}`,
     carrier: "Default Carrier",
     consignmentStatus: "Processing",
     assingCarrier: "",

@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import FeaturedTable from "@/tables/featuredTable";
-import { pickScreenColumns, pickScreenRows } from "@/constants/tableConstant";
+import {
+  carrierBookingColumns,
+  carrierBookingRows,
+  carrierCollectionsColumns,
+  carrierCollectionsRows,
+  pickScreenColumns,
+  pickScreenRows,
+} from "@/constants/tableConstant";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import Cards, { IBaseCardProps } from "@/component/atoms/cards";
 import SearchComponent from "@/component/molecules/searchComponent";
@@ -26,8 +33,8 @@ const data = [
 
 const CarrierCollectionModule = () => {
   const [tableState, setTableState] = useState({
-    columns: pickScreenColumns,
-    rows: pickScreenRows,
+    columns: carrierCollectionsColumns,
+    rows: carrierCollectionsRows,
   });
   const [value, setValue] = useState<number | null>(0);
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -106,7 +113,11 @@ const CarrierCollectionModule = () => {
       </Box>
       <Box mt={2}>
         <FeaturedTable
-          {...{ rows: tableState.rows, columns: tableState.columns }}
+          {...{
+            rows: tableState.rows,
+            columns: tableState.columns,
+            checkboxSelection: true,
+          }}
         />
       </Box>
       <ManifestModal {...{ openModal, setOpenModal }} />
