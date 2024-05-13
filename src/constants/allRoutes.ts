@@ -20,5 +20,6 @@ export enum IStoreListRoutes {
   AWAITING_PICK = IAllRoutes.STORE + IListRoutes.AWAITING_PICK,
   WAVES_IN_PROGRESS = IAllRoutes.STORE + IListRoutes.WAVES_IN_PROGRESS,
   PICK = IAllRoutes.STORE + IListRoutes.PICK,
-  CARRIER_BOOKING = IAllRoutes.STORE + IListRoutes.CARRIER_BOOKING,
+  // CARRIER_BOOKING = IAllRoutes.STORE + IListRoutes.CARRIER_BOOKING,
+  CARRIER_BOOKING = IListRoutes.CARRIER_BOOKING,
 }
