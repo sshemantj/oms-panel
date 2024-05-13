@@ -4,13 +4,14 @@ import BreadcrumbsMui from "@mui/material/Breadcrumbs";
 import Link from "@mui/material/Link";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
-import { IListRoutes } from "@/constants/allRoutes";
+import { IAllRoutes, IListRoutes } from "@/constants/allRoutes";
 import styles from "./breadcrumb.module.scss";
 
 const LAST_PATHS = {
   [IListRoutes.AWAITING_PICK]: "Orders Awaiting Picks",
   [IListRoutes.WAVES_IN_PROGRESS]: "In Progress",
   [IListRoutes.CARRIER_BOOKING]: "Carrier Booking",
+  [IAllRoutes.CARRIER_COLLECTIONS]: "Carrier Collections",
 };
 
 const Breadcrumbs = () => {
