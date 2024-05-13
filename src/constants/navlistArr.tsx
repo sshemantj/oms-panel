@@ -31,7 +31,7 @@ export const navListArr: INavListArr[] = [
   {
     topHeading: "Carrier Collections",
     icon: <LocalShippingIcon color="inherit" />,
-    path: IAllRoutes.STORE,
+    path: IAllRoutes.CARRIER_COLLECTIONS,
   },
   {
     topHeading: "Uncollected Articles",

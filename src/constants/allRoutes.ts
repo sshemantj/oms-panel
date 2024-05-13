@@ -7,6 +7,7 @@ export enum IAllRoutes {
   USER_PROFILE = "/",
   FILE_MANAGEMENT = "/",
   CHANNEL_MAPPINGS = "/",
+  CARRIER_COLLECTIONS = "/carrier-collections",
 }
 
 export enum IListRoutes {

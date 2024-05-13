@@ -9,7 +9,7 @@ import NavList from "./navlist";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { IProducts } from "@/store/slices/dashboardSlice";
 import { useRouter } from "next/router";
-import { IAllRoutes } from "@/constants/allRoutes";
+import { IAllRoutes, IListRoutes } from "@/constants/allRoutes";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import { useSearchParams } from "next/navigation";
 import { Cookies } from "react-cookie";
@@ -121,23 +121,23 @@ const MainLayout = (props: IProps) => {
     }
   };
 
-  const handleTypeClick = (value: any, path: IAllRoutes) => {
+  const handleTypeClick = (value: any, path: IAllRoutes | IListRoutes) => {
     setProductType(value);
-    switch (value) {
-      case "map_user_with_channels":
-        router.push("/map-user-channels");
-        return;
-    }
+    // switch (value) {
+    //   case "map_user_with_channels":
+    //     router.push("/map-user-channels");
+    //     return;
+    // }
 
     switch (path) {
-      case IAllRoutes.DASHBOARD:
-        handleProductState(value);
-        return;
-      case IAllRoutes.MANAGE_CHANNELS:
-      case IAllRoutes.USER_PROFILE:
-      case IAllRoutes.FILE_MANAGEMENT:
-      case IAllRoutes.CHANNEL_MAPPINGS:
-        router.push(`${path}?screen=${value}`);
+      // case IAllRoutes.DASHBOARD:
+      //   handleProductState(value);
+      //   return;
+      // case IAllRoutes.MANAGE_CHANNELS:
+      // case IAllRoutes.USER_PROFILE:
+      // case IAllRoutes.FILE_MANAGEMENT:
+      case IAllRoutes.CARRIER_COLLECTIONS:
+        router.push(`${path}`);
         return;
     }
   };
