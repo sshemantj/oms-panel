@@ -1,12 +1,8 @@
 import React, { useState } from "react";
 import FeaturedTable from "@/tables/featuredTable";
 import {
-  carrierBookingColumns,
-  carrierBookingRows,
   carrierCollectionsColumns,
   carrierCollectionsRows,
-  pickScreenColumns,
-  pickScreenRows,
 } from "@/constants/tableConstant";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import Cards, { IBaseCardProps } from "@/component/atoms/cards";
@@ -19,12 +15,6 @@ const flex = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-};
-
-const flexNoJustify = {
-  display: "flex",
-  alignContent: "center",
-  gap: "4px",
 };
 
 const data = [
@@ -136,73 +126,6 @@ const CarrierCollectionModule = () => {
           />
         </Box>
         <ManifestModal {...{ openModal, setOpenModal }} />
-      </Box>
-      <Box sx={{ marginTop: "1rem", padding: "1rem", background: "#fff" }}>
-        <Box>
-          <Typography fontWeight={600} mb={3} variant="h5">
-            Proof Of Delivery
-          </Typography>
-          <Box
-            sx={{
-              borderTop: "1px solid #000",
-              borderBottom: "1px solid #000",
-              padding: "1rem 0",
-              ...flexNoJustify,
-              gap: "2rem",
-            }}
-          >
-            <Box>
-              <Box sx={flexNoJustify}>
-                <Typography fontWeight={600} variant="subtitle1">
-                  Carrier:
-                </Typography>
-                <Typography variant="subtitle1">XPRESSBEES</Typography>
-              </Box>
-              <Box sx={flexNoJustify}>
-                <Typography fontWeight={600} variant="subtitle1">
-                  Vehical Number:
-                </Typography>
-                <Typography variant="subtitle1">MH-04-BZ-123</Typography>
-              </Box>
-              <Box sx={flexNoJustify}>
-                <Typography fontWeight={600} variant="subtitle1">
-                  Transport Associate:
-                </Typography>
-                <Typography variant="subtitle1">
-                  Sachin (Mobile - 9866878668)
-                </Typography>
-              </Box>
-              <Box sx={flexNoJustify}>
-                <Typography fontWeight={600} variant="subtitle1">
-                  Packages:
-                </Typography>
-                <Typography variant="subtitle1">2</Typography>
-              </Box>
-            </Box>
-            <Box>
-              <Box sx={flexNoJustify}>
-                <Typography fontWeight={600} variant="subtitle1">
-                  Date:
-                </Typography>
-                <Typography variant="subtitle1">
-                  {new Date().toLocaleDateString()}
-                </Typography>
-              </Box>
-              <Box sx={flexNoJustify}>
-                <Typography fontWeight={600} variant="subtitle1">
-                  Handover Stage:
-                </Typography>
-                <Typography variant="subtitle1">FORWARD</Typography>
-              </Box>
-              <Box sx={flexNoJustify}>
-                <Typography fontWeight={600} variant="subtitle1">
-                  Report Id:
-                </Typography>
-                <Typography variant="subtitle1">{483748378437}</Typography>
-              </Box>
-            </Box>
-          </Box>
-        </Box>
       </Box>
     </Box>
   );

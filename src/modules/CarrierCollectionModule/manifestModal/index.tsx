@@ -2,6 +2,7 @@ import CustomModal from "@/component/molecules/CustomModal";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import CloseIcon from "@mui/icons-material/Close";
+import { IAllRoutes } from "@/constants/allRoutes";
 
 interface IProps {
   openModal: boolean;
@@ -14,6 +15,11 @@ const ManifestModal = (props: IProps) => {
 
   const handleClose = () => {
     setOpenModal(false);
+  };
+
+  const handleGenerateClick = () => {
+    setOpenModal(false);
+    router.push(IAllRoutes.PROOF_OF_DELIEVERY);
   };
 
   return (
@@ -88,7 +94,7 @@ const ManifestModal = (props: IProps) => {
                 }}
               >
                 <Button
-                  // onClick={() => handleLogin()}
+                  onClick={() => handleGenerateClick()}
                   variant="contained"
                   color="info"
                 >
