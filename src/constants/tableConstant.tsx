@@ -23,6 +23,19 @@ export const initialAllTableIdsList = {
   [ITabList.EXCHANGES_FULFILMENTS]: [],
   [ITabList.CLICK_AND_COLLECT]: [],
 };
+export const initialAllFulfillmentTableState = {
+  [ITabList.FULFILMENTS]: { rows: [], columns: [] },
+  [ITabList.STANDARD_FULFILMENTS]: { rows: [], columns: [] },
+  [ITabList.EXPRESS_FULFILMENTS]: { rows: [], columns: [] },
+  [ITabList.CLICK_AND_COLLECT]: { rows: [], columns: [] },
+};
+
+export const initialAllFulfillmentTableIdsList = {
+  [ITabList.FULFILMENTS]: [],
+  [ITabList.STANDARD_FULFILMENTS]: [],
+  [ITabList.EXPRESS_FULFILMENTS]: [],
+  [ITabList.CLICK_AND_COLLECT]: [],
+};
 
 function createData(
   name: string,
@@ -1148,5 +1161,105 @@ export const carrierCollectionsRows = [
     carrier: "Default Carrier",
     consignmentStatus: "Processing",
     assingCarrier: "",
+  },
+];
+export const fulfillmentColumns: GridColDef[] = [
+  {
+    field: "idCustom",
+    headerName: "ID",
+    // type: "number",
+    width: 200,
+    align: "left",
+    renderCell: (params) => (
+      <Typography sx={{ color: "blue", textDecoration: "none" }}>
+        {params.value}
+      </Typography>
+    ),
+  },
+  {
+    field: "ref",
+    headerName: "Ref",
+    // type: "number",
+    width: 200,
+    align: "left",
+  },
+  {
+    field: "deliveryType",
+    headerName: "Delivery Type",
+    // type: "number",
+    width: 200,
+    align: "left",
+  },
+  {
+    field: "status",
+    headerName: "Status",
+    // type: "number",
+    width: 200,
+    align: "left",
+  },
+];
+export const fulfillmentsRows = [
+  {
+    id: 1,
+    ref: "Snow",
+    deliveryType: "manual",
+    idCustom: `${Math.ceil(Math.random() * 10000000)}`,
+    status: "Default Carrier",
+  },
+  {
+    id: 2,
+    ref: "Lannister",
+    deliveryType: "manual",
+    idCustom: `${Math.ceil(Math.random() * 10000000)}`,
+    status: "Default Carrier",
+  },
+  {
+    id: 3,
+    ref: "Lannister",
+    deliveryType: "manual",
+    idCustom: `${Math.ceil(Math.random() * 10000000)}`,
+    status: "Default Carrier",
+  },
+  {
+    id: 4,
+    ref: "Stark",
+    deliveryType: "manual",
+    idCustom: `${Math.ceil(Math.random() * 10000000)}`,
+    status: "Default Carrier",
+  },
+  {
+    id: 5,
+    ref: "Targaryen",
+    deliveryType: "manual",
+    idCustom: `${Math.ceil(Math.random() * 10000000)}`,
+    status: "Default Carrier",
+  },
+  {
+    id: 6,
+    ref: "Melisandre",
+    deliveryType: "manual",
+    idCustom: `${Math.ceil(Math.random() * 10000000)}`,
+    status: "Default Carrier",
+  },
+  {
+    id: 7,
+    ref: "Clifford",
+    deliveryType: "manual",
+    idCustom: `${Math.ceil(Math.random() * 10000000)}`,
+    status: "Default Carrier",
+  },
+  {
+    id: 8,
+    ref: "Frances",
+    deliveryType: "manual",
+    idCustom: `${Math.ceil(Math.random() * 10000000)}`,
+    status: "Default Carrier",
+  },
+  {
+    id: 9,
+    ref: "Roxie",
+    deliveryType: "manual",
+    idCustom: `${Math.ceil(Math.random() * 10000000)}`,
+    status: "Default Carrier",
   },
 ];
