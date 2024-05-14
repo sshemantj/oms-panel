@@ -40,6 +40,10 @@ const HomeTable = (props: IProps) => {
     setAllSelectedRowList,
   } = props;
 
+  useEffect(() => {
+    handleAllTableDataAsync();
+  }, [currTabValue]);
+
   const handleFulfilmentCall = () => {
     return {
       rows: featuredRows,
@@ -104,10 +108,6 @@ const HomeTable = (props: IProps) => {
     setTableState(updatedState);
   };
 
-  useEffect(() => {
-    handleAllTableDataAsync();
-  }, [currTabValue]);
-
   const showCheckbox = currTabValue !== ITabList.FULFILMENTS;
 
   const columns = tableState[currTabValue]?.columns || [];
@@ -115,9 +115,12 @@ const HomeTable = (props: IProps) => {
 
   const onRowSelectionModelChange = (selectedIds: GridRowSelectionModel) => {
     setAllSelectedRowList((prev) => {
+      const newValue = {
+        ...prev,
+      };
       // @ts-ignore
-      prev[currTabValue] = selectedIds;
-      return prev;
+      newValue[currTabValue] = selectedIds;
+      return newValue;
     });
   };
 
