@@ -41,6 +41,6 @@ export const navListArr: INavListArr[] = [
   {
     topHeading: "Fulfillments",
     icon: <ArticleIcon color="inherit" />,
-    path: IAllRoutes.STORE,
+    path: IAllRoutes.FULFILLMENTS,
   },
 ];

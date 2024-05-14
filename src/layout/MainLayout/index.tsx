@@ -137,6 +137,7 @@ const MainLayout = (props: IProps) => {
       // case IAllRoutes.USER_PROFILE:
       // case IAllRoutes.FILE_MANAGEMENT:
       case IAllRoutes.CARRIER_COLLECTIONS:
+      case IAllRoutes.FULFILLMENTS:
         router.push(`${path}`);
         return;
     }

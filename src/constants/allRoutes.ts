@@ -9,6 +9,7 @@ export enum IAllRoutes {
   CHANNEL_MAPPINGS = "/",
   CARRIER_COLLECTIONS = "/carrier-collections",
   PROOF_OF_DELIEVERY = "proof-of-delivery",
+  FULFILLMENTS = "/fulfillments",
 }
 
 export enum IListRoutes {
