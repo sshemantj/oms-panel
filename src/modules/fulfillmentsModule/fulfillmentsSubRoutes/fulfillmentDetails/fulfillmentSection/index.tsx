@@ -20,7 +20,7 @@ const FulfillmentSection = (props: IProps) => {
       <Box padding="1rem 0 0 1rem">
         {Object.keys(listObj).map((key) => {
           return (
-            <Grid container padding="0">
+            <Grid key={key} container padding="0">
               <Grid sm={keyColumn} item>
                 <Typography color="grey" fontWeight={600} variant="subtitle1">
                   {key}
