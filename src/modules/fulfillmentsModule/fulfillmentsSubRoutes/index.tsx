@@ -3,13 +3,14 @@ import { useRouter } from "next/router";
 import { Box } from "@mui/material";
 import { IFulfillmentsRoutes } from "@/constants/allRoutes";
 import FulfillmentDetails from "./fulfillmentDetails";
+import styles from "./fulfillments.module.scss";
 
 const FulfillmentSubRoutesModule = () => {
   const router = useRouter();
   const subRoute = "/" + router.query.fulfillmentId;
 
   return (
-    <Box width={"100%"} mt={2}>
+    <Box className={styles.fulfillmentSubRoutes}>
       {subRoute === IFulfillmentsRoutes.FULFILLMENTS_DETAILS ? (
         <FulfillmentDetails />
       ) : null}
