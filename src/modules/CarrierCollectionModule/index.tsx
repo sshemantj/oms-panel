@@ -10,6 +10,7 @@ import SearchComponent from "@/component/molecules/searchComponent";
 import CustomSelect from "@/component/atoms/customSelect";
 import ManifestModal from "./manifestModal";
 import styles from "./carrierCollection.module.scss";
+import { GridRowSelectionModel } from "@mui/x-data-grid";
 
 const flex = {
   display: "flex",
@@ -33,7 +34,8 @@ const CarrierCollectionModule = () => {
     columns: carrierCollectionsColumns,
     rows: carrierCollectionsRows,
   });
-  const [value, setValue] = useState<number | null>(0);
+  const [selectedTableRows, setSelectedTableRows] =
+    useState<GridRowSelectionModel>([]);
   const [openModal, setOpenModal] = useState<boolean>(false);
 
   const cardsList: IBaseCardProps[] = [
@@ -51,6 +53,10 @@ const CarrierCollectionModule = () => {
 
   const handleGenerateManifest = () => {
     setOpenModal(true);
+  };
+
+  const onRowSelectionModelChange = (selectedIds: GridRowSelectionModel) => {
+    setSelectedTableRows(selectedIds);
   };
 
   return (
@@ -80,8 +86,19 @@ const CarrierCollectionModule = () => {
           })}
         </Grid>
         <Grid container mt={2}>
-          <Grid item sx={{ marginRight: "auto" }} md={3}>
-            <SearchComponent label="Order Ref..." />
+          <Grid item sx={{ marginRight: "auto" }} md={6}>
+            <Box display="flex" gap="1rem">
+              <SearchComponent label="Order Ref..." />
+              <Button
+                sx={{
+                  visibility: selectedTableRows.length ? "visible" : "hidden",
+                }}
+                onClick={() => handleGenerateManifest()}
+                variant="contained"
+              >
+                GENERATE MANIFEST
+              </Button>
+            </Box>
           </Grid>
           <Grid item sx={{ marginLeft: "auto" }} md={2}>
             <CustomSelect
@@ -111,17 +128,14 @@ const CarrierCollectionModule = () => {
             />
           </Grid>
         </Grid>
-        <Box mt={2}>
-          <Button onClick={() => handleGenerateManifest()} variant="contained">
-            GENERATE MANIFEST
-          </Button>
-        </Box>
+
         <Box mt={2}>
           <FeaturedTable
             {...{
               rows: tableState.rows,
               columns: tableState.columns,
               checkboxSelection: true,
+              onRowSelectionModelChange,
             }}
           />
         </Box>
