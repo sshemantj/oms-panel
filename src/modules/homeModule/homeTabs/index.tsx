@@ -3,10 +3,10 @@ import { ITabList } from "@/interfaces/home.interface";
 import React from "react";
 
 const tabList: { label: string; value: string }[] = [
-  { label: "FULFILMENTS", value: ITabList.FULFILMENTS },
-  { label: "STANDARD FULFILMENTS", value: ITabList.STANDARD_FULFILMENTS },
-  { label: "EXPRESS FULFILMENTS", value: ITabList.EXPRESS_FULFILMENTS },
-  { label: "EXCHANGES FULFILMENTS", value: ITabList.EXCHANGES_FULFILMENTS },
+  { label: "FULFILLMENTS", value: ITabList.FULFILMENTS },
+  { label: "STANDARD FULFILLMENTS", value: ITabList.STANDARD_FULFILMENTS },
+  { label: "EXPRESS FULFILLMENTS", value: ITabList.EXPRESS_FULFILMENTS },
+  { label: "EXCHANGES FULFILLMENTS", value: ITabList.EXCHANGES_FULFILMENTS },
   { label: "Click & Collect", value: ITabList.CLICK_AND_COLLECT },
 ];
 
