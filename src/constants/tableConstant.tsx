@@ -1171,9 +1171,11 @@ export const fulfillmentColumns: GridColDef[] = [
     width: 200,
     align: "left",
     renderCell: (params) => (
-      <Typography sx={{ color: "blue", textDecoration: "none" }}>
-        {params.value}
-      </Typography>
+      <Link href="/fulfillments/fulfillments-details">
+        <Typography sx={{ color: "blue", textDecoration: "none" }}>
+          {params.value}
+        </Typography>
+      </Link>
     ),
   },
   {
