@@ -95,15 +95,17 @@ export const featuredColumns: GridColDef[] = [
     width: 130,
     align: "left",
   },
-  //   {
-  //     field: "fullName",
-  //     headerName: "Full name",
-  //     description: "This column has a value getter and is not sortable.",
-  //     sortable: false,
-  //     width: 130,
-  //     align: "left",
-  //     valueGetter: (value, row) => `${row.customer || ""} ${row.order || ""}`,
-  //   },
+  {
+    field: "edt",
+    headerName: "ETD",
+    width: 200,
+    align: "left",
+    renderCell: (params) => {
+      const date = new Date();
+      date.setDate(date.getDate() + 7);
+      return `${date.toDateString()}`;
+    },
+  },
 ];
 
 export const featuredRows = [
