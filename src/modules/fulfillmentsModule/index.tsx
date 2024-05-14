@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import FulfillmentsTabs from "./fulfillmentsTabs";
 import { IFulFillmentsTabsList } from "@/interfaces/fulfillments.interface";
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import FulfillmentsTable from "./fulfillmentsTables.tsx";
+import AddIcon from "@mui/icons-material/Add";
 import {
   initialAllFulfillmentTableIdsList,
   initialAllFulfillmentTableState,
@@ -30,6 +31,19 @@ const FulfillmentsModule = () => {
         <FulfillmentsTabs {...{ currTabValue, setCurrTabValue }} />
       </Box>
       <Box>
+        <Box sx={{ margin: "1rem" }}>
+          <Button
+            sx={{
+              padding: "6px",
+              textTransform: "none",
+              border: "1px dashed blue",
+              borderRadius: "2.5rem",
+            }}
+          >
+            <AddIcon style={{ fontSize: "16px" }} />
+            Add a filter
+          </Button>
+        </Box>
         <FulfillmentsTable
           {...{
             currTabValue,
