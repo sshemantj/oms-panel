@@ -12,6 +12,7 @@ export enum IAllRoutes {
   FULFILLMENTS = "/fulfillments",
 }
 
+//Store sub routes
 export enum IListRoutes {
   AWAITING_PICK = "/awaiting-pick",
   WAVES_IN_PROGRESS = "/in-progress",
@@ -25,4 +26,13 @@ export enum IStoreListRoutes {
   PICK = IAllRoutes.STORE + IListRoutes.PICK,
   // CARRIER_BOOKING = IAllRoutes.STORE + IListRoutes.CARRIER_BOOKING,
   CARRIER_BOOKING = IListRoutes.CARRIER_BOOKING,
+}
+
+//Fulfillments sub routes
+export enum IFulfillmentsRoutes {
+  FULFILLMENTS_DETAILS = "/fulfillments-details",
+}
+export enum IStoreListRoutes {
+  FULFILLMENTS_DETAILS = IAllRoutes.STORE +
+    IFulfillmentsRoutes.FULFILLMENTS_DETAILS,
 }
