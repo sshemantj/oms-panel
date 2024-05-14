@@ -41,10 +41,13 @@ const HomeModule = () => {
   const [currValue, setCurrValue] = useState<string>("");
 
   const [allSelectedRowList, setAllSelectedRowList] =
-    useState<IAllTableIdsList>(initialAllTableIdsList);
+    useState<IAllTableIdsList>(
+      JSON.parse(JSON.stringify(initialAllTableIdsList))
+    );
 
-  const [tableState, setTableState] =
-    useState<IAllTableState>(initialAllTableState);
+  const [tableState, setTableState] = useState<IAllTableState>(
+    JSON.parse(JSON.stringify(initialAllTableState))
+  );
 
   const [currTabValue, setCurrTabValue] = useState<ITabList>(
     ITabList.FULFILMENTS

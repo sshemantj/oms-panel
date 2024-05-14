@@ -41,6 +41,7 @@ const HomeTable = (props: IProps) => {
   } = props;
 
   useEffect(() => {
+    setAllSelectedRowList(JSON.parse(JSON.stringify(initialAllTableIdsList)));
     handleAllTableDataAsync();
   }, [currTabValue]);
 
