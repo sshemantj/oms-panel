@@ -22,7 +22,7 @@ const FulfilmentTable = (props: IAllTableProps) => {
         processRowUpdate,
         onRowSelectionModelChange,
         checkboxSelection: showCheckbox,
-        rest,
+        ...rest,
       }}
     />
   );
@@ -46,7 +46,7 @@ const StandardFulfilmentsTable = (props: IAllTableProps) => {
         processRowUpdate,
         onRowSelectionModelChange,
         checkboxSelection: showCheckbox,
-        rest,
+        ...rest,
       }}
     />
   );
@@ -70,7 +70,7 @@ const ExpressFulfilmentsTable = (props: IAllTableProps) => {
         processRowUpdate,
         onRowSelectionModelChange,
         checkboxSelection: showCheckbox,
-        rest,
+        ...rest,
       }}
     />
   );
@@ -94,7 +94,7 @@ const ExchangesFulfilmentsTable = (props: IAllTableProps) => {
         processRowUpdate,
         onRowSelectionModelChange,
         checkboxSelection: showCheckbox,
-        rest,
+        ...rest,
       }}
     />
   );
@@ -118,7 +118,7 @@ const ClickAndCollectTable = (props: IAllTableProps) => {
         processRowUpdate,
         onRowSelectionModelChange,
         checkboxSelection: showCheckbox,
-        rest,
+        ...rest,
       }}
     />
   );

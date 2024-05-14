@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import FulfillmentsTabs from "./fulfillmentsTabs";
 import { IFulFillmentsTabsList } from "@/interfaces/fulfillments.interface";
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
 import FulfillmentsTable from "./fulfillmentsTables.tsx";
-import AddIcon from "@mui/icons-material/Add";
 import {
   initialAllFulfillmentTableIdsList,
   initialAllFulfillmentTableState,
@@ -12,6 +11,28 @@ import {
   IAllFulfillmentTableIdsList,
   IAllFulfillmentTableState,
 } from "@/interfaces/fulfillments.interface";
+import { GridToolbarFilterButton } from "@mui/x-data-grid";
+
+const CustomTableFilter = () => {
+  return (
+    <Box sx={{ margin: "1rem" }}>
+      <GridToolbarFilterButton
+        slotProps={{
+          button: {
+            sx: {
+              padding: "4px 12px",
+              textTransform: "none",
+              border: "1px dashed blue",
+              borderRadius: "2.5rem",
+            },
+
+            startIcon: "+ Add",
+          },
+        }}
+      />
+    </Box>
+  );
+};
 
 const FulfillmentsModule = () => {
   const [currTabValue, setCurrTabValue] = useState<IFulFillmentsTabsList>(
@@ -31,19 +52,6 @@ const FulfillmentsModule = () => {
         <FulfillmentsTabs {...{ currTabValue, setCurrTabValue }} />
       </Box>
       <Box>
-        <Box sx={{ margin: "1rem" }}>
-          <Button
-            sx={{
-              padding: "6px",
-              textTransform: "none",
-              border: "1px dashed blue",
-              borderRadius: "2.5rem",
-            }}
-          >
-            <AddIcon style={{ fontSize: "16px" }} />
-            Add a filter
-          </Button>
-        </Box>
         <FulfillmentsTable
           {...{
             currTabValue,
@@ -51,6 +59,9 @@ const FulfillmentsModule = () => {
             setTableState,
             allSelectedRowList,
             setAllSelectedRowList,
+            slots: {
+              toolbar: CustomTableFilter,
+            },
           }}
         />
       </Box>

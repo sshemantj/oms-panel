@@ -14,10 +14,11 @@ import {
   FulfilmentTable,
   StandardFulfilmentsTable,
 } from "./allFulfilmentsTable";
-import { GridRowSelectionModel } from "@mui/x-data-grid";
+import { GridRowSelectionModel, GridSlotsComponent } from "@mui/x-data-grid";
 import { IFulFillmentsTabsList } from "@/interfaces/fulfillments.interface";
 
 interface IProps {
+  slots?: Partial<GridSlotsComponent>;
   currTabValue: IFulFillmentsTabsList;
   tableState: IAllFulfillmentTableState;
   setTableState: React.Dispatch<
@@ -36,6 +37,7 @@ const emtyTableData = {
 
 const FulfillmentsTable = (props: IProps) => {
   const {
+    slots,
     currTabValue,
     tableState,
     setTableState,
@@ -124,6 +126,7 @@ const FulfillmentsTable = (props: IProps) => {
             rows,
             showCheckbox,
             onRowSelectionModelChange,
+            slots,
           }}
         />
       ) : null}
@@ -134,6 +137,7 @@ const FulfillmentsTable = (props: IProps) => {
             rows,
             showCheckbox,
             onRowSelectionModelChange,
+            slots,
           }}
         />
       ) : null}
@@ -144,6 +148,7 @@ const FulfillmentsTable = (props: IProps) => {
             rows,
             showCheckbox,
             onRowSelectionModelChange,
+            slots,
           }}
         />
       ) : null}
@@ -154,6 +159,7 @@ const FulfillmentsTable = (props: IProps) => {
             rows,
             showCheckbox,
             onRowSelectionModelChange,
+            slots,
           }}
         />
       ) : null}
