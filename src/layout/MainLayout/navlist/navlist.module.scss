@@ -8,16 +8,9 @@
   width: 50px;
   z-index: 999;
   height: calc(100vh - 45px);
-  // border-radius: 0 8px 0 0;
   transition: all 0.3s ease-in-out;
   white-space: nowrap;
   box-shadow: $shadow_1;
-  @media (max-width: 768px) {
-    width: 0;
-    z-index: 12;
-    transition: none;
-    visibility: hidden;
-  }
   &::after {
     content: "";
     position: absolute;
@@ -33,7 +26,6 @@
   .navlist_inner {
     height: calc(100vh - 50px);
     overflow: scroll;
-    // box-shadow: $shadow_1;
     &::-webkit-scrollbar {
       width: none;
       display: none;
@@ -69,7 +61,6 @@
       transition: all 0.3s ease-in-out;
       .listWrapper {
         padding: 0 16px 16px 16px;
-        // transition: all 0.3s ease-in-out;
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
@@ -91,8 +82,6 @@
           cursor: no-drop;
         }
         .hide {
-          // transition: all 0.3s ease-in-out;
-          // transform: translateX(0.5rem);
           white-space: nowrap !important;
           span {
             padding: 0 16px 16px 16px;

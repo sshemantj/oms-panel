@@ -1,13 +1,10 @@
 import React from "react";
-import AccordionCustom from "@/component/atoms/accordionCustom";
-import { Profile, ProfileList } from "./profile";
-import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/router";
 import { INavListArr, navListArr } from "@/constants/navlistArr";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "./navlist.module.scss";
+import { useMobileCheck } from "@/hooks/useMobileCheck";
 
 interface IProps {
   isNavOpen: boolean;
@@ -19,7 +16,7 @@ const NavList = (props: IProps) => {
   const { isNavOpen, handleTypeClick, setisNavOpen } = props;
 
   const searchParams = useSearchParams();
-  const router = useRouter();
+  const isMobile = useMobileCheck();
 
   const screen = searchParams.get("screen");
 
@@ -36,7 +33,11 @@ const NavList = (props: IProps) => {
   };
 
   const handleMouseEnter = (isEntered: boolean) => {
-    setisNavOpen(isEntered);
+    isMobile || setisNavOpen(isEntered);
+  };
+
+  const handleIconClick = (isOpen: boolean) => {
+    setisNavOpen(isOpen);
   };
 
   return (
@@ -52,9 +53,15 @@ const NavList = (props: IProps) => {
       >
         <div className={styles.menuIcon}>
           {isNavOpen ? (
-            <CloseIcon fontSize={"medium"} />
+            <CloseIcon
+              onClick={() => handleIconClick(false)}
+              fontSize={"medium"}
+            />
           ) : (
-            <MenuIcon fontSize={"medium"} />
+            <MenuIcon
+              onClick={() => handleIconClick(true)}
+              fontSize={"medium"}
+            />
           )}
         </div>
         <div className={styles.navlist_container}>

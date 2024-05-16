@@ -3,8 +3,8 @@ import RhsWrapper from "./RhsWrapper";
 import NavList from "./navlist";
 import { useRouter } from "next/router";
 import { IAllRoutes, IListRoutes } from "@/constants/allRoutes";
-import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import HeaderLabel from "@/component/atoms/headerLabel";
+import LhsWrapper from "./LhsWrapper";
 import styles from "./newNavbar.module.scss";
 
 interface IProps {
@@ -30,20 +30,7 @@ const MainLayout = (props: IProps) => {
   return (
     <div className={styles.newNavWrapper}>
       <nav className={styles.navContainer}>
-        <div className={styles.lhs_Wrapper}>
-          <div
-            onClick={() => router.replace("/", undefined, { shallow: true })}
-            className={styles.logoText}
-          >
-            <p className={styles.first}>OMS</p>
-            <p className={styles.second}>Panel</p>
-            <div className={styles.divider} />
-            <div style={{ color: "#fff" }}>
-              <LocalGroceryStoreIcon color="inherit" />
-            </div>
-            <p className={styles.omsStore}>OMS store</p>
-          </div>
-        </div>
+        <LhsWrapper />
         <RhsWrapper />
       </nav>
       <HeaderLabel />
