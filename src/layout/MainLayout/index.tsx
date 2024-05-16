@@ -18,11 +18,6 @@ const MainLayout = (props: IProps) => {
 
   const [isNavOpen, setisNavOpen] = useState<boolean>(false);
 
-  const handleHamClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.preventDefault();
-    setisNavOpen((prev) => !prev);
-  };
-
   const handleTypeClick = (value: any, path: IAllRoutes | IListRoutes) => {
     switch (path) {
       case IAllRoutes.CARRIER_COLLECTIONS:
@@ -48,10 +43,6 @@ const MainLayout = (props: IProps) => {
             </div>
             <p className={styles.omsStore}>OMS store</p>
           </div>
-          <div
-            onClick={(e) => handleHamClick(e)}
-            className={styles.hamBurger}
-          ></div>
         </div>
         <RhsWrapper />
       </nav>

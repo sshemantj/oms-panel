@@ -25,7 +25,6 @@
         flex-direction: row-reverse;
       }
       .logoText {
-        // margin: 10px 0;
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -38,7 +37,6 @@
           font-size: 1.2rem;
           font-weight: 900;
           line-height: 4px;
-          // font-style: italic;
         }
         .second {
           font-weight: 500;
@@ -56,51 +54,6 @@
           color: $color_white;
         }
       }
-      .hamBurger {
-        margin: 0 1rem;
-        transform: scale(0.6);
-        @media (max-width: 768px) {
-          transform: translateX(1rem) scale(0.6);
-        }
-      }
-      .searchIcon {
-        margin: 0 1rem;
-        color: $color_white;
-        cursor: pointer;
-        position: relative;
-        svg {
-          font-size: 1.5rem;
-          position: absolute;
-          top: -10px;
-          left: 0;
-        }
-      }
-    }
-    .m_logoText {
-      margin: 10px 16px 0 0;
-      cursor: pointer;
-      @media (min-width: 768px) {
-        display: none !important;
-      }
-      .first {
-        font-size: 1.2rem;
-        font-weight: 900;
-        line-height: 4px;
-        font-style: italic;
-        color: $khaki;
-      }
-      .second {
-        font-weight: 500;
-        text-align: end;
-        color: $color_2;
-      }
-    }
-    .moreIcon {
-      padding: 0.2rem 0 0 0;
-      color: $color_white;
-    }
-    .searchIcon {
-      color: $color_white;
     }
   }
   .mainBodyWrapper {
