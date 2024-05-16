@@ -11,6 +11,10 @@
   transition: all 0.3s ease-in-out;
   white-space: nowrap;
   box-shadow: $shadow_1;
+  @media (max-width: 768px) {
+    padding-top: 1.5rem;
+    left: -120px;
+  }
   &::after {
     content: "";
     position: absolute;
@@ -37,13 +41,6 @@
     &::-webkit-scrollbar-thumb {
       width: none;
       display: none;
-    }
-    .menuIcon {
-      margin: 10px 0;
-      padding: 0 0.8rem;
-      display: flex;
-      justify-content: flex-start;
-      cursor: pointer;
     }
     &.navClosedInner {
       -ms-overflow-style: none;

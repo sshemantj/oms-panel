@@ -3,13 +3,25 @@ import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import { useRouter } from "next/router";
 import { useMobileCheck } from "@/hooks/useMobileCheck";
 import styles from "./lhsWrapper.module.scss";
+import MenuIconWrapper from "@/component/atoms/menuIcon";
 
-const LhsWrapper = () => {
+interface IProps {
+  isNavOpen: boolean;
+  setisNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const LhsWrapper = (props: IProps) => {
+  const { isNavOpen, setisNavOpen } = props;
   const router = useRouter();
   const isMobile = useMobileCheck();
 
+  const handleIconClick = (isOpen: boolean) => {
+    setisNavOpen(isOpen);
+  };
+
   return (
     <div className={styles.lhs_Wrapper}>
+      {isMobile && <MenuIconWrapper {...{ handleIconClick, isNavOpen }} />}
       <div
         onClick={() => router.replace("/", undefined, { shallow: true })}
         className={styles.logoText}

@@ -30,7 +30,7 @@ const MainLayout = (props: IProps) => {
   return (
     <div className={styles.newNavWrapper}>
       <nav className={styles.navContainer}>
-        <LhsWrapper />
+        <LhsWrapper {...{ isNavOpen, setisNavOpen }} />
         <RhsWrapper />
       </nav>
       <HeaderLabel />

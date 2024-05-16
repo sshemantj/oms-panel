@@ -1,0 +1,14 @@
+.menuIcon {
+  margin: 10px 0;
+  padding: 0 0.8rem;
+  display: flex;
+  justify-content: flex-start;
+  cursor: pointer;
+  @media (max-width: 768px) {
+    margin: 0;
+    padding: 0 1rem 0 0;
+    & svg {
+      color: #fff;
+    }
+  }
+}

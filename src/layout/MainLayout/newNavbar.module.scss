@@ -23,8 +23,14 @@
     display: flex;
     justify-content: space-between;
     gap: 1rem;
+    @media (max-width: 768px) {
+      gap: 0;
+    }
     .navListWrapper {
       width: 3rem;
+      @media (max-width: 768px) {
+        width: unset;
+      }
     }
     .mainWrapper {
       min-height: calc(100vh - 45px);

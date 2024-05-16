@@ -1,10 +1,9 @@
 import React from "react";
 import { useSearchParams } from "next/navigation";
 import { INavListArr, navListArr } from "@/constants/navlistArr";
-import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
-import styles from "./navlist.module.scss";
 import { useMobileCheck } from "@/hooks/useMobileCheck";
+import MenuIconWrapper from "@/component/atoms/menuIcon";
+import styles from "./navlist.module.scss";
 
 interface IProps {
   isNavOpen: boolean;
@@ -17,7 +16,6 @@ const NavList = (props: IProps) => {
 
   const searchParams = useSearchParams();
   const isMobile = useMobileCheck();
-
   const screen = searchParams.get("screen");
 
   const handleRouteClick = (route: any) => {
@@ -28,7 +26,6 @@ const NavList = (props: IProps) => {
 
   const activeCondition = (path: string | undefined) => {
     const isActive = screen === path;
-
     return isActive;
   };
 
@@ -51,19 +48,7 @@ const NavList = (props: IProps) => {
           isNavOpen || styles.navClosedInner
         }`}
       >
-        <div className={styles.menuIcon}>
-          {isNavOpen ? (
-            <CloseIcon
-              onClick={() => handleIconClick(false)}
-              fontSize={"medium"}
-            />
-          ) : (
-            <MenuIcon
-              onClick={() => handleIconClick(true)}
-              fontSize={"medium"}
-            />
-          )}
-        </div>
+        {isMobile || <MenuIconWrapper {...{ handleIconClick, isNavOpen }} />}
         <div className={styles.navlist_container}>
           {navListArr.map((listItem: INavListArr, index: number) => {
             const { topHeading, icon } = listItem;
