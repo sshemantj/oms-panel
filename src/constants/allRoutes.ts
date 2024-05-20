@@ -10,6 +10,7 @@ export enum IAllRoutes {
   CARRIER_COLLECTIONS = "/carrier-collections",
   PROOF_OF_DELIEVERY = "proof-of-delivery",
   FULFILLMENTS = "/fulfillments",
+  RETURNS = "/returns",
 }
 
 //Store sub routes

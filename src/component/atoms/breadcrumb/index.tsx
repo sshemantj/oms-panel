@@ -12,6 +12,7 @@ const LAST_PATHS = {
   [IListRoutes.WAVES_IN_PROGRESS]: "In Progress",
   [IListRoutes.CARRIER_BOOKING]: "Carrier Booking",
   [IAllRoutes.CARRIER_COLLECTIONS]: "Carrier Collections",
+  [IAllRoutes.RETURNS]: "Returns",
 };
 
 const Breadcrumbs = () => {
