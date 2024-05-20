@@ -15,6 +15,7 @@ import {
   initialAllTableIdsList,
   initialAllTableState,
 } from "@/constants/tableConstant";
+import { useMobileCheck } from "@/hooks/useMobileCheck";
 
 const cardsList: IBaseCardProps[] = [
   {
@@ -39,6 +40,7 @@ const cardsList: IBaseCardProps[] = [
 
 const HomeModule = () => {
   const [currValue, setCurrValue] = useState<string>("");
+  const isMobile = useMobileCheck();
 
   const [allSelectedRowList, setAllSelectedRowList] =
     useState<IAllTableIdsList>(
@@ -55,7 +57,7 @@ const HomeModule = () => {
 
   return (
     <Grid container padding={"0 0rem"}>
-      <Grid sm={12} md={12} mt={3} item style={{ padding: "0 1rem" }}>
+      <Grid sm={12} md={12} mt={3} item sx={{ padding: "0 1rem" }}>
         <Grid container spacing={2} mt={1}>
           {cardsList.map((item, index) => {
             return (
@@ -75,48 +77,50 @@ const HomeModule = () => {
           })}
         </Grid>
       </Grid>
-      <Grid sm={12} md={12} mt={3} item style={{ padding: "0 1rem" }}>
-        <Grid container spacing={2} mt={1}>
-          <Grid sm={12} md={10} item>
-            <HomeTabs {...{ currTabValue, setCurrTabValue }} />
-          </Grid>
-          <Grid sm={12} md={2} item textAlign="right">
-            {currTabValue !== ITabList.FULFILMENTS &&
-            allSelectedRowList[currTabValue].length ? (
-              <Button variant="contained">Create Wave</Button>
-            ) : null}
-          </Grid>
-          <Grid container mt={2}>
-            <Grid sm={12} md={10} pl={"1rem"} item>
-              <SearchComponent label="Fulfilment Ref..." />
+      {!isMobile ? (
+        <Grid sm={12} md={12} mt={3} item sx={{ padding: "0 1rem" }}>
+          <Grid container spacing={2} mt={1}>
+            <Grid sm={12} md={10} item>
+              <HomeTabs {...{ currTabValue, setCurrTabValue }} />
             </Grid>
-            <Grid
-              style={{ marginLeft: "auto", padding: "0" }}
-              item
-              sm={12}
-              md={2}
-            >
-              <ChannelSelectDropDown
+            <Grid sm={12} md={2} item textAlign="right">
+              {currTabValue !== ITabList.FULFILMENTS &&
+              allSelectedRowList[currTabValue].length ? (
+                <Button variant="contained">Create Wave</Button>
+              ) : null}
+            </Grid>
+            <Grid container mt={2}>
+              <Grid sm={12} md={10} pl={"1rem"} item>
+                <SearchComponent label="Fulfilment Ref..." />
+              </Grid>
+              <Grid
+                style={{ marginLeft: "auto", padding: "0" }}
+                item
+                sm={12}
+                md={2}
+              >
+                <ChannelSelectDropDown
+                  {...{
+                    currValue,
+                    setCurrValue,
+                  }}
+                />
+              </Grid>
+            </Grid>
+            <Grid sm={12} md={12} item>
+              <HomeTable
                 {...{
-                  currValue,
-                  setCurrValue,
+                  currTabValue,
+                  tableState,
+                  setTableState,
+                  allSelectedRowList,
+                  setAllSelectedRowList,
                 }}
               />
             </Grid>
           </Grid>
-          <Grid sm={12} md={12} item>
-            <HomeTable
-              {...{
-                currTabValue,
-                tableState,
-                setTableState,
-                allSelectedRowList,
-                setAllSelectedRowList,
-              }}
-            />
-          </Grid>
         </Grid>
-      </Grid>
+      ) : null}
     </Grid>
   );
 };

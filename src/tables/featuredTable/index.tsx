@@ -26,7 +26,9 @@ const FeaturedTable = (props: IFeaturedTableProps) => {
     <div style={{ height: 400, width: "100%", ...tableStyleWrapper }}>
       <DataGrid
         sx={{
-          maxWidth: "calc(100vw - 110px)",
+          "@media(min-width: 768px)": {
+            maxWidth: "calc(100vw - 110px)",
+          },
           [`& .${gridClasses.cell}:focus, & .${gridClasses.cell}:focus-within`]:
             {
               outline: "none",
