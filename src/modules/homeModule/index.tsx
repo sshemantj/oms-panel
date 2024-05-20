@@ -57,7 +57,18 @@ const HomeModule = () => {
 
   return (
     <Grid container padding={"0 0rem"}>
-      <Grid sm={12} md={12} mt={3} item sx={{ padding: "0 1rem" }}>
+      <Grid
+        sm={12}
+        md={12}
+        item
+        sx={{
+          padding: "0 1rem",
+          marginTop: "24px",
+          "@media(max-width: 768px)": {
+            margin: 0,
+          },
+        }}
+      >
         <Grid container spacing={2} mt={1}>
           {cardsList.map((item, index) => {
             return (

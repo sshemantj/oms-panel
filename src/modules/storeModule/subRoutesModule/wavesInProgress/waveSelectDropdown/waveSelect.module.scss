@@ -1,5 +1,10 @@
 .channel_select_wrapper {
+  margin-right: 1rem;
   display: flex;
   align-items: center;
   border: 1px solid gray;
+  @media (max-width: 768px) {
+    margin: 0;
+    width: 100%;
+  }
 }
