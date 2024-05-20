@@ -4,7 +4,20 @@ import {
   awaitingPickColumns,
   awaitingPickRows,
 } from "@/constants/tableConstant";
-import { Box, Button } from "@mui/material";
+import { Box, SxProps, Theme, Button } from "@mui/material";
+import { useMobileCheck } from "@/hooks/useMobileCheck";
+
+const bottomBoxSx: SxProps<Theme> = {
+  width: "100%",
+  padding: "6px 12px",
+  display: "flex",
+  justifyContent: "flex-end",
+  alignItems: "center",
+  background: "#fff",
+  position: "fixed",
+  bottom: 0,
+  right: 0,
+};
 
 const AwaitingPick = () => {
   const [tableState, setTableState] = useState({
@@ -12,16 +25,22 @@ const AwaitingPick = () => {
     rows: awaitingPickRows,
   });
 
+  const isMobile = useMobileCheck();
+
   return (
     <Box sx={{ width: "100%", marginTop: "1rem", padding: "0 1rem" }}>
-      <Box display={"flex"} justifyContent={"flex-end"}>
-        <Button style={{ margin: "0 2rem 1rem 0" }} variant="contained">
-          Pick list
-        </Button>
-      </Box>
       <FeaturedTable
-        {...{ rows: tableState.rows, columns: tableState.columns }}
+        {...{
+          rows: tableState.rows,
+          columns: tableState.columns,
+          tableStyleWrapper: {
+            height: isMobile ? 340 : 400,
+          },
+        }}
       />
+      <Box sx={bottomBoxSx}>
+        <Button variant="contained">Pick list</Button>
+      </Box>
     </Box>
   );
 };
