@@ -1,4 +1,5 @@
 import CustomTab from "@/component/molecules/customTab";
+import { useMobileCheck } from "@/hooks/useMobileCheck";
 import { ITabList } from "@/interfaces/home.interface";
 import React from "react";
 
@@ -22,15 +23,16 @@ const HomeTabs = (props: IProps) => {
     setCurrTabValue(changedValue);
   };
 
+  const isMobile = useMobileCheck();
+
   return (
-    <div>
-      <CustomTab
-        type={1}
-        value={currTabValue}
-        tabList={tabList}
-        handleChange={handleChange}
-      />
-    </div>
+    <CustomTab
+      type={1}
+      value={currTabValue}
+      tabList={tabList}
+      handleChange={handleChange}
+      containerSx={{ width: isMobile ? "280px" : "100%" }}
+    />
   );
 };
 

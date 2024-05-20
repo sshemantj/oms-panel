@@ -4,6 +4,7 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
 import { SxProps, Theme } from "@mui/material";
+import { useMobileCheck } from "@/hooks/useMobileCheck";
 
 interface IProps {
   tabList: { label: string; value: string }[];
@@ -24,6 +25,8 @@ const CustomTab = (props: IProps) => {
     containerSx = {},
   } = props;
 
+  const isMobile = useMobileCheck();
+
   const handleChangeCustom = (
     event: React.SyntheticEvent,
     newValue: string
@@ -35,11 +38,16 @@ const CustomTab = (props: IProps) => {
     <Box sx={{ ...containerSx }}>
       {type === 1 ? (
         <Tabs
+          sx={{ width: "100%" }}
           value={value}
           onChange={handleChange || handleChangeCustom}
           textColor="primary"
           indicatorColor="primary"
           aria-label="secondary tabs example"
+          {...(isMobile
+            ? { variant: "scrollable", allowScrollButtonsMobile: true }
+            : {})}
+          // scrollButtons
         >
           {tabList.map((item, index) => {
             return <Tab key={index} value={item.value} label={item.label} />;

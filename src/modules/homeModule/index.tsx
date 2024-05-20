@@ -54,19 +54,28 @@ const HomeModule = () => {
   );
 
   return (
-    <Grid container spacing={2} padding={"0 1rem"}>
-      <Grid sm={12} md={12} mt={3} item style={{ padding: 0 }}>
+    <Grid container padding={"0 0rem"}>
+      <Grid sm={12} md={12} mt={3} item style={{ padding: "0 1rem" }}>
         <Grid container spacing={2} mt={1}>
           {cardsList.map((item, index) => {
             return (
-              <Grid key={index} item md={4}>
+              <Grid
+                {...{
+                  key: index,
+                  sx: { width: "100%" },
+                  item: true,
+                  xs: 12,
+                  sm: 4,
+                  md: 4,
+                }}
+              >
                 <Cards {...item} variant="sm" />
               </Grid>
             );
           })}
         </Grid>
       </Grid>
-      <Grid sm={12} md={12} mt={3} item style={{ padding: 0 }}>
+      <Grid sm={12} md={12} mt={3} item style={{ padding: "0 1rem" }}>
         <Grid container spacing={2} mt={1}>
           <Grid sm={12} md={10} item>
             <HomeTabs {...{ currTabValue, setCurrTabValue }} />

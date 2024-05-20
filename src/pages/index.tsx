@@ -9,7 +9,7 @@ const NewPanel: NextPage = () => {
       <Head>
         <title>OMS Panel</title>
       </Head>
-      <MainLayout>
+      <MainLayout mainStyle={{ padding: 0 }}>
         <HomeModule />
       </MainLayout>
     </>
