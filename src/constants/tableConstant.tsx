@@ -1402,8 +1402,15 @@ export const returnsColumn: GridColDef[] = [
   {
     field: "returnType",
     headerName: "Return type (RMA/RTO)",
-    width: 170,
+    width: 110,
     align: "left",
+    renderHeader: (params) => {
+      return (
+        <Typography variant="subtitle2" textTransform="capitalize">
+          Return type <br /> (RMA/RTO)
+        </Typography>
+      );
+    },
   },
   { field: "orderRef", headerName: "Order Ref", width: 110, align: "left" },
   {
@@ -1439,7 +1446,7 @@ export const returnsColumn: GridColDef[] = [
   {
     field: "performQc",
     headerName: "Action",
-    width: 130,
+    width: 160,
     align: "left",
   },
 ];

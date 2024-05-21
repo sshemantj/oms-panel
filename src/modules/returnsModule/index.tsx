@@ -14,11 +14,12 @@ const ReturnsModule = () => {
     rows: [],
   });
 
-  const [open, setOpen] = useState<boolean>(true);
+  const [open, setOpen] = useState<boolean>(false);
+  const [rmaId, setRmaId] = useState<string>("");
 
-  const handleQcClick = (params: ICellPara) => {
-    console.log(params);
+  const handleQcClick = (params: any) => {
     setOpen(true);
+    setRmaId(params.rmaNumber);
   };
 
   useEffect(() => {
@@ -31,7 +32,7 @@ const ReturnsModule = () => {
             sx={{ padding: "4px 8px" }}
             variant="contained"
           >
-            Perform QC
+            Quality Check
           </Button>
         );
       };
@@ -64,7 +65,7 @@ const ReturnsModule = () => {
           }}
         />
       </Box>
-      <QualityCheckModal {...{ open, setOpen }} />
+      <QualityCheckModal {...{ open, setOpen, setRmaId, rma: rmaId }} />
     </Box>
   );
 };

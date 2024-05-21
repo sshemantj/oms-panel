@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import CustomModal from "@/component/molecules/CustomModal";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import shoeImg from "@/images/shoe img.png";
 import CloseIcon from "@mui/icons-material/Close";
 import FeaturedTable from "@/tables/featuredTable";
@@ -9,11 +9,13 @@ import { returnModalColumns, returnModalRows } from "@/constants/tableConstant";
 
 interface IProps {
   open: boolean;
+  rma?: string;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setRmaId: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const QualityCheckModal = (props: IProps) => {
-  const { open, setOpen } = props;
+  const { open, setOpen, rma, setRmaId } = props;
 
   const [tableState, setTableState] = useState<any>({
     columns: returnModalColumns,
@@ -22,6 +24,7 @@ const QualityCheckModal = (props: IProps) => {
 
   const handleModalClose = () => {
     setOpen(false);
+    setRmaId("");
   };
 
   return (
@@ -34,7 +37,7 @@ const QualityCheckModal = (props: IProps) => {
       >
         <Box height="400px" width="90%" bgcolor="white" position="relative">
           <Typography mt={1} textAlign="center">
-            RMA #: 17121000
+            RMA #: {rma}
           </Typography>
           <Box display="flex" alignItems="center" justifyContent="center">
             <Image src={shoeImg} width={200} height={200} alt="product" />
@@ -50,6 +53,18 @@ const QualityCheckModal = (props: IProps) => {
                 hideFooter: true,
               }}
             />
+          </Box>
+          <Box
+            mt={1}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            gap="1rem"
+          >
+            <Button variant="contained">Update</Button>
+            <Button onClick={() => handleModalClose()} variant="outlined">
+              Close
+            </Button>
           </Box>
           <CloseIcon
             onClick={() => handleModalClose()}
