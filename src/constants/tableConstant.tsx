@@ -1547,6 +1547,159 @@ export const returnsRows = [
     returnType: "RMA",
   },
 ];
+export const returnIdFirstTableColumn: GridColDef[] = [
+  {
+    field: "returnItemRef",
+    headerName: "ReturnItemRef",
+    width: 130,
+    align: "left",
+    renderHeader: (params) => {
+      return (
+        <Typography
+          fontWeight={600}
+          variant="subtitle2"
+          textTransform="capitalize"
+        >
+          {""}
+        </Typography>
+      );
+    },
+  },
+  {
+    field: "orderItemRef",
+    headerName: "OrderItemRef",
+    width: 150,
+    align: "left",
+    renderHeader: (params) => {
+      return (
+        <Typography
+          fontWeight={600}
+          variant="subtitle2"
+          textTransform="capitalize"
+        >
+          {""}
+        </Typography>
+      );
+    },
+  },
+  {
+    field: "returnQuantity",
+    headerName: "ReturnQuantity",
+    width: 130,
+    align: "left",
+    renderHeader: (params) => {
+      return (
+        <Typography
+          fontWeight={600}
+          variant="subtitle2"
+          textTransform="capitalize"
+        >
+          {params.field}
+        </Typography>
+      );
+    },
+  },
+  {
+    field: "productRef",
+    headerName: "ProductRef",
+    width: 160,
+    align: "left",
+    renderHeader: (params) => {
+      return (
+        <Typography
+          fontWeight={600}
+          variant="subtitle2"
+          textTransform="capitalize"
+        >
+          {""}
+        </Typography>
+      );
+    },
+  },
+  {
+    field: "status",
+    headerName: "Status",
+    width: 130,
+    align: "left",
+    renderHeader: (params) => {
+      return (
+        <Typography
+          fontWeight={600}
+          variant="subtitle2"
+          textTransform="capitalize"
+        >
+          {""}
+        </Typography>
+      );
+    },
+  },
+  {
+    field: "reason",
+    headerName: "Reason",
+    width: 160,
+    align: "left",
+    renderHeader: (params) => {
+      return (
+        <Typography
+          fontWeight={600}
+          variant="subtitle2"
+          textTransform="capitalize"
+        >
+          {""}
+        </Typography>
+      );
+    },
+  },
+  {
+    field: "condition",
+    headerName: "Condition",
+    width: 130,
+    align: "left",
+    renderHeader: (params) => {
+      return (
+        <Typography
+          fontWeight={600}
+          variant="subtitle2"
+          textTransform="capitalize"
+        >
+          {""}
+        </Typography>
+      );
+    },
+  },
+  {
+    field: "comment",
+    headerName: "Comment",
+    width: 130,
+    align: "left",
+    renderHeader: (params) => {
+      return (
+        <Typography
+          fontWeight={600}
+          variant="subtitle2"
+          textTransform="capitalize"
+        >
+          {""}
+        </Typography>
+      );
+    },
+  },
+];
+export const returnIdFirstTableRows = [
+  {
+    id: 1,
+    returnQuantity: Math.ceil(Math.random() * 10),
+    returnItemRef: "Mac_" + Math.ceil(Math.random() * 100000000),
+    orderItemRef: `MAC_SH${Math.ceil(Math.random() * 100)}_${Math.ceil(
+      Math.random() * 10000
+    )}`,
+    reason: "product is damanged",
+    comment: "close to expiry",
+    condition: "As new condition",
+    productRef: "Mac_" + Math.ceil(Math.random() * 100000000),
+    status: "CREATED",
+  },
+];
 export const returnIdColumn: GridColDef[] = [
   {
     field: "returnItemRef",

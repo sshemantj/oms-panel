@@ -4,7 +4,12 @@ import { useRouter } from "next/router";
 import styles from "./return.module.scss";
 import ReturnIdSection from "./returnIdSection";
 import FeaturedTable from "@/tables/featuredTable";
-import { returnIdColumn, returnIdRows } from "@/constants/tableConstant";
+import {
+  returnIdColumn,
+  returnIdFirstTableColumn,
+  returnIdFirstTableRows,
+  returnIdRows,
+} from "@/constants/tableConstant";
 
 const returnIdObj = {
   returnOrderType: "DEFAULT",
@@ -29,7 +34,11 @@ const ReturnIdModule = () => {
   const router = useRouter();
   const subRoute = "/" + router.query.returnId;
 
-  const [tableState, setTableState] = useState({
+  const [returnOrderFirstTable, setReturnOrderFirstTable] = useState({
+    columns: returnIdFirstTableColumn,
+    rows: returnIdFirstTableRows,
+  });
+  const [returnOrderState, setReturnOrderState] = useState({
     columns: returnIdColumn,
     rows: returnIdRows,
   });
@@ -57,6 +66,27 @@ const ReturnIdModule = () => {
           />
         </Grid>
       </Grid>
+      <Box mt={2} bgcolor="#fff">
+        <Box
+          sx={{
+            [`& > div .MuiDataGrid-cell, & > div div`]: {
+              border: "none",
+            },
+          }}
+          padding="0 6px"
+        >
+          <FeaturedTable
+            {...{
+              rows: returnOrderFirstTable.rows,
+              columns: returnOrderFirstTable.columns,
+              hideFooter: true,
+              tableStyleWrapper: {
+                height: "auto",
+              },
+            }}
+          />
+        </Box>
+      </Box>
       <Box minHeight={400} mt={2} bgcolor="#fff">
         <Box padding="16px" borderBottom="1px solid lightgrey">
           <Typography fontWeight={400} variant="h6">
@@ -73,10 +103,8 @@ const ReturnIdModule = () => {
         >
           <FeaturedTable
             {...{
-              rows: tableState.rows,
-              columns: tableState.columns,
-              showCellVerticalBorder: false,
-              showColumnVerticalBorder: false,
+              rows: returnOrderState.rows,
+              columns: returnOrderState.columns,
             }}
           />
         </Box>
