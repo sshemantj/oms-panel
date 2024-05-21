@@ -7,6 +7,7 @@ import QuantityColumn from "@/modules/storeModule/subRoutesModule/pick/quantityC
 import PickImage from "@/modules/storeModule/subRoutesModule/pick/pickImage";
 import { Button, Typography } from "@mui/material";
 import PrintIcon from "@mui/icons-material/Print";
+import { IAllRoutes } from "./allRoutes";
 
 export const initialAllTableState = {
   [ITabList.FULFILMENTS]: { rows: [], columns: [] },
@@ -1391,7 +1392,7 @@ export const returnsColumn: GridColDef[] = [
           textDecoration: "underline",
           textUnderlineOffset: "4px",
         }}
-        href={"/"}
+        href={`/${IAllRoutes.RETURNS}/${params.value}`}
       >
         {params.value}
       </Link>

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Box, Grid } from "@mui/material";
-import { GridRowSelectionModel } from "@mui/x-data-grid";
 import WaveSelectDropDown from "../storeModule/subRoutesModule/wavesInProgress/waveSelectDropdown";
 import FeaturedTable from "@/tables/featuredTable";
 import { returnsColumn, returnsRows } from "@/constants/tableConstant";
@@ -11,12 +10,6 @@ const ReturnsModule = () => {
     rows: returnsRows,
   });
   const [selectedNames, setSelectedNames] = useState<string[]>([]);
-  const [selectedTableRows, setSelectedTableRows] =
-    useState<GridRowSelectionModel>([]);
-
-  const onRowSelectionModelChange = (selectedIds: GridRowSelectionModel) => {
-    setSelectedTableRows(selectedIds);
-  };
 
   const options = ["Ref", "Status", "AWB Number"];
 
@@ -34,8 +27,6 @@ const ReturnsModule = () => {
           {...{
             rows: tableState.rows,
             columns: tableState.columns,
-            checkboxSelection: true,
-            onRowSelectionModelChange,
           }}
         />
       </Box>

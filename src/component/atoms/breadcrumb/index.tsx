@@ -25,6 +25,11 @@ const Breadcrumbs = () => {
   };
 
   const pathNames = handlePathNames();
+  const isReturnIdPath =
+    Array.isArray(pathNames) &&
+    pathNames.includes("returns") &&
+    pathNames.length > 1;
+  const returnId = pathNames?.[1];
 
   const handleRouteClick = (
     event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
@@ -50,37 +55,41 @@ const Breadcrumbs = () => {
   return (
     <div className={styles.breadCrumbWrapper}>
       <div role="presentation">
-        <BreadcrumbsMui aria-label="breadcrumb">
-          <Link
-            onClick={(e) => handleRouteClick(e, "/")}
-            style={{ color: "blue" }}
-            underline="always"
-            href="/"
-          >
-            Home
-          </Link>
-          {Array.isArray(pathNames) &&
-            pathNames.map((pathStr, index) => {
-              const isLastPath = index === pathNames?.length - 1;
+        {!isReturnIdPath ? (
+          <BreadcrumbsMui aria-label="breadcrumb">
+            <Link
+              onClick={(e) => handleRouteClick(e, "/")}
+              style={{ color: "blue" }}
+              underline="always"
+              href="/"
+            >
+              Home
+            </Link>
+            {Array.isArray(pathNames) &&
+              pathNames.map((pathStr, index) => {
+                const isLastPath = index === pathNames?.length - 1;
 
-              return !isLastPath ? (
-                <Link
-                  onClick={(e) =>
-                    handleRouteClick(e, pathStr, index, isLastPath)
-                  }
-                  style={{ color: "blue" }}
-                  underline="always"
-                  href="/"
-                >
-                  {pathStr}
-                </Link>
-              ) : (
-                <Typography key={index} color="black">
-                  {handleLastPath(pathStr)}
-                </Typography>
-              );
-            })}
-        </BreadcrumbsMui>
+                return !isLastPath ? (
+                  <Link
+                    onClick={(e) =>
+                      handleRouteClick(e, pathStr, index, isLastPath)
+                    }
+                    style={{ color: "blue" }}
+                    underline="always"
+                    href="/"
+                  >
+                    {pathStr}
+                  </Link>
+                ) : (
+                  <Typography key={index} color="black">
+                    {handleLastPath(pathStr)}
+                  </Typography>
+                );
+              })}
+          </BreadcrumbsMui>
+        ) : (
+          <Typography variant="h6">{returnId}</Typography>
+        )}
       </div>
     </div>
   );
