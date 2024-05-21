@@ -3,7 +3,7 @@ import {
   fulfillmentsTableRows,
 } from "@/constants/tableConstant";
 import FeaturedTable from "@/tables/featuredTable";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import React, { useState } from "react";
 
 const FulfillmentTable = () => {
@@ -27,6 +27,14 @@ const FulfillmentTable = () => {
             checkboxSelection: false,
           }}
         />
+      </Box>
+      <Box textAlign="end">
+        <Button
+          sx={{ marginRight: "3rem", padding: "4px 10px" }}
+          variant="contained"
+        >
+          Create RMA
+        </Button>
       </Box>
     </Box>
   );

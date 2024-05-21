@@ -1209,7 +1209,7 @@ export const fulfillmentsRows = [
     ref: "Snow",
     deliveryType: "manual",
     idCustom: `${Math.ceil(Math.random() * 10000000)}`,
-    status: "Fullfilled",
+    status: "Return requested",
   },
   {
     id: 2,
