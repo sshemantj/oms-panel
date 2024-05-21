@@ -12,7 +12,7 @@ const ReturnIdSection = (props: IProps) => {
   const { title, listObj = {}, keyColumn = 6, valueColumn = 6 } = props;
   return (
     <Box
-      minHeight={400}
+      minHeight={350}
       bgcolor="#fff"
       padding={title ? "12px 0" : "0 0 12px 0"}
     >

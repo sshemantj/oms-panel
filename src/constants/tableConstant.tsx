@@ -1399,6 +1399,12 @@ export const returnsColumn: GridColDef[] = [
     ),
   },
   { field: "type", headerName: "Type", width: 130, align: "left" },
+  {
+    field: "returnType",
+    headerName: "Return type (RMA/RTO)",
+    width: 170,
+    align: "left",
+  },
   { field: "orderRef", headerName: "Order Ref", width: 130, align: "left" },
   {
     field: "status",
@@ -1442,6 +1448,7 @@ export const returnsRows = [
     awbNumber: `${Math.ceil(Math.random() * 10000000)}`,
     status: "Processing",
     lodgedLocation: 901,
+    returnType: "RMA",
   },
   {
     id: 2,
@@ -1453,6 +1460,7 @@ export const returnsRows = [
     awbNumber: `${Math.ceil(Math.random() * 10000000)}`,
     status: "Processing",
     lodgedLocation: 901,
+    returnType: "RMA",
   },
   {
     id: 3,
@@ -1464,6 +1472,7 @@ export const returnsRows = [
     awbNumber: `${Math.ceil(Math.random() * 10000000)}`,
     status: "Processing",
     lodgedLocation: 901,
+    returnType: "RMA",
   },
   {
     id: 4,
@@ -1475,6 +1484,7 @@ export const returnsRows = [
     awbNumber: `${Math.ceil(Math.random() * 10000000)}`,
     status: "Processing",
     lodgedLocation: 901,
+    returnType: "RMA",
   },
   {
     id: 5,
@@ -1486,6 +1496,7 @@ export const returnsRows = [
     awbNumber: `${Math.ceil(Math.random() * 10000000)}`,
     status: "Processing",
     lodgedLocation: 901,
+    returnType: "RMA",
   },
   {
     id: 6,
@@ -1497,6 +1508,7 @@ export const returnsRows = [
     awbNumber: `${Math.ceil(Math.random() * 10000000)}`,
     status: "Processing",
     lodgedLocation: 901,
+    returnType: "RMA",
   },
   {
     id: 7,
@@ -1508,6 +1520,7 @@ export const returnsRows = [
     awbNumber: `${Math.ceil(Math.random() * 10000000)}`,
     status: "Processing",
     lodgedLocation: 901,
+    returnType: "RMA",
   },
   {
     id: 8,
@@ -1519,6 +1532,7 @@ export const returnsRows = [
     awbNumber: `${Math.ceil(Math.random() * 10000000)}`,
     status: "Processing",
     lodgedLocation: 901,
+    returnType: "RMA",
   },
   {
     id: 9,
@@ -1530,5 +1544,213 @@ export const returnsRows = [
     awbNumber: `${Math.ceil(Math.random() * 10000000)}`,
     status: "Processing",
     lodgedLocation: 901,
+    returnType: "RMA",
+  },
+];
+export const returnIdColumn: GridColDef[] = [
+  {
+    field: "returnItemRef",
+    headerName: "ReturnItemRef",
+    width: 130,
+    align: "left",
+    renderHeader: (params) => {
+      return (
+        <Typography fontWeight={600} variant="subtitle2">
+          {params.field}
+        </Typography>
+      );
+    },
+  },
+  {
+    field: "orderItemRef",
+    headerName: "OrderItemRef",
+    width: 130,
+    align: "left",
+    renderHeader: (params) => {
+      return (
+        <Typography fontWeight={600} variant="subtitle2">
+          {params.field}
+        </Typography>
+      );
+    },
+  },
+  {
+    field: "returnQuantity",
+    headerName: "ReturnQuantity",
+    width: 130,
+    align: "left",
+    renderHeader: (params) => {
+      return (
+        <Typography fontWeight={600} variant="subtitle2">
+          {params.field}
+        </Typography>
+      );
+    },
+  },
+  {
+    field: "productRef",
+    headerName: "ProductRef",
+    width: 160,
+    align: "left",
+    renderHeader: (params) => {
+      return (
+        <Typography fontWeight={600} variant="subtitle2">
+          {params.field}
+        </Typography>
+      );
+    },
+  },
+  {
+    field: "status",
+    headerName: "Status",
+    width: 130,
+    align: "left",
+    renderHeader: (params) => {
+      return (
+        <Typography fontWeight={600} variant="subtitle2">
+          {params.field}
+        </Typography>
+      );
+    },
+  },
+  {
+    field: "reason",
+    headerName: "Reason",
+    width: 160,
+    align: "left",
+    renderHeader: (params) => {
+      return (
+        <Typography fontWeight={600} variant="subtitle2">
+          {params.field}
+        </Typography>
+      );
+    },
+  },
+  {
+    field: "condition",
+    headerName: "Condition",
+    width: 130,
+    align: "left",
+    renderHeader: (params) => {
+      return (
+        <Typography fontWeight={600} variant="subtitle2">
+          {params.field}
+        </Typography>
+      );
+    },
+  },
+  {
+    field: "comment",
+    headerName: "Comment",
+    width: 130,
+    align: "left",
+    renderHeader: (params) => {
+      return (
+        <Typography fontWeight={600} variant="subtitle2">
+          {params.field}
+        </Typography>
+      );
+    },
+  },
+];
+export const returnIdRows = [
+  {
+    id: 1,
+    returnQuantity: "Snow",
+    returnItemRef: "Mac_" + Math.ceil(Math.random() * 100000000),
+    orderItemRef: "STANDARD",
+    reason: "product is damanged",
+    comment: "close to expiry",
+    condition: "As new condition",
+    productRef: "Processing",
+    status: "CREATED",
+  },
+  {
+    id: 2,
+    returnQuantity: "Lannister",
+    returnItemRef: "Mac_" + Math.ceil(Math.random() * 100000000),
+    orderItemRef: "STANDARD",
+    reason: "product is damanged",
+    comment: "close to expiry",
+    condition: "As new condition",
+    productRef: "Processing",
+    status: "CREATED",
+  },
+  {
+    id: 3,
+    returnQuantity: "Lannister",
+    returnItemRef: "Mac_" + Math.ceil(Math.random() * 100000000),
+    orderItemRef: "STANDARD",
+    reason: "product is damanged",
+    comment: "close to expiry",
+    condition: "As new condition",
+    productRef: "Processing",
+    status: "CREATED",
+  },
+  {
+    id: 4,
+    returnQuantity: "Stark",
+    returnItemRef: "Mac_" + Math.ceil(Math.random() * 100000000),
+    orderItemRef: "STANDARD",
+    reason: "product is damanged",
+    comment: "close to expiry",
+    condition: "As new condition",
+    productRef: "Processing",
+    status: "CREATED",
+  },
+  {
+    id: 5,
+    returnQuantity: "Targaryen",
+    returnItemRef: "Mac_" + Math.ceil(Math.random() * 100000000),
+    orderItemRef: "STANDARD",
+    reason: "product is damanged",
+    comment: "close to expiry",
+    condition: "As new condition",
+    productRef: "Processing",
+    status: "CREATED",
+  },
+  {
+    id: 6,
+    returnQuantity: "Melisandre",
+    returnItemRef: "Mac_" + Math.ceil(Math.random() * 100000000),
+    orderItemRef: "STANDARD",
+    reason: "product is damanged",
+    comment: "close to expiry",
+    condition: "As new condition",
+    productRef: "Processing",
+    status: "CREATED",
+  },
+  {
+    id: 7,
+    returnQuantity: "Clifford",
+    returnItemRef: "Mac_" + Math.ceil(Math.random() * 100000000),
+    orderItemRef: "STANDARD",
+    reason: "product is damanged",
+    comment: "close to expiry",
+    condition: "As new condition",
+    productRef: "Processing",
+    status: "CREATED",
+  },
+  {
+    id: 8,
+    returnQuantity: "Frances",
+    returnItemRef: "Mac_" + Math.ceil(Math.random() * 100000000),
+    orderItemRef: "STANDARD",
+    reason: "product is damanged",
+    comment: "close to expiry",
+    condition: "As new condition",
+    productRef: "Processing",
+    status: "CREATED",
+  },
+  {
+    id: 9,
+    returnQuantity: "Roxie",
+    returnItemRef: "Mac_" + Math.ceil(Math.random() * 100000000),
+    orderItemRef: "STANDARD",
+    reason: "product is damanged",
+    comment: "close to expiry",
+    condition: "As new condition",
+    productRef: "Processing",
+    status: "CREATED",
   },
 ];

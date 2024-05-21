@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import styles from "./return.module.scss";
 import ReturnIdSection from "./returnIdSection";
+import FeaturedTable from "@/tables/featuredTable";
+import { returnIdColumn, returnIdRows } from "@/constants/tableConstant";
 
 const returnIdObj = {
   returnOrderType: "DEFAULT",
@@ -25,8 +27,12 @@ const fromLocationObj = {
 
 const ReturnIdModule = () => {
   const router = useRouter();
-
   const subRoute = "/" + router.query.returnId;
+
+  const [tableState, setTableState] = useState({
+    columns: returnIdColumn,
+    rows: returnIdRows,
+  });
 
   return (
     <Box className={styles.returnWrapper}>
@@ -51,6 +57,30 @@ const ReturnIdModule = () => {
           />
         </Grid>
       </Grid>
+      <Box minHeight={400} mt={2} bgcolor="#fff">
+        <Box padding="16px" borderBottom="1px solid lightgrey">
+          <Typography fontWeight={400} variant="h6">
+            RETURN ORDER ITEMS
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            [`& > div .MuiDataGrid-cell, & > div div`]: {
+              border: "none",
+            },
+          }}
+          padding="0 6px"
+        >
+          <FeaturedTable
+            {...{
+              rows: tableState.rows,
+              columns: tableState.columns,
+              showCellVerticalBorder: false,
+              showColumnVerticalBorder: false,
+            }}
+          />
+        </Box>
+      </Box>
     </Box>
   );
 };
