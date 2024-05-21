@@ -2095,6 +2095,8 @@ export const returnModalColumns: GridColDef[] = [
     headerName: "Inventory Zone",
     width: 120,
     align: "left",
+    editable: true,
+    type: "number",
     renderHeader: (params) => {
       return (
         <Typography
@@ -2112,6 +2114,8 @@ export const returnModalColumns: GridColDef[] = [
     headerName: "Damaged Zone",
     width: 120,
     align: "left",
+    editable: true,
+    type: "number",
     renderHeader: (params) => {
       return (
         <Typography

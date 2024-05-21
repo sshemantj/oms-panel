@@ -6,6 +6,7 @@ import shoeImg from "@/images/shoe img.png";
 import CloseIcon from "@mui/icons-material/Close";
 import FeaturedTable from "@/tables/featuredTable";
 import { returnModalColumns, returnModalRows } from "@/constants/tableConstant";
+import { GridRowSelectionModel } from "@mui/x-data-grid";
 
 interface IProps {
   open: boolean;
@@ -17,6 +18,9 @@ interface IProps {
 const QualityCheckModal = (props: IProps) => {
   const { open, setOpen, rma, setRmaId } = props;
 
+  const [selectedTableRows, setSelectedTableRows] =
+    useState<GridRowSelectionModel>([]);
+
   const [tableState, setTableState] = useState<any>({
     columns: returnModalColumns,
     rows: returnModalRows,
@@ -25,6 +29,10 @@ const QualityCheckModal = (props: IProps) => {
   const handleModalClose = () => {
     setOpen(false);
     setRmaId("");
+  };
+
+  const onRowSelectionModelChange = (selectedIds: GridRowSelectionModel) => {
+    setSelectedTableRows(selectedIds);
   };
 
   return (
@@ -47,10 +55,11 @@ const QualityCheckModal = (props: IProps) => {
               {...{
                 rows: tableState.rows,
                 columns: tableState.columns,
+                hideFooter: true,
+                onRowSelectionModelChange,
                 tableStyleWrapper: {
                   height: "auto",
                 },
-                hideFooter: true,
               }}
             />
           </Box>
