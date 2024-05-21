@@ -1441,15 +1441,6 @@ export const returnsColumn: GridColDef[] = [
     headerName: "Action",
     width: 130,
     align: "left",
-    renderCell: (params) => {
-      return (
-        <Box>
-          <Button sx={{ padding: "4px 8px" }} variant="contained">
-            Perform QC
-          </Button>
-        </Box>
-      );
-    },
   },
 ];
 export const returnsRows = [
