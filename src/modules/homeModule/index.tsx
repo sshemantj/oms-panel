@@ -73,8 +73,8 @@ const HomeModule = () => {
           {cardsList.map((item, index) => {
             return (
               <Grid
+                key={index}
                 {...{
-                  key: index,
                   sx: { width: "100%" },
                   item: true,
                   xs: 12,
