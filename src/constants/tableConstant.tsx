@@ -5,7 +5,7 @@ import { ITabList } from "@/interfaces/home.interface";
 import Link from "next/link";
 import QuantityColumn from "@/modules/storeModule/subRoutesModule/pick/quantityColumn";
 import PickImage from "@/modules/storeModule/subRoutesModule/pick/pickImage";
-import { Button, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import PrintIcon from "@mui/icons-material/Print";
 import { IAllRoutes } from "./allRoutes";
 
@@ -1398,18 +1398,18 @@ export const returnsColumn: GridColDef[] = [
       </Link>
     ),
   },
-  { field: "type", headerName: "Type", width: 130, align: "left" },
+  { field: "type", headerName: "Type", width: 110, align: "left" },
   {
     field: "returnType",
     headerName: "Return type (RMA/RTO)",
     width: 170,
     align: "left",
   },
-  { field: "orderRef", headerName: "Order Ref", width: 130, align: "left" },
+  { field: "orderRef", headerName: "Order Ref", width: 110, align: "left" },
   {
     field: "status",
     headerName: "Status",
-    width: 160,
+    width: 110,
     align: "left",
   },
   {
@@ -1421,20 +1421,35 @@ export const returnsColumn: GridColDef[] = [
   {
     field: "rmaNumber",
     headerName: "RMA Number",
-    width: 160,
+    width: 120,
     align: "left",
   },
   {
     field: "awbNumber",
     headerName: "AWB Number",
-    width: 130,
+    width: 120,
     align: "left",
   },
   {
     field: "destination",
     headerName: "Destination",
+    width: 110,
+    align: "left",
+  },
+  {
+    field: "performQc",
+    headerName: "Action",
     width: 130,
     align: "left",
+    renderCell: (params) => {
+      return (
+        <Box>
+          <Button sx={{ padding: "4px 8px" }} variant="contained">
+            Perform QC
+          </Button>
+        </Box>
+      );
+    },
   },
 ];
 export const returnsRows = [
