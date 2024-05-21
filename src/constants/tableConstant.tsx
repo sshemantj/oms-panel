@@ -1704,7 +1704,7 @@ export const returnIdColumn: GridColDef[] = [
   {
     field: "returnItemRef",
     headerName: "ReturnItemRef",
-    width: 130,
+    width: 150,
     align: "left",
     renderHeader: (params) => {
       return (
@@ -1738,7 +1738,7 @@ export const returnIdColumn: GridColDef[] = [
   {
     field: "returnQuantity",
     headerName: "ReturnQuantity",
-    width: 130,
+    width: 150,
     align: "left",
     renderHeader: (params) => {
       return (
@@ -1772,7 +1772,7 @@ export const returnIdColumn: GridColDef[] = [
   {
     field: "status",
     headerName: "Status",
-    width: 130,
+    width: 150,
     align: "left",
     renderHeader: (params) => {
       return (
@@ -1806,7 +1806,7 @@ export const returnIdColumn: GridColDef[] = [
   {
     field: "condition",
     headerName: "Condition",
-    width: 130,
+    width: 150,
     align: "left",
     renderHeader: (params) => {
       return (
@@ -1823,7 +1823,7 @@ export const returnIdColumn: GridColDef[] = [
   {
     field: "comment",
     headerName: "Comment",
-    width: 130,
+    width: 150,
     align: "left",
     renderHeader: (params) => {
       return (

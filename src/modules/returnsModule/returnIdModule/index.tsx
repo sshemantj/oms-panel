@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import styles from "./return.module.scss";
 import ReturnIdSection from "./returnIdSection";
@@ -87,7 +87,7 @@ const ReturnIdModule = () => {
           />
         </Box>
       </Box>
-      <Box minHeight={400} mt={2} bgcolor="#fff">
+      <Box minHeight={400} mt={2} mb={5} bgcolor="#fff">
         <Box padding="16px" borderBottom="1px solid lightgrey">
           <Typography fontWeight={400} variant="h6">
             RETURN ORDER ITEMS
@@ -107,6 +107,14 @@ const ReturnIdModule = () => {
               columns: returnOrderState.columns,
             }}
           />
+        </Box>
+        <Box textAlign="end">
+          <Button
+            sx={{ marginRight: "3rem", padding: "4px 10px" }}
+            variant="contained"
+          >
+            Create RMA
+          </Button>
         </Box>
       </Box>
     </Box>
