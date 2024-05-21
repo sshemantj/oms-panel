@@ -1963,3 +1963,190 @@ export const returnIdRows = [
     status: "CREATED",
   },
 ];
+export const returnModalColumns: GridColDef[] = [
+  {
+    field: "SKU",
+    headerName: "ReturnItemRef",
+    width: 120,
+    align: "left",
+    renderHeader: (params) => {
+      return (
+        <Typography
+          fontWeight={600}
+          variant="subtitle2"
+          textTransform="capitalize"
+        >
+          {params.field}
+        </Typography>
+      );
+    },
+  },
+  {
+    field: "Product",
+    headerName: "OrderItemRef",
+    width: 120,
+    align: "left",
+    renderHeader: (params) => {
+      return (
+        <Typography
+          fontWeight={600}
+          variant="subtitle2"
+          textTransform="capitalize"
+        >
+          {params.field}
+        </Typography>
+      );
+    },
+  },
+  {
+    field: "brand",
+    headerName: "Brand",
+    width: 120,
+    align: "left",
+    renderHeader: (params) => {
+      return (
+        <Typography
+          fontWeight={600}
+          variant="subtitle2"
+          textTransform="capitalize"
+        >
+          {params.field}
+        </Typography>
+      );
+    },
+  },
+  {
+    field: "styleSize",
+    headerName: "Style / Size",
+    width: 120,
+    align: "left",
+    renderHeader: (params) => {
+      return (
+        <Typography
+          fontWeight={600}
+          variant="subtitle2"
+          textTransform="capitalize"
+        >
+          {params.field}
+        </Typography>
+      );
+    },
+  },
+  {
+    field: "quantity",
+    headerName: "Quantity",
+    width: 120,
+    align: "left",
+    renderHeader: (params) => {
+      return (
+        <Typography
+          fontWeight={600}
+          variant="subtitle2"
+          textTransform="capitalize"
+        >
+          {params.field}
+        </Typography>
+      );
+    },
+  },
+  {
+    field: "refundAmount",
+    headerName: "Refund Amount",
+    width: 120,
+    align: "left",
+    renderHeader: (params) => {
+      return (
+        <Typography
+          fontWeight={600}
+          variant="subtitle2"
+          textTransform="capitalize"
+        >
+          Refund <br /> Amount
+        </Typography>
+      );
+    },
+  },
+  {
+    field: "recievedQnt",
+    headerName: "Recieved Quantity",
+    width: 120,
+    align: "left",
+    renderHeader: (params) => {
+      return (
+        <Typography
+          fontWeight={600}
+          variant="subtitle2"
+          textTransform="capitalize"
+        >
+          Recieved <br /> Quantity
+        </Typography>
+      );
+    },
+  },
+  {
+    field: "inventoryZone",
+    headerName: "Inventory Zone",
+    width: 120,
+    align: "left",
+    renderHeader: (params) => {
+      return (
+        <Typography
+          fontWeight={600}
+          variant="subtitle2"
+          textTransform="capitalize"
+        >
+          Inventory <br /> Zone
+        </Typography>
+      );
+    },
+  },
+  {
+    field: "damagedZone",
+    headerName: "Damaged Zone",
+    width: 120,
+    align: "left",
+    renderHeader: (params) => {
+      return (
+        <Typography
+          fontWeight={600}
+          variant="subtitle2"
+          textTransform="capitalize"
+        >
+          Damaged <br /> Zone
+        </Typography>
+      );
+    },
+  },
+  {
+    field: "comments",
+    headerName: "Comment",
+    width: 120,
+    align: "left",
+    renderHeader: (params) => {
+      return (
+        <Typography
+          fontWeight={600}
+          variant="subtitle2"
+          textTransform="capitalize"
+        >
+          {params.field}
+        </Typography>
+      );
+    },
+  },
+];
+export const returnModalRows = [
+  {
+    id: 1,
+    brand: "Tresmodes",
+    SKU: Math.ceil(Math.random() * 100000000),
+    Product: `Mens casuale sport shoes`,
+    refundAmount: Math.ceil(Math.random() * 100000),
+    comments: "null",
+    recievedQnt: Math.ceil(Math.random() * 100000),
+    styleSize: "Black / 44",
+    quantity: Math.ceil(Math.random() * 100),
+    inventoryZone: 1,
+    damagedZone: 0,
+  },
+];

@@ -4,6 +4,7 @@ import WaveSelectDropDown from "../storeModule/subRoutesModule/wavesInProgress/w
 import FeaturedTable from "@/tables/featuredTable";
 import { returnsColumn, returnsRows } from "@/constants/tableConstant";
 import { GridRenderCellParams, GridTreeNodeWithRender } from "@mui/x-data-grid";
+import QualityCheckModal from "./qualityCheckModal";
 
 type ICellPara = GridRenderCellParams<any, any, any, GridTreeNodeWithRender>;
 
@@ -13,8 +14,11 @@ const ReturnsModule = () => {
     rows: [],
   });
 
+  const [open, setOpen] = useState<boolean>(true);
+
   const handleQcClick = (params: ICellPara) => {
     console.log(params);
+    setOpen(true);
   };
 
   useEffect(() => {
@@ -60,6 +64,7 @@ const ReturnsModule = () => {
           }}
         />
       </Box>
+      <QualityCheckModal {...{ open, setOpen }} />
     </Box>
   );
 };
