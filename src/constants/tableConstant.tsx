@@ -1555,7 +1555,11 @@ export const returnIdColumn: GridColDef[] = [
     align: "left",
     renderHeader: (params) => {
       return (
-        <Typography fontWeight={600} variant="subtitle2">
+        <Typography
+          fontWeight={600}
+          variant="subtitle2"
+          textTransform="capitalize"
+        >
           {params.field}
         </Typography>
       );
@@ -1564,11 +1568,15 @@ export const returnIdColumn: GridColDef[] = [
   {
     field: "orderItemRef",
     headerName: "OrderItemRef",
-    width: 130,
+    width: 150,
     align: "left",
     renderHeader: (params) => {
       return (
-        <Typography fontWeight={600} variant="subtitle2">
+        <Typography
+          fontWeight={600}
+          variant="subtitle2"
+          textTransform="capitalize"
+        >
           {params.field}
         </Typography>
       );
@@ -1581,7 +1589,11 @@ export const returnIdColumn: GridColDef[] = [
     align: "left",
     renderHeader: (params) => {
       return (
-        <Typography fontWeight={600} variant="subtitle2">
+        <Typography
+          fontWeight={600}
+          variant="subtitle2"
+          textTransform="capitalize"
+        >
           {params.field}
         </Typography>
       );
@@ -1594,7 +1606,11 @@ export const returnIdColumn: GridColDef[] = [
     align: "left",
     renderHeader: (params) => {
       return (
-        <Typography fontWeight={600} variant="subtitle2">
+        <Typography
+          fontWeight={600}
+          variant="subtitle2"
+          textTransform="capitalize"
+        >
           {params.field}
         </Typography>
       );
@@ -1607,7 +1623,11 @@ export const returnIdColumn: GridColDef[] = [
     align: "left",
     renderHeader: (params) => {
       return (
-        <Typography fontWeight={600} variant="subtitle2">
+        <Typography
+          fontWeight={600}
+          variant="subtitle2"
+          textTransform="capitalize"
+        >
           {params.field}
         </Typography>
       );
@@ -1620,7 +1640,11 @@ export const returnIdColumn: GridColDef[] = [
     align: "left",
     renderHeader: (params) => {
       return (
-        <Typography fontWeight={600} variant="subtitle2">
+        <Typography
+          fontWeight={600}
+          variant="subtitle2"
+          textTransform="capitalize"
+        >
           {params.field}
         </Typography>
       );
@@ -1633,7 +1657,11 @@ export const returnIdColumn: GridColDef[] = [
     align: "left",
     renderHeader: (params) => {
       return (
-        <Typography fontWeight={600} variant="subtitle2">
+        <Typography
+          fontWeight={600}
+          variant="subtitle2"
+          textTransform="capitalize"
+        >
           {params.field}
         </Typography>
       );
@@ -1646,7 +1674,11 @@ export const returnIdColumn: GridColDef[] = [
     align: "left",
     renderHeader: (params) => {
       return (
-        <Typography fontWeight={600} variant="subtitle2">
+        <Typography
+          fontWeight={600}
+          variant="subtitle2"
+          textTransform="capitalize"
+        >
           {params.field}
         </Typography>
       );
@@ -1656,101 +1688,119 @@ export const returnIdColumn: GridColDef[] = [
 export const returnIdRows = [
   {
     id: 1,
-    returnQuantity: "Snow",
+    returnQuantity: Math.ceil(Math.random() * 10),
     returnItemRef: "Mac_" + Math.ceil(Math.random() * 100000000),
-    orderItemRef: "STANDARD",
+    orderItemRef: `MAC_SH${Math.ceil(Math.random() * 100)}_${Math.ceil(
+      Math.random() * 10000
+    )}`,
     reason: "product is damanged",
     comment: "close to expiry",
     condition: "As new condition",
-    productRef: "Processing",
+    productRef: "Mac_" + Math.ceil(Math.random() * 100000000),
     status: "CREATED",
   },
   {
     id: 2,
-    returnQuantity: "Lannister",
+    returnQuantity: Math.ceil(Math.random() * 10),
     returnItemRef: "Mac_" + Math.ceil(Math.random() * 100000000),
-    orderItemRef: "STANDARD",
+    orderItemRef: `MAC_SH${Math.ceil(Math.random() * 100)}_${Math.ceil(
+      Math.random() * 10000
+    )}`,
     reason: "product is damanged",
     comment: "close to expiry",
     condition: "As new condition",
-    productRef: "Processing",
+    productRef: "Mac_" + Math.ceil(Math.random() * 100000000),
     status: "CREATED",
   },
   {
     id: 3,
-    returnQuantity: "Lannister",
+    returnQuantity: Math.ceil(Math.random() * 10),
     returnItemRef: "Mac_" + Math.ceil(Math.random() * 100000000),
-    orderItemRef: "STANDARD",
+    orderItemRef: `MAC_SH${Math.ceil(Math.random() * 100)}_${Math.ceil(
+      Math.random() * 10000
+    )}`,
     reason: "product is damanged",
     comment: "close to expiry",
     condition: "As new condition",
-    productRef: "Processing",
+    productRef: "Mac_" + Math.ceil(Math.random() * 100000000),
     status: "CREATED",
   },
   {
     id: 4,
-    returnQuantity: "Stark",
+    returnQuantity: Math.ceil(Math.random() * 10),
     returnItemRef: "Mac_" + Math.ceil(Math.random() * 100000000),
-    orderItemRef: "STANDARD",
+    orderItemRef: `MAC_SH${Math.ceil(Math.random() * 100)}_${Math.ceil(
+      Math.random() * 10000
+    )}`,
     reason: "product is damanged",
     comment: "close to expiry",
     condition: "As new condition",
-    productRef: "Processing",
+    productRef: "Mac_" + Math.ceil(Math.random() * 100000000),
     status: "CREATED",
   },
   {
     id: 5,
-    returnQuantity: "Targaryen",
+    returnQuantity: Math.ceil(Math.random() * 10),
     returnItemRef: "Mac_" + Math.ceil(Math.random() * 100000000),
-    orderItemRef: "STANDARD",
+    orderItemRef: `MAC_SH${Math.ceil(Math.random() * 100)}_${Math.ceil(
+      Math.random() * 10000
+    )}`,
     reason: "product is damanged",
     comment: "close to expiry",
     condition: "As new condition",
-    productRef: "Processing",
+    productRef: "Mac_" + Math.ceil(Math.random() * 100000000),
     status: "CREATED",
   },
   {
     id: 6,
-    returnQuantity: "Melisandre",
+    returnQuantity: Math.ceil(Math.random() * 10),
     returnItemRef: "Mac_" + Math.ceil(Math.random() * 100000000),
-    orderItemRef: "STANDARD",
+    orderItemRef: `MAC_SH${Math.ceil(Math.random() * 100)}_${Math.ceil(
+      Math.random() * 10000
+    )}`,
     reason: "product is damanged",
     comment: "close to expiry",
     condition: "As new condition",
-    productRef: "Processing",
+    productRef: "Mac_" + Math.ceil(Math.random() * 100000000),
     status: "CREATED",
   },
   {
     id: 7,
-    returnQuantity: "Clifford",
+    returnQuantity: Math.ceil(Math.random() * 10),
     returnItemRef: "Mac_" + Math.ceil(Math.random() * 100000000),
-    orderItemRef: "STANDARD",
+    orderItemRef: `MAC_SH${Math.ceil(Math.random() * 100)}_${Math.ceil(
+      Math.random() * 10000
+    )}`,
     reason: "product is damanged",
     comment: "close to expiry",
     condition: "As new condition",
-    productRef: "Processing",
+    productRef: "Mac_" + Math.ceil(Math.random() * 100000000),
     status: "CREATED",
   },
   {
     id: 8,
-    returnQuantity: "Frances",
+    returnQuantity: Math.ceil(Math.random() * 10),
     returnItemRef: "Mac_" + Math.ceil(Math.random() * 100000000),
-    orderItemRef: "STANDARD",
+    orderItemRef: `MAC_SH${Math.ceil(Math.random() * 100)}_${Math.ceil(
+      Math.random() * 10000
+    )}`,
     reason: "product is damanged",
     comment: "close to expiry",
     condition: "As new condition",
-    productRef: "Processing",
+    productRef: "Mac_" + Math.ceil(Math.random() * 100000000),
     status: "CREATED",
   },
   {
     id: 9,
-    returnQuantity: "Roxie",
+    returnQuantity: Math.ceil(Math.random() * 10),
     returnItemRef: "Mac_" + Math.ceil(Math.random() * 100000000),
-    orderItemRef: "STANDARD",
+    orderItemRef: `MAC_SH${Math.ceil(Math.random() * 100)}_${Math.ceil(
+      Math.random() * 10000
+    )}`,
     reason: "product is damanged",
     comment: "close to expiry",
     condition: "As new condition",
-    productRef: "Processing",
+    productRef: "Mac_" + Math.ceil(Math.random() * 100000000),
     status: "CREATED",
   },
 ];
