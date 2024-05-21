@@ -1,69 +1,43 @@
 import React, { useState } from "react";
-// import FulfillmentsTabs from "./fulfillmentsTabs";
-import { IFulFillmentsTabsList } from "@/interfaces/fulfillments.interface";
-import { Box } from "@mui/material";
-// import FulfillmentsTable from "./fulfillmentsTables.tsx";
-import {
-  initialAllFulfillmentTableIdsList,
-  initialAllFulfillmentTableState,
-} from "@/constants/tableConstant";
-import {
-  IAllFulfillmentTableIdsList,
-  IAllFulfillmentTableState,
-} from "@/interfaces/fulfillments.interface";
-import { GridToolbarFilterButton } from "@mui/x-data-grid";
-
-const CustomTableFilter = () => {
-  return (
-    <Box sx={{ margin: "1rem" }}>
-      <GridToolbarFilterButton
-        slotProps={{
-          button: {
-            sx: {
-              padding: "4px 12px",
-              textTransform: "none",
-              border: "1px dashed blue",
-              borderRadius: "2.5rem",
-            },
-
-            startIcon: "+ Add",
-          },
-        }}
-      />
-    </Box>
-  );
-};
+import { Box, Grid } from "@mui/material";
+import { GridRowSelectionModel } from "@mui/x-data-grid";
+import WaveSelectDropDown from "../storeModule/subRoutesModule/wavesInProgress/waveSelectDropdown";
+import FeaturedTable from "@/tables/featuredTable";
+import { returnsColumn, returnsRows } from "@/constants/tableConstant";
 
 const ReturnsModule = () => {
-  const [currTabValue, setCurrTabValue] = useState<IFulFillmentsTabsList>(
-    IFulFillmentsTabsList.FULFILMENTS
-  );
+  const [tableState, setTableState] = useState({
+    columns: returnsColumn,
+    rows: returnsRows,
+  });
+  const [selectedNames, setSelectedNames] = useState<string[]>([]);
+  const [selectedTableRows, setSelectedTableRows] =
+    useState<GridRowSelectionModel>([]);
 
-  const [allSelectedRowList, setAllSelectedRowList] =
-    useState<IAllFulfillmentTableIdsList>(initialAllFulfillmentTableIdsList);
+  const onRowSelectionModelChange = (selectedIds: GridRowSelectionModel) => {
+    setSelectedTableRows(selectedIds);
+  };
 
-  const [tableState, setTableState] = useState<IAllFulfillmentTableState>(
-    initialAllFulfillmentTableState
-  );
+  const options = ["Ref", "Status", "AWB Number"];
 
   return (
-    <Box>
+    <Box padding={"1rem"}>
+      <Grid container mb={2}>
+        <Grid item xs={12} sm={2}>
+          <WaveSelectDropDown
+            {...{ selectedNames, setSelectedNames, options }}
+          />
+        </Grid>
+      </Grid>
       <Box>
-        {/* <FulfillmentsTabs {...{ currTabValue, setCurrTabValue }} /> */}
-      </Box>
-      <Box>
-        {/* <FulfillmentsTable
+        <FeaturedTable
           {...{
-            currTabValue,
-            tableState,
-            setTableState,
-            allSelectedRowList,
-            setAllSelectedRowList,
-            slots: {
-              toolbar: CustomTableFilter,
-            },
+            rows: tableState.rows,
+            columns: tableState.columns,
+            checkboxSelection: true,
+            onRowSelectionModelChange,
           }}
-        /> */}
+        />
       </Box>
     </Box>
   );

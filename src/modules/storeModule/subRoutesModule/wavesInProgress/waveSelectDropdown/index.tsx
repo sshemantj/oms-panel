@@ -6,10 +6,11 @@ import styles from "./waveSelect.module.scss";
 interface IProps {
   selectedNames: string[];
   setSelectedNames: React.Dispatch<React.SetStateAction<string[]>>;
+  options?: string[];
 }
 
 const WaveSelectDropDown = (props: IProps) => {
-  const { selectedNames, setSelectedNames } = props;
+  const { selectedNames, setSelectedNames, options: optionProp } = props;
   const options = ["PICK", "PACK", "DISPATCH", "Ref", "SONumber"];
 
   return (
@@ -18,7 +19,7 @@ const WaveSelectDropDown = (props: IProps) => {
         {...{
           selectedNames,
           setSelectedNames,
-          options,
+          options: optionProp || options,
           label: "Filter",
         }}
       />
