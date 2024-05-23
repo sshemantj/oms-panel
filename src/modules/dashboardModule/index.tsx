@@ -6,6 +6,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import RotateRightIcon from "@mui/icons-material/RotateRight";
 import QuickLinks from "./quickLinks";
 import styles from "./dashboard.module.scss";
+import Chart from "@/component/molecules/charts";
 
 const boxList = [
   {
@@ -46,8 +47,8 @@ const DashboardModule = () => {
       <Grid sm={12} item>
         <Box minHeight="100vh">
           <Typography variant="h5">Monthly Sales</Typography>
-          <Box bgcolor="white" minHeight="100vh">
-            graph
+          <Box mt={1} p={1} bgcolor="white" minHeight="100vh">
+            <Chart type="bar" />
           </Box>
         </Box>
       </Grid>
