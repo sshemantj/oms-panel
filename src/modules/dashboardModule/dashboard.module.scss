@@ -1,0 +1,15 @@
+@import "@/styles/variables.scss";
+
+.dashboardWrapper {
+  min-height: 100vh;
+  background-color: $color_2;
+  .boxContainer {
+    min-height: 150px;
+    background-color: $color_white;
+    box-shadow: $shadow_1;
+  }
+  .quickLinks {
+    background-color: $color_white;
+    height: 100%;
+  }
+}

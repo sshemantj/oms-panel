@@ -22,6 +22,7 @@ const MainLayout = (props: IProps) => {
     switch (path) {
       case IAllRoutes.CARRIER_COLLECTIONS:
       case IAllRoutes.FULFILLMENTS:
+      case IAllRoutes.DASHBOARD:
       case IAllRoutes.RETURNS:
         router.push(`${path}`);
         return;

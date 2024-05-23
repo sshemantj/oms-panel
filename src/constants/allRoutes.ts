@@ -1,7 +1,7 @@
 export enum IAllRoutes {
   HOME = "/",
   STORE = "/store",
-  DASHBOARD = "/",
+  DASHBOARD = "/dashboard",
   LOGIN = "/",
   MANAGE_CHANNELS = "/",
   USER_PROFILE = "/",

@@ -17,7 +17,7 @@ export const navListArr: INavListArr[] = [
   {
     topHeading: "Dashboard",
     icon: <BarChartIcon color="inherit" />,
-    path: IAllRoutes.STORE,
+    path: IAllRoutes.DASHBOARD,
   },
   {
     topHeading: "Waves",
