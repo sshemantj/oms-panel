@@ -1,20 +1,25 @@
 import React from "react";
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import DetailedBox from "./detailedBox";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import RotateRightIcon from "@mui/icons-material/RotateRight";
+import QuickLinks from "./quickLinks";
 import styles from "./dashboard.module.scss";
 
 const boxList = [
   {
     title: "Today's Sales",
     icon: <CurrencyRupeeIcon />,
-    price: "343",
+    price: "256950000.00",
   },
-  { title: "Today's Expenses", icon: <CurrencyRupeeIcon />, price: "343" },
-  { title: "Products To Reorder", icon: <ShoppingCartIcon />, price: "343" },
-  { title: "Pending Orders", icon: <RotateRightIcon />, price: "343" },
+  {
+    title: "Today's Expenses",
+    icon: <CurrencyRupeeIcon />,
+    price: "157323000",
+  },
+  { title: "Products To Reorder", icon: <ShoppingCartIcon />, price: "2" },
+  { title: "Pending Orders", icon: <RotateRightIcon />, price: "2" },
 ];
 
 const DashboardModule = () => {
@@ -34,13 +39,16 @@ const DashboardModule = () => {
             </Grid>
           </Grid>
           <Grid sm={4} item>
-            <Box className={styles.quickLinks}>Quick Links</Box>
+            <QuickLinks />
           </Grid>
         </Grid>
       </Grid>
       <Grid sm={12} item>
-        <Box bgcolor="white" minHeight="100vh">
-          graph
+        <Box minHeight="100vh">
+          <Typography variant="h5">Monthly Sales</Typography>
+          <Box bgcolor="white" minHeight="100vh">
+            graph
+          </Box>
         </Box>
       </Grid>
     </Grid>

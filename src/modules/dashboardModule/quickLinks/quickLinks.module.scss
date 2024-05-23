@@ -1,0 +1,33 @@
+@import "@/styles/variables.scss";
+
+.quickLinksWrapper {
+  min-height: 150px;
+  background-color: $color_white;
+  padding: 2px 12px 2px 12px;
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 2rem;
+    left: 0;
+    width: 100%;
+    // border-bottom: 1px solid lightgray;
+  }
+  .innerBtnsWrappers {
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    .innerButton {
+      padding: 2px 0;
+      width: 100%;
+      border: 1px solid lightgray;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $color_1;
+    }
+  }
+}
