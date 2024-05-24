@@ -3,23 +3,26 @@ import { Box, Typography } from "@mui/material";
 import Image from "next/image";
 import styles from "./detailedBox.module.scss";
 
-interface IProps {
+export interface IDetailedBoxProps {
   icon?: any;
   title: string;
   price: string;
+  color?: "success" | "primary" | "warning" | "red";
 }
 
-const DetailedBox = (props: IProps) => {
-  const { icon = "", price, title } = props;
+const DetailedBox = (props: IDetailedBoxProps) => {
+  const { icon = "", price, title, color = "primary" } = props;
   return (
     <Box className={styles.detailedBoxWrapper}>
-      {typeof icon === "string" ? <Image src={icon} alt="icon" /> : icon}
-      <Typography variant="h4" className={styles.price}>
-        ${price}
+      <Typography variant="h4" className={`${styles.price} ${styles[color]}`}>
+        {price}
       </Typography>
-      <Typography variant="h6" className={styles.title}>
-        {title}
-      </Typography>
+      <Box className={styles.textWrapper}>
+        {typeof icon === "string" ? <Image src={icon} alt="icon" /> : icon}
+        <Typography variant="subtitle2" className={styles.title}>
+          {title}
+        </Typography>
+      </Box>
     </Box>
   );
 };

@@ -1,27 +1,40 @@
 import React, { useState } from "react";
 import { Box, Grid, Typography } from "@mui/material";
-import DetailedBox from "./detailedBox";
-import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import RotateRightIcon from "@mui/icons-material/RotateRight";
-import QuickLinks from "./quickLinks";
-import styles from "./dashboard.module.scss";
+import DetailedBox, { IDetailedBoxProps } from "./detailedBox";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import ArchiveIcon from "@mui/icons-material/Archive";
+import ErrorIcon from "@mui/icons-material/Error";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import InventorySummary from "./inventorySummary";
 import ChartDashboard from "./chartDashboard";
 import ToggleMonths from "./toggleMonths";
+import styles from "./dashboard.module.scss";
 
-const boxList = [
+const boxList: IDetailedBoxProps[] = [
   {
-    title: "Today's Sales",
-    icon: <CurrencyRupeeIcon />,
-    price: "256950000.00",
+    title: "Order recieved",
+    icon: <CheckCircleIcon />,
+    price: "25695",
+    color: "primary",
   },
   {
-    title: "Total recieved orders",
-    icon: <ShoppingCartIcon />,
-    price: "157323000",
+    title: "Packed",
+    icon: <ArchiveIcon />,
+    price: "15732",
+    color: "success",
   },
-  { title: "Pending orders", icon: <ShoppingCartIcon />, price: "2" },
-  { title: "Fulfilled orders", icon: <RotateRightIcon />, price: "2" },
+  {
+    title: "Dispatch",
+    icon: <LocalShippingIcon />,
+    price: "762",
+    color: "warning",
+  },
+  {
+    title: "Failed",
+    icon: <ErrorIcon />,
+    price: "872",
+    color: "red",
+  },
 ];
 
 const DashboardModule = () => {
@@ -32,10 +45,18 @@ const DashboardModule = () => {
       <Grid sm={12} item>
         <Grid container spacing={2}>
           <Grid xs={12} sm={8} item>
-            <Grid container spacing={2}>
+            <Grid container columnSpacing={4}>
+              <Grid mb={1} xs={12} item>
+                <Typography fontWeight={600} color="grey" variant="h6">
+                  Sales Activity{" "}
+                  <Typography fontWeight={400} fontSize={16} variant="caption">
+                    (in quantity)
+                  </Typography>
+                </Typography>
+              </Grid>
               {boxList.map((item, index) => {
                 return (
-                  <Grid key={index} xs={12} sm={6} item>
+                  <Grid key={index} xs={12} sm={3} item>
                     <DetailedBox {...item}>1</DetailedBox>
                   </Grid>
                 );
@@ -43,11 +64,11 @@ const DashboardModule = () => {
             </Grid>
           </Grid>
           <Grid xs={12} sm={4} item>
-            <QuickLinks />
+            <InventorySummary />
           </Grid>
         </Grid>
       </Grid>
-      <Grid sm={12} item>
+      {/* <Grid sm={12} item>
         <Box minHeight="80vh">
           <Box display="flex" justifyContent="space-between">
             <Typography variant="h5">Monthly Sales</Typography>
@@ -63,7 +84,7 @@ const DashboardModule = () => {
             <ChartDashboard {...{ currValue, setCurrValue }} />
           </Box>
         </Box>
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 };

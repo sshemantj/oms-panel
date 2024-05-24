@@ -2,7 +2,6 @@
 
 .quickLinksWrapper {
   min-height: 150px;
-  background-color: $color_white;
   padding: 2px 12px 2px 12px;
   position: relative;
   &::before {
@@ -11,24 +10,38 @@
     top: 2rem;
     left: 0;
     width: 100%;
-    // border-bottom: 1px solid lightgray;
   }
   .innerBtnsWrappers {
-    margin-top: 2px;
+    margin-top: 16px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     flex-direction: column;
-    gap: 8px;
+    gap: 12px;
     .innerButton {
-      padding: 2px 0;
-      width: 100%;
+      padding: 10px 1rem;
+      width: 90%;
       border: 1px solid lightgray;
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: space-between;
       color: $color_1;
       cursor: pointer;
+      border-radius: 10px;
+      background-color: $color_white;
+      position: relative;
+      @media (max-width: 768px) {
+        width: 100%;
+      }
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 5rem;
+        width: 1px;
+        height: 100%;
+        background-color: lightgray;
+      }
     }
   }
 }
