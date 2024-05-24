@@ -45,9 +45,9 @@ const DashboardModule = () => {
         </Grid>
       </Grid>
       <Grid sm={12} item>
-        <Box minHeight="100vh">
+        <Box minHeight="80vh">
           <Typography variant="h5">Monthly Sales</Typography>
-          <Box mt={1} p={1} bgcolor="white" minHeight="100vh">
+          <Box mt={1} p={1} bgcolor="white">
             <ChartDashboard />
           </Box>
         </Box>

@@ -12,6 +12,7 @@
   background-color: $color_white;
   display: flex;
   align-items: center;
+  box-shadow: $shadow_1;
   @media (max-width: 768px) {
     margin-left: 0;
   }
