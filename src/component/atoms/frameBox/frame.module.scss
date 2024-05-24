@@ -1,0 +1,13 @@
+@import "@/styles/variables.scss";
+
+.frameWrapper {
+  width: 100%;
+  min-height: 300px;
+  border: 1px solid lightgray;
+  .titleContainer {
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid lightgray;
+    display: flex;
+    justify-content: space-between;
+  }
+}

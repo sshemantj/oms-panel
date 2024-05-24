@@ -8,6 +8,7 @@ import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import InventorySummary from "./inventorySummary";
 import ChartDashboard from "./chartDashboard";
 import ToggleMonths from "./toggleMonths";
+import FrameBox from "@/component/atoms/frameBox";
 import styles from "./dashboard.module.scss";
 
 const boxList: IDetailedBoxProps[] = [
@@ -42,7 +43,7 @@ const DashboardModule = () => {
 
   return (
     <Grid container spacing={2} className={styles.dashboardWrapper}>
-      <Grid sm={12} item>
+      <Grid xs={12} item>
         <Grid container spacing={2}>
           <Grid xs={12} sm={8} item>
             <Grid container columnSpacing={4}>
@@ -68,23 +69,23 @@ const DashboardModule = () => {
           </Grid>
         </Grid>
       </Grid>
-      {/* <Grid sm={12} item>
-        <Box minHeight="80vh">
-          <Box display="flex" justifyContent="space-between">
-            <Typography variant="h5">Monthly Sales</Typography>
-            <ToggleMonths
-              {...{
-                currValue,
-                setCurrValue,
-                sx: { marginRight: "2rem" },
-              }}
-            />
-          </Box>
-          <Box mt={1} p={1} bgcolor="white">
-            <ChartDashboard {...{ currValue, setCurrValue }} />
-          </Box>
+      <Grid xs={12} item>
+        <Box width="100%" p={2} bgcolor="white" minHeight="80vh">
+          <Grid container columnSpacing={2}>
+            <Grid item xs={6}>
+              <FrameBox title="PRODUCT DETAILS">{""}</FrameBox>
+            </Grid>
+            <Grid item xs={6}>
+              <FrameBox
+                title="PRODUCT DETAILS"
+                headerComponent={<Box>This month</Box>}
+              >
+                {""}
+              </FrameBox>
+            </Grid>
+          </Grid>
         </Box>
-      </Grid> */}
+      </Grid>
     </Grid>
   );
 };
