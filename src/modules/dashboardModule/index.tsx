@@ -12,6 +12,7 @@ import FrameBox from "@/component/atoms/frameBox";
 import styles from "./dashboard.module.scss";
 import DashboardPdDetails from "./dashboardPdDetails";
 import TopSellingVariants from "./topSellingVariants";
+import SalesOrderTable from "./salesOrderTable";
 
 const boxList: IDetailedBoxProps[] = [
   {
@@ -72,7 +73,7 @@ const DashboardModule = () => {
         </Grid>
       </Grid>
       <Grid xs={12} item>
-        <Box width="100%" p={2} bgcolor="white" minHeight="80vh">
+        <Box width="100%" p={2} bgcolor="white">
           <Grid container columnSpacing={2}>
             <Grid item xs={6}>
               <FrameBox title="PRODUCT DETAILS">
@@ -88,6 +89,13 @@ const DashboardModule = () => {
               </FrameBox>
             </Grid>
           </Grid>
+        </Box>
+      </Grid>
+      <Grid xs={12} item>
+        <Box width="100%" p={2} bgcolor="white">
+          <FrameBox title="SALES ORDER">
+            <SalesOrderTable />
+          </FrameBox>
         </Box>
       </Grid>
     </Grid>

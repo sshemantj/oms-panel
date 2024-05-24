@@ -2161,3 +2161,91 @@ export const returnModalRows = [
     damagedZone: 0,
   },
 ];
+
+export const salesOrderColumn: GridColDef[] = [
+  {
+    field: "orderRecived",
+    headerName: "Order Recieved",
+    width: 180,
+    align: "left",
+  },
+  { field: "packed", headerName: "Packed", width: 180, align: "left" },
+  {
+    field: "shipped",
+    headerName: "Shipped",
+    width: 180,
+    align: "left",
+  },
+  {
+    field: "failed",
+    headerName: "Failed",
+    width: 180,
+    align: "left",
+  },
+];
+
+export const salesOrderRows = [
+  {
+    id: 1,
+    packed: "Snow",
+    orderRecived: "Jon",
+    shipped: 35,
+    failed: Math.round(Math.random() * 100),
+  },
+  {
+    id: 2,
+    packed: "Lannister",
+    orderRecived: "Cersei",
+    shipped: 42,
+    failed: Math.round(Math.random() * 100),
+  },
+  {
+    id: 3,
+    packed: "Lannister",
+    orderRecived: "Jaime",
+    shipped: 45,
+    failed: Math.round(Math.random() * 100),
+  },
+  {
+    id: 4,
+    packed: "Stark",
+    orderRecived: "Arya",
+    shipped: 16,
+    failed: Math.round(Math.random() * 100),
+  },
+  {
+    id: 5,
+    packed: "Targaryen",
+    orderRecived: "Daenerys",
+    shipped: null,
+    failed: Math.round(Math.random() * 100),
+  },
+  {
+    id: 6,
+    packed: "Melisandre",
+    orderRecived: null,
+    shipped: 150,
+    failed: Math.round(Math.random() * 100),
+  },
+  {
+    id: 7,
+    packed: "Clifford",
+    orderRecived: "Ferrara",
+    shipped: 44,
+    failed: Math.round(Math.random() * 100),
+  },
+  {
+    id: 8,
+    packed: "Frances",
+    orderRecived: "Rossini",
+    shipped: 36,
+    failed: Math.round(Math.random() * 100),
+  },
+  {
+    id: 9,
+    packed: "Roxie",
+    orderRecived: "Harvey",
+    shipped: 65,
+    failed: Math.round(Math.random() * 100),
+  },
+];
