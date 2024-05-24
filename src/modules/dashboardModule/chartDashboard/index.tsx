@@ -14,23 +14,13 @@ interface IProps {
 
 const options: ApexCharts.ApexOptions = {
   chart: {
-    stackOnlyBar: true,
+    type: "donut",
   },
-  xaxis: {
-    categories: ["April", "May"],
-  },
-  plotOptions: {
-    bar: {
-      columnWidth: "100px",
-    },
+  dataLabels: {
+    enabled: false,
   },
 };
-const series: ISeries[] = [
-  {
-    name: "series-1",
-    data: [30, 40],
-  },
-];
+const series = [77, 23];
 
 const ChartDashboard = (props: IProps) => {
   const { currValue, setCurrValue } = props;
@@ -42,39 +32,39 @@ const ChartDashboard = (props: IProps) => {
     series: JSON.parse(JSON.stringify(series)),
   });
 
-  useEffect(() => {
-    const prevMonthObj = {
-      twoMonths: 2,
-      threeMonths: 3,
-    };
-    //@ts-ignore
-    const prevMonthNum = prevMonthObj[currValue];
-    const prevMonthList = getPreviousMonths(prevMonthNum);
+  // useEffect(() => {
+  //   const prevMonthObj = {
+  //     twoMonths: 2,
+  //     threeMonths: 3,
+  //   };
+  //   //@ts-ignore
+  //   const prevMonthNum = prevMonthObj[currValue];
+  //   const prevMonthList = getPreviousMonths(prevMonthNum);
 
-    const newOptions: ApexCharts.ApexOptions = {
-      ...options,
-      xaxis: {
-        ...options.xaxis,
-        categories: prevMonthList,
-      },
-    };
+  //   const newOptions: ApexCharts.ApexOptions = {
+  //     ...options,
+  //     xaxis: {
+  //       ...options.xaxis,
+  //       categories: prevMonthList,
+  //     },
+  //   };
 
-    const data = new Array(prevMonthNum)
-      .fill(null)
-      .map(() => Math.floor(Math.random() * 100));
+  //   const data = new Array(prevMonthNum)
+  //     .fill(null)
+  //     .map(() => Math.floor(Math.random() * 100));
 
-    const newSeries: ISeries[] = [
-      {
-        name: "series-1",
-        data: data,
-      },
-    ];
+  //   const newSeries: ISeries[] = [
+  //     {
+  //       name: "series-1",
+  //       data: data,
+  //     },
+  //   ];
 
-    setCustomChartsProps({
-      options: newOptions,
-      series: newSeries,
-    });
-  }, [currValue]);
+  //   setCustomChartsProps({
+  //     options: newOptions,
+  //     series: newSeries,
+  //   });
+  // }, [currValue]);
 
   return (
     <Grid container spacing={2}>
@@ -83,7 +73,7 @@ const ChartDashboard = (props: IProps) => {
           height={400}
           options={customChartProps.options}
           series={customChartProps.series}
-          type="bar"
+          type="donut"
         />
       </Grid>
     </Grid>

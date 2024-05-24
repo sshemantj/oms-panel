@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Grid, Typography } from "@mui/material";
+import ChartDashboard from "../chartDashboard";
 import styles from "./dashboardPdDetails.module.scss";
 
 interface IProps {}
@@ -23,6 +24,8 @@ const pdDetailList = [
 ];
 
 const DashboardPdDetails = (props: IProps) => {
+  const [currValue, setCurrValue] = useState<string>("twoMonths");
+
   return (
     <Grid container className={styles.dashboardPdDetails}>
       <Grid item xs={6} className={styles.dashboardPdContainer}>
@@ -39,7 +42,9 @@ const DashboardPdDetails = (props: IProps) => {
           );
         })}
       </Grid>
-      <Grid item xs={6}></Grid>
+      <Grid item xs={6}>
+        <ChartDashboard {...{ currValue, setCurrValue }} />
+      </Grid>
     </Grid>
   );
 };
