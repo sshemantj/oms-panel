@@ -7,9 +7,10 @@ import ErrorIcon from "@mui/icons-material/Error";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import InventorySummary from "./inventorySummary";
 import ChartDashboard from "./chartDashboard";
-import ToggleMonths from "./toggleMonths";
+import ToggleMonths from "./dashboardPdDetails";
 import FrameBox from "@/component/atoms/frameBox";
 import styles from "./dashboard.module.scss";
+import DashboardPdDetails from "./dashboardPdDetails";
 
 const boxList: IDetailedBoxProps[] = [
   {
@@ -73,7 +74,9 @@ const DashboardModule = () => {
         <Box width="100%" p={2} bgcolor="white" minHeight="80vh">
           <Grid container columnSpacing={2}>
             <Grid item xs={6}>
-              <FrameBox title="PRODUCT DETAILS">{""}</FrameBox>
+              <FrameBox title="PRODUCT DETAILS">
+                <DashboardPdDetails />
+              </FrameBox>
             </Grid>
             <Grid item xs={6}>
               <FrameBox
