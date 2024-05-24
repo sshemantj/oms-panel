@@ -16,12 +16,12 @@ const boxList = [
     price: "256950000.00",
   },
   {
-    title: "Today's Expenses",
-    icon: <CurrencyRupeeIcon />,
+    title: "Total recieved orders",
+    icon: <ShoppingCartIcon />,
     price: "157323000",
   },
-  { title: "Products To Reorder", icon: <ShoppingCartIcon />, price: "2" },
-  { title: "Pending Orders", icon: <RotateRightIcon />, price: "2" },
+  { title: "Pending orders", icon: <ShoppingCartIcon />, price: "2" },
+  { title: "Fulfilled orders", icon: <RotateRightIcon />, price: "2" },
 ];
 
 const DashboardModule = () => {
