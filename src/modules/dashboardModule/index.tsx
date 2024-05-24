@@ -28,18 +28,18 @@ const DashboardModule = () => {
     <Grid container spacing={2} className={styles.dashboardWrapper}>
       <Grid sm={12} item>
         <Grid container spacing={2}>
-          <Grid sm={8} item>
+          <Grid xs={12} sm={8} item>
             <Grid container spacing={2}>
               {boxList.map((item, index) => {
                 return (
-                  <Grid key={index} sm={6} item>
+                  <Grid key={index} xs={12} sm={6} item>
                     <DetailedBox {...item}>1</DetailedBox>
                   </Grid>
                 );
               })}
             </Grid>
           </Grid>
-          <Grid sm={4} item>
+          <Grid xs={12} sm={4} item>
             <QuickLinks />
           </Grid>
         </Grid>

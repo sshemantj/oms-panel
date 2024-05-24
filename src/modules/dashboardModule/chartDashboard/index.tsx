@@ -94,16 +94,15 @@ const ChartDashboard = () => {
 
   return (
     <Grid container spacing={2}>
-      <Grid item sm={12} md={8}>
+      <Grid item xs={12} md={8} order={{ xs: 2, md: 1 }}>
         <Charts
           height={400}
-          width={500}
           options={customChartProps.options}
           series={customChartProps.series}
           type="bar"
         />
       </Grid>
-      <Grid item sm={12} md={4}>
+      <Grid item xs={12} md={4} order={{ xs: 1, md: 2 }}>
         <ToggleButtons {...{ currValue, setCurrValue, btnList }} />
       </Grid>
     </Grid>
