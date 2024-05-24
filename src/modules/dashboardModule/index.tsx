@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Grid, Typography } from "@mui/material";
 import DetailedBox from "./detailedBox";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
@@ -7,6 +7,7 @@ import RotateRightIcon from "@mui/icons-material/RotateRight";
 import QuickLinks from "./quickLinks";
 import styles from "./dashboard.module.scss";
 import ChartDashboard from "./chartDashboard";
+import ToggleMonths from "./toggleMonths";
 
 const boxList = [
   {
@@ -24,6 +25,8 @@ const boxList = [
 ];
 
 const DashboardModule = () => {
+  const [currValue, setCurrValue] = useState<string>("twoMonths");
+
   return (
     <Grid container spacing={2} className={styles.dashboardWrapper}>
       <Grid sm={12} item>
@@ -46,9 +49,18 @@ const DashboardModule = () => {
       </Grid>
       <Grid sm={12} item>
         <Box minHeight="80vh">
-          <Typography variant="h5">Monthly Sales</Typography>
+          <Box display="flex" justifyContent="space-between">
+            <Typography variant="h5">Monthly Sales</Typography>
+            <ToggleMonths
+              {...{
+                currValue,
+                setCurrValue,
+                sx: { marginRight: "2rem" },
+              }}
+            />
+          </Box>
           <Box mt={1} p={1} bgcolor="white">
-            <ChartDashboard />
+            <ChartDashboard {...{ currValue, setCurrValue }} />
           </Box>
         </Box>
       </Grid>

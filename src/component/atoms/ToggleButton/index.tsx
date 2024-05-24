@@ -1,15 +1,17 @@
 import React from "react";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import { SxProps, Theme } from "@mui/material";
 
 interface IProps {
   currValue: string;
   setCurrValue: React.Dispatch<React.SetStateAction<string>>;
   btnList: { element: string | JSX.Element; value: string }[];
+  sx?: SxProps<Theme>;
 }
 
 const ToggleButtons = (props: IProps) => {
-  const { currValue, setCurrValue, btnList } = props;
+  const { currValue, setCurrValue, btnList, sx } = props;
 
   const handleAlignment = (
     _: React.MouseEvent<HTMLElement>,
@@ -20,6 +22,7 @@ const ToggleButtons = (props: IProps) => {
 
   return (
     <ToggleButtonGroup
+      sx={sx}
       value={currValue}
       exclusive
       onChange={handleAlignment}

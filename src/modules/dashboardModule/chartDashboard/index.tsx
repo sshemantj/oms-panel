@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Charts from "@/component/molecules/charts";
-import { Grid, Typography } from "@mui/material";
-import ToggleButtons from "@/component/atoms/ToggleButton";
+import { Grid } from "@mui/material";
 import { getPreviousMonths } from "@/utils/getPreviousMonthsNames";
 
 interface ISeries {
   name: string;
   data: number[];
+}
+interface IProps {
+  currValue: string;
+  setCurrValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const options: ApexCharts.ApexOptions = {
@@ -29,27 +32,8 @@ const series: ISeries[] = [
   },
 ];
 
-const btnList = [
-  {
-    element: (
-      <Typography fontSize={12} fontWeight={600} variant="subtitle2">
-        Two Months
-      </Typography>
-    ),
-    value: "twoMonths",
-  },
-  {
-    element: (
-      <Typography fontSize={12} fontWeight={600} variant="subtitle2">
-        Three Months
-      </Typography>
-    ),
-    value: "threeMonths",
-  },
-];
-
-const ChartDashboard = () => {
-  const [currValue, setCurrValue] = useState<string>("twoMonths");
+const ChartDashboard = (props: IProps) => {
+  const { currValue, setCurrValue } = props;
   const [customChartProps, setCustomChartsProps] = useState<{
     options: ApexCharts.ApexOptions;
     series: ISeries[];
@@ -94,16 +78,13 @@ const ChartDashboard = () => {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12} md={8} order={{ xs: 2, md: 1 }}>
+      <Grid item xs={12} md={12} order={{ xs: 2, md: 1 }}>
         <Charts
           height={400}
           options={customChartProps.options}
           series={customChartProps.series}
           type="bar"
         />
-      </Grid>
-      <Grid item xs={12} md={4} order={{ xs: 1, md: 2 }}>
-        <ToggleButtons {...{ currValue, setCurrValue, btnList }} />
       </Grid>
     </Grid>
   );
