@@ -11,6 +11,7 @@ import ToggleMonths from "./dashboardPdDetails";
 import FrameBox from "@/component/atoms/frameBox";
 import styles from "./dashboard.module.scss";
 import DashboardPdDetails from "./dashboardPdDetails";
+import TopSellingVariants from "./topSellingVariants";
 
 const boxList: IDetailedBoxProps[] = [
   {
@@ -80,10 +81,10 @@ const DashboardModule = () => {
             </Grid>
             <Grid item xs={6}>
               <FrameBox
-                title="PRODUCT DETAILS"
+                title="TOP SELLING VARIANTS"
                 headerComponent={<Box>This month</Box>}
               >
-                {""}
+                <TopSellingVariants />
               </FrameBox>
             </Grid>
           </Grid>

@@ -1,0 +1,19 @@
+.pdWrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  .imgWrapper {
+  }
+  .title {
+    font-weight: 600;
+  }
+  .quantity {
+    display: flex;
+    align-items: center;
+    .qty {
+      font-weight: 600;
+    }
+  }
+}
