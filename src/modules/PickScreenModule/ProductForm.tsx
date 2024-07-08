@@ -29,8 +29,24 @@ import {
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, FieldErrors, useForm } from "react-hook-form";
 import * as yup from "yup";
+
+interface FormValues {
+  additionalDamage?: string;
+  size: string;
+  orderNumber: string;
+  ean: string;
+  quantityToBePicked: number;
+  sku: string;
+  caNumber: string;
+  consignmentNumber: string;
+  colour: string;
+  soQuantity: number;
+  quantityPicked: number;
+  pickFailReasons: string[];
+  // pickFailReasons: string[];
+}
 
 const schema = yup.object().shape({
   orderNumber: yup.string().required("Order number is required"),
@@ -119,7 +135,7 @@ const ProductForm = () => {
     formState: { errors },
     setValue,
     watch,
-  } = useForm({
+  } = useForm<FormValues>({
     resolver: yupResolver(schema),
     defaultValues: {
       orderNumber: "",
@@ -136,6 +152,9 @@ const ProductForm = () => {
       pickFailReasons: [],
     },
   });
+
+  // Ensure errors is correctly typed as FieldErrors<FormValues>
+  const formErrors: FieldErrors<FormValues> = errors;
 
   console.log("errors", errors);
 
@@ -548,10 +567,14 @@ const ProductForm = () => {
               >
                 <FormControl
                   fullWidth
-                  error={!!errors[`pickFailReason${index}`]}
+                  error={
+                    !!errors[
+                      `pickFailReason${index}` as keyof FieldErrors<FormValues>
+                    ]
+                  }
                 >
                   <Controller
-                    name={`pickFailReason${index}`}
+                    name={`pickFailReasons.${index}`}
                     control={control}
                     render={({ field }) => (
                       <TextField

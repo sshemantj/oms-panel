@@ -129,29 +129,6 @@ const BarcodeScanner = () => {
     }
   };
 
-  const handleNotAbleToScan = () => {
-    // setBarcode(scannedBarcode);
-    router.push({
-      pathname: "/pick-screen/productsform",
-    });
-  };
-  // const handleNotAbleToScan = (scannedBarcode: string) => {
-  //   // setBarcode(scannedBarcode);
-  //   router.push({
-  //     pathname: "/pick-screen/productsform",
-  //     // query: { barcode: scannedBarcode, item },
-  //   });
-  // };
-  const [cameraActive, setCameraActive] = useState(true);
-
-  const handleUpdate = (err, result) => {
-    if (result) {
-      setData(result.text);
-      // setCameraActive(false); // Stop the camera once a barcode is scanned
-    } else {
-      setData("Not Found");
-    }
-  };
   const handleNext = () => {
     setScannedCodes((prev) => [...prev, barcode]);
     setBarcode("");
