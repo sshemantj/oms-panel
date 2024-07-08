@@ -18,8 +18,8 @@ const handleStatus = (status: number | undefined, message: string) => {
 };
 
 function handleUnauthorize(message?: string) {
-  // cookie.remove("token");
-  // store.dispatch(openLoginModal());
+  cookie.remove("token");
+  store.dispatch(openLoginModal());
 }
 
 export { handleStatus };

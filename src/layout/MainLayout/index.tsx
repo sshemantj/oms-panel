@@ -1,10 +1,10 @@
+import HeaderLabel from "@/component/atoms/headerLabel";
+import { IAllRoutes, IListRoutes } from "@/constants/allRoutes";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
+import LhsWrapper from "./LhsWrapper";
 import RhsWrapper from "./RhsWrapper";
 import NavList from "./navlist";
-import { useRouter } from "next/router";
-import { IAllRoutes, IListRoutes } from "@/constants/allRoutes";
-import HeaderLabel from "@/component/atoms/headerLabel";
-import LhsWrapper from "./LhsWrapper";
 import styles from "./newNavbar.module.scss";
 
 interface IProps {
@@ -24,6 +24,7 @@ const MainLayout = (props: IProps) => {
       case IAllRoutes.FULFILLMENTS:
       case IAllRoutes.DASHBOARD:
       case IAllRoutes.RETURNS:
+      case IAllRoutes.PICK_SCREEN:
         router.push(`${path}`);
         return;
     }

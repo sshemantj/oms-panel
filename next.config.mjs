@@ -2,7 +2,11 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["images.unsplash.com"],
+    domains: [
+      "images.unsplash.com",
+      "sslimages.shoppersstop.com",
+      "via.placeholder.com",
+    ],
   },
   env: {
     API_BASE_URL: process.env.API_BASE_URL,
