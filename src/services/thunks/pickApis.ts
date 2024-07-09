@@ -76,6 +76,7 @@ const submitFormData = createAsyncThunk(
           },
         }
       );
+      console.log("response.data", response.data);
       return response.data;
     } catch (error) {
       console.log(error);

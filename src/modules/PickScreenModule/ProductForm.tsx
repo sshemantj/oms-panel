@@ -109,7 +109,7 @@ const ProductForm = () => {
 
   const omsId = Number(routerOmsId);
 
-  const [reasons, setReasons] = useState<string[]>([""]);
+  const [reasons, setReasons] = useState<string[]>([]);
   const [productImageUrl, setProductImageUrl] = useState<string>("");
   const [productName, setProductName] = useState<string>("");
 
@@ -135,6 +135,7 @@ const ProductForm = () => {
     formState: { errors },
     setValue,
     watch,
+    getValues,
   } = useForm<FormValues>({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -162,14 +163,22 @@ const ProductForm = () => {
     // Example data to submit (adjust as per your form fields)
     console.log("data", data);
 
+    let reasonForFail = "";
+
+    if (quantityPicked < quantityToBePicked) {
+      reasonForFail = data.pickFailReasons.join(" # ");
+    }
+
     const formData = {
       omsId: omsId,
       status: (pickStatus as string) || "",
       additionalDamage: Number(data.additionalDamage),
       quantityToBePicked: data.quantityToBePicked || 0,
       quantityPicked: data.quantityPicked || 0,
-      reasonForFail: "COLOR NOT MATCHED",
+      ...(reasonForFail && { reasonForFail }),
     };
+
+    console.log("formdata", formData);
 
     dispatch(submitFormData(formData));
   };
@@ -193,9 +202,16 @@ const ProductForm = () => {
   }, [submitFormSuccess]);
 
   useEffect(() => {
-    if (data && Array.isArray(data) && data.length) {
+    if (
+      data &&
+      Array.isArray((data as any).pickEntryItems) &&
+      (data as any).pickEntryItems.length
+    ) {
       // const productDetails = (data.length && (data[0] as any)) || "";
-      const productDetails: ProductDetails = data[0] as ProductDetails;
+      const productDetails: ProductDetails = (data as any)
+        .pickEntryItems[0] as ProductDetails;
+      const reasonForFail: ProductDetails = (data as any).reasonForFail;
+      console.log("reasonForFail", reasonForFail);
       console.log("productDetails hceck", productDetails);
       console.log(" productDetails.orderNumber", productDetails.orderNumber);
       setValue("orderNumber", productDetails.orderNumber || "");
@@ -209,6 +225,10 @@ const ProductForm = () => {
       setValue("quantityPicked", Number(routerQuantiyPicked) || 0);
       setProductImageUrl(productDetails.imageUrl || "");
       setProductName(productDetails.productName || "");
+
+      if (reasonForFail && Array.isArray(reasonForFail)) {
+        setReasons(reasonForFail.map((reason) => reason.reason));
+      }
       // setValue(
       //   "soQuantity",
       //   productDetails.quantity ? parseInt(productDetails.quantity) : 0
@@ -217,9 +237,17 @@ const ProductForm = () => {
   }, [data, setValue]);
 
   const handleReasonChange = (value: string, index: number) => {
-    const reasons = [...watch("pickFailReasons")];
-    reasons[index] = value;
-    // setValue("pickFailReasons", reasons);
+    // Get the current values of pickFailReasons
+    const currentReasons = getValues("pickFailReasons");
+
+    // Create a copy of the array to avoid direct mutation
+    const updatedReasons = [...currentReasons];
+
+    // Update the reason at the specified index
+    updatedReasons[index] = value;
+
+    // Set the updated array back to the form state
+    setValue("pickFailReasons", updatedReasons);
   };
 
   const quantityPicked = watch("quantityPicked");
@@ -597,17 +625,16 @@ const ProductForm = () => {
                           },
                         }}
                         label="Reason for Pick Fail"
-                        value={reason}
+                        value={field.value}
                         onChange={(e) =>
                           handleReasonChange(e.target.value, index)
                         }
                       >
-                        <MenuItem value="">
-                          <em>None</em>
-                        </MenuItem>
-                        <MenuItem value="reason1">Reason 1</MenuItem>
-                        <MenuItem value="reason2">Reason 2</MenuItem>
-                        <MenuItem value="reason3">Reason 3</MenuItem>
+                        {reasons.map((reason, idx) => (
+                          <MenuItem key={idx} value={reason}>
+                            {reason}
+                          </MenuItem>
+                        ))}
                       </TextField>
                     )}
                   />

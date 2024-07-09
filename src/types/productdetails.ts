@@ -38,7 +38,7 @@ export interface SubmitFormData {
   additionalDamage: number;
   quantityToBePicked: number;
   quantityPicked: number;
-  reasonForFail: string;
+  reasonForFail?: string;
   // trayId: number;
   // qcFlag: string;
 
