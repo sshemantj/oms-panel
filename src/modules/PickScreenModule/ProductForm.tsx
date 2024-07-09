@@ -171,7 +171,7 @@ const ProductForm = () => {
 
     const formData = {
       omsId: omsId,
-      status: (pickStatus as string) || "",
+      status: reasonForFail ? "Pick Failed" : (pickStatus as string) || "",
       additionalDamage: Number(data.additionalDamage),
       quantityToBePicked: data.quantityToBePicked || 0,
       quantityPicked: data.quantityPicked || 0,
