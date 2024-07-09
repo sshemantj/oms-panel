@@ -325,9 +325,9 @@ const ProductForm = () => {
                   helperText={errors.orderNumber?.message}
                   type="text"
                   size="small"
-                  // InputProps={{
-                  //   readOnly: true,
-                  // }}
+                  InputProps={{
+                    readOnly: true,
+                  }}
                 />
               )}
             />
@@ -451,9 +451,9 @@ const ProductForm = () => {
                   helperText={errors.caNumber?.message}
                   type="text"
                   size="small"
-                  // InputProps={{
-                  //   readOnly: true,
-                  // }}
+                  InputProps={{
+                    readOnly: true,
+                  }}
                 />
               )}
             />
