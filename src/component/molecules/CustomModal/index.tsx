@@ -1,5 +1,5 @@
-import Modal from "@mui/material/Modal";
 import CloseIcon from "@mui/icons-material/Close";
+import Modal from "@mui/material/Modal";
 
 interface IProps {
   open: boolean;

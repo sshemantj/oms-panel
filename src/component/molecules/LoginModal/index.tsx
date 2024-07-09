@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { Grid, TextField, Paper, Button, Typography } from "@mui/material";
-import { useRouter } from "next/router";
-import CustomModal from "../CustomModal";
-import toast, { Toaster } from "react-hot-toast";
-import styles from "./login.module.scss";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { callLogin, getUserDetails } from "@/services/thunks/loginApi";
-import {
-  closeLoginModal,
-  openLoginModal,
-  persistUsername,
-} from "@/store/slices/loginSlice";
-import { Cookies } from "react-cookie";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { setLoader } from "@/store/slices/dashboardSlice";
+import { closeLoginModal, persistUsername } from "@/store/slices/loginSlice";
+import { Button, Grid, Paper, TextField, Typography } from "@mui/material";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { Cookies } from "react-cookie";
+import toast, { Toaster } from "react-hot-toast";
+import CustomModal from "../CustomModal";
+import styles from "./login.module.scss";
 
 const cookie = new Cookies();
 
@@ -60,10 +56,19 @@ const LoginComponent = () => {
       {...{ open: showLoginModal, handleModalClose, showClose: false }}
     >
       <div className={styles.loginWrapper}>
-        <div style={{ padding: 30, height: "100%" }}>
+        <div
+          style={{
+            padding: 30,
+            height: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <Paper
             sx={{
-              height: "100%",
+              // height: "100%",
+              padding: 3,
               display: "flex",
               alignItems: "center",
             }}
