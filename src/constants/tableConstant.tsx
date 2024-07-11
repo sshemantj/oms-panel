@@ -1,12 +1,11 @@
-import { GridColDef } from "@mui/x-data-grid";
-import staticImg from "@/images/ss-logo.jpg";
 import { unsplashimgurl } from "@/images/AllDataIcons";
 import { ITabList } from "@/interfaces/home.interface";
-import Link from "next/link";
-import QuantityColumn from "@/modules/storeModule/subRoutesModule/pick/quantityColumn";
 import PickImage from "@/modules/storeModule/subRoutesModule/pick/pickImage";
-import { Box, Button, Typography } from "@mui/material";
+import QuantityColumn from "@/modules/storeModule/subRoutesModule/pick/quantityColumn";
 import PrintIcon from "@mui/icons-material/Print";
+import { Button, Typography } from "@mui/material";
+import { GridColDef } from "@mui/x-data-grid";
+import Link from "next/link";
 import { IAllRoutes } from "./allRoutes";
 
 export const initialAllTableState = {
@@ -1062,6 +1061,32 @@ export const carrierCollectionsColumns: GridColDef[] = [
     // type: "number",
     width: 130,
     align: "left",
+  },
+];
+
+export const consigmentColummns = [
+  { field: "consignmentId", headerName: "Consignment ID", width: 150 },
+  { field: "sku", headerName: "SKU", width: 150 },
+  { field: "productName", headerName: "Product Name", width: 200 },
+  { field: "brand", headerName: "Brand", width: 90 },
+  { field: "ean", headerName: "EAN", width: 150 },
+  { field: "quantity", headerName: "Quantity", width: 100 },
+  { field: "size", headerName: "Size", width: 80 },
+  { field: "weight", headerName: "Weight", width: 80 },
+  { field: "color", headerName: "Color", width: 150 },
+];
+
+export const consigmentRows = [
+  {
+    id: 1,
+    orderRef: "Snow",
+    customer: "Jon",
+    orderType: "manual",
+    deliveryType: "manual",
+    awbNumber: `${Math.ceil(Math.random() * 10000000)}`,
+    carrier: "Default Carrier",
+    consignmentStatus: "Processing",
+    assingCarrier: "",
   },
 ];
 

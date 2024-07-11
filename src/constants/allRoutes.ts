@@ -12,6 +12,7 @@ export enum IAllRoutes {
   FULFILLMENTS = "/fulfillments",
   RETURNS = "/returns",
   PICK_SCREEN = "/pick-screen",
+  PACK_SCREEN = "/pack-screen",
 }
 
 //Store sub routes

@@ -2,9 +2,11 @@ import { IAllRoutes } from "@/constants/allRoutes";
 import ArticleIcon from "@mui/icons-material/Article";
 import AssignmentLateIcon from "@mui/icons-material/AssignmentLate";
 import AssignmentReturnIcon from "@mui/icons-material/AssignmentReturn";
+import BackpackIcon from "@mui/icons-material/Backpack";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import PersonIcon from "@mui/icons-material/Person";
+import PrecisionManufacturingIcon from "@mui/icons-material/PrecisionManufacturing";
 import StoreIcon from "@mui/icons-material/Store";
 
 export interface INavListArr {
@@ -51,7 +53,12 @@ export const navListArr: INavListArr[] = [
   },
   {
     topHeading: "Pick Screen",
-    icon: <AssignmentReturnIcon color="inherit" />,
+    icon: <PrecisionManufacturingIcon color="inherit" />,
     path: IAllRoutes.PICK_SCREEN,
+  },
+  {
+    topHeading: "Pack Screen",
+    icon: <BackpackIcon color="inherit" />,
+    path: IAllRoutes.PACK_SCREEN,
   },
 ];

@@ -25,6 +25,7 @@ const MainLayout = (props: IProps) => {
       case IAllRoutes.DASHBOARD:
       case IAllRoutes.RETURNS:
       case IAllRoutes.PICK_SCREEN:
+      case IAllRoutes.PACK_SCREEN:
         router.push(`${path}`);
         return;
     }
