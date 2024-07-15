@@ -1,25 +1,130 @@
 import CustomModal from "@/component/molecules/CustomModal";
-import { Box, Button, TextField, Typography } from "@mui/material";
-import { useRouter } from "next/router";
+import Loader from "@/component/molecules/Loader";
+import { generateManifestOrder } from "@/services/thunks/carrierCollectionsApis";
+import { useAppDispatch } from "@/store/hooks";
 import CloseIcon from "@mui/icons-material/Close";
-import { IAllRoutes } from "@/constants/allRoutes";
+import { Box, Button, TextField, Typography } from "@mui/material";
+import { GridRowSelectionModel } from "@mui/x-data-grid";
+import axios from "axios";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 interface IProps {
   openModal: boolean;
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedManifestRows: GridRowSelectionModel;
 }
 
 const ManifestModal = (props: IProps) => {
-  const { openModal, setOpenModal } = props;
-  const router = useRouter();
+  const { openModal, setOpenModal, selectedManifestRows } = props;
+
+  const [associateName, setAssociateName] = useState("");
+  const [vehicleNumber, setVehicleNumber] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const dispatch = useAppDispatch();
 
   const handleClose = () => {
     setOpenModal(false);
   };
 
-  const handleGenerateClick = () => {
-    setOpenModal(false);
-    router.push(IAllRoutes.PROOF_OF_DELIEVERY);
+  const handleDownloadPDF = async (reportId: string) => {
+    const config: any = {
+      method: "get",
+      maxBodyLength: Infinity,
+      url: `${process.env.API_BASE_URL}/PDF/GetManifest?ReportId=${reportId}`,
+      headers: {
+        Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ...",
+      },
+      responseType: "blob",
+    };
+
+    axios(config)
+      .then((response: any) => {
+        console.log("response pdf", response);
+
+        const blob = new Blob([response.data], { type: "application/pdf" });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `manifest_label_${reportId}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+        handleClose();
+      })
+      .catch((error: any) => {
+        console.log("response error pdf", error);
+
+        if (error.response?.status === 400) {
+          if (error.response.data instanceof Blob) {
+            new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload = () => {
+                try {
+                  const errorMessage = JSON.parse(
+                    reader.result as string
+                  ).message;
+                  resolve(Promise.reject(error));
+                  toast.error(`Failed to fetch PDF: ${errorMessage}`);
+                } catch (error) {
+                  toast.error("Failed to fetch PDF: Unknown error");
+                }
+              };
+              reader.readAsText(error.response.data);
+            })
+              .then((err) => {
+                console.log("err", err);
+              })
+              .catch((err) => {
+                console.log("err", err);
+              });
+          }
+        } else {
+          toast.error(`Failed to fetch PDF:`);
+        }
+      });
+  };
+
+  const handleGenerateClick = async (e: any) => {
+    e.preventDefault();
+    if (!vehicleNumber) {
+      toast.error("Vehicle Number is required ");
+      return;
+    }
+    if (!associateName) {
+      toast.error("Associate Name is required ");
+      return;
+    }
+    if (selectedManifestRows.length) {
+      const manifestDetailSelected: any = selectedManifestRows;
+      const manifestDetails = manifestDetailSelected.map((manifest: any) => ({
+        ...manifest,
+        vehicleNumber: vehicleNumber,
+        associateName: associateName,
+      }));
+      try {
+        setLoading(true);
+
+        const resultAction = await dispatch(
+          generateManifestOrder({ manifestDetails })
+        );
+        const generatedData = resultAction.payload;
+        if (generatedData.result) {
+          const reportId = generatedData.reportId;
+          await handleDownloadPDF(reportId);
+        }
+      } catch (error) {
+        console.error(
+          "Failed to generate manifest order or download PDF:",
+          error
+        );
+        toast.error("Failed to generate manifest order or download PDF");
+      } finally {
+        setLoading(false);
+      }
+    }
   };
 
   return (
@@ -33,6 +138,7 @@ const ManifestModal = (props: IProps) => {
             height: "100%",
           }}
         >
+          {loading ? <Loader size={50} color="primary" overlay={true} /> : null}
           <div
             style={{
               padding: "0 1rem",
@@ -73,6 +179,8 @@ const ManifestModal = (props: IProps) => {
                   }}
                   required
                   placeholder="Associate Name"
+                  value={associateName}
+                  onChange={(e) => setAssociateName(e.target.value)}
                 />
                 <TextField
                   sx={{
@@ -83,6 +191,8 @@ const ManifestModal = (props: IProps) => {
                   }}
                   required
                   placeholder="Vehicle Number"
+                  value={vehicleNumber}
+                  onChange={(e) => setVehicleNumber(e.target.value)}
                 />
               </Box>
               <Box
@@ -94,7 +204,7 @@ const ManifestModal = (props: IProps) => {
                 }}
               >
                 <Button
-                  onClick={() => handleGenerateClick()}
+                  onClick={(e) => handleGenerateClick(e)}
                   variant="contained"
                   color="info"
                 >

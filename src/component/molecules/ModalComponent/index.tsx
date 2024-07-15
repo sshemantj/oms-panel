@@ -12,6 +12,7 @@ interface ModalProps {
   onClose: () => void;
   title: string;
   children: React.ReactNode;
+  maxWidth?: "xs" | "sm" | "md" | "lg" | "xl";
 }
 
 const ModalComponent: React.FC<ModalProps> = ({
@@ -19,9 +20,16 @@ const ModalComponent: React.FC<ModalProps> = ({
   onClose,
   title,
   children,
+  maxWidth = "sm",
 }) => {
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+    <Dialog
+      open={open}
+      onClose={onClose}
+      fullWidth
+      maxWidth={maxWidth}
+      style={{ zIndex: "999" }}
+    >
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>{children}</DialogContent>
       <DialogActions>

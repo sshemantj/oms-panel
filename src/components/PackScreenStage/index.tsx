@@ -1,34 +1,41 @@
 import SelectDropdown from "@/component/atoms/selectDropdown";
-import { useAppSelector } from "@/store/hooks";
+import Loader from "@/component/molecules/Loader";
+import ModalComponent from "@/component/molecules/ModalComponent";
+import {
+  fetchCourierData,
+  getConsignmentCourierItems,
+  getPackStatusCount,
+  packFilters,
+  updateCourierPartner,
+} from "@/services/thunks/packApis";
+import { useAppDispatch } from "@/store/hooks";
+import {
+  CustomCardProps,
+  DropdownAction,
+  DropdownState,
+} from "@/types/Consignments";
 import {
   Box,
   Button,
   Card,
   CardContent,
   Grid,
+  IconButton,
+  InputAdornment,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
   Typography,
 } from "@mui/material";
-import { useReducer } from "react";
+import { GridSearchIcon } from "@mui/x-data-grid";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { useEffect, useReducer, useState } from "react";
+import toast from "react-hot-toast";
 import PackScreenTable from "./PackTable";
-
-interface DropdownOption {
-  label: string;
-  value: string | number;
-}
-
-interface DropdownState {
-  brand: string;
-  tray: string;
-  deliveryMode: string;
-  category: string;
-}
-
-type DropdownAction = { type: keyof DropdownState; value: string };
-
-interface CustomCardProps {
-  title: string;
-  number: number;
-}
 
 const commonSelectSx = {
   width: "170px",
@@ -47,17 +54,45 @@ const commonSelectSx = {
   },
 };
 
-const initialDropdownState: DropdownState = {
-  brand: "",
-  tray: "",
-  deliveryMode: "",
-  category: "",
-};
-const dropdownReducer = (state: DropdownState, action: DropdownAction) => ({
-  ...state,
-  [action.type]: action.value,
-});
+// const courierPartnerDropDown = [
+//   {
+//     courierId: 1,
+//     courierName: "DTDC Express",
+//   },
+//   {
+//     courierId: 2,
+//     courierName: "ECOM Express",
+//   },
+//   {
+//     courierId: 3,
+//     courierName: "BLUEDART",
+//   },
+// ];
 
+const initialDropdownState: DropdownState = {
+  brands: [],
+  trays: [],
+  deliveryMode: [],
+};
+const dropdownReducer = (
+  state: DropdownState,
+  action: DropdownAction
+): DropdownState => {
+  switch (action.type) {
+    case "brands":
+    case "trays":
+    case "deliveryMode":
+    case "selectedBrand":
+    case "selectedTray":
+    case "selectedDeliveryMode":
+      return {
+        ...state,
+        [action.type]: action.value,
+      };
+    default:
+      return state;
+  }
+};
 const CustomCard = ({ title, number }: CustomCardProps) => (
   <Box justifyContent={"center"} padding="1rem">
     <Typography variant="h6" align="center" color="red">
@@ -81,40 +116,233 @@ const CustomCard = ({ title, number }: CustomCardProps) => (
     </Card>
   </Box>
 );
+
+interface DropdownOption {
+  label: string;
+  value: string | number;
+}
+
+function getDropdownValues<T>(
+  items: T[],
+  labelKey: keyof T,
+  valueKey: keyof T
+): DropdownOption[] {
+  return items.map((item) => ({
+    label: item[labelKey] as unknown as string,
+    value: item[valueKey] as unknown as string | number,
+  }));
+}
+
 const PackScreenStage = () => {
-  const [state, dispatch] = useReducer(dropdownReducer, initialDropdownState);
-  const { userChannelMappings } = useAppSelector((state) => state.dashboard);
-  const channelMappingsArr =
-    (Array.isArray(userChannelMappings) &&
-      userChannelMappings?.map((item: any) => {
-        return {
-          label: item.channelName,
-          value: item.channelId,
-        };
-      })) ||
-    [];
+  const [dropdownState, dropdownDispatch] = useReducer(
+    dropdownReducer,
+    initialDropdownState
+  );
+  const reduxDispatch = useAppDispatch();
+  const [isFilterSelected, setIsFilterSelected] = useState(false);
+  const [submittedFilters, setSubmittedFilters] = useState<any>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [showAssignCourierModal, setShowAssignCourierModal] = useState(false);
+
+  const [consignmentId, setConsignmentId] = useState("");
+  const [consignmentData, setConsignmentData] = useState<any>(null);
+  const [selectedCourierPartner, setSelectedCourierPartner] =
+    useState<any>(null);
+
+  const [statusCounts, setStatusCounts] = useState([]);
+  const [courierPartnerDropDown, setCourierPartnerDropDown] = useState<any>([]);
+
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+
+    reduxDispatch(packFilters(1))
+      .unwrap()
+      .then((response) => {
+        dropdownDispatch({ type: "brands", value: response.brands });
+        dropdownDispatch({ type: "trays", value: response.trays });
+        dropdownDispatch({
+          type: "deliveryMode",
+          value: response.deliveryMode,
+        });
+      })
+      .catch((err) => {
+        console.log("error", err);
+      });
+
+    const fetchStatusCounts = async () => {
+      const locationId = 1;
+      if (locationId) {
+        setLoading(true);
+        try {
+          const resultAction = await reduxDispatch(
+            getPackStatusCount(locationId)
+          );
+          const data = unwrapResult(resultAction);
+          setStatusCounts(data);
+        } catch (error) {
+          console.error("Failed to fetch status counts: ", error);
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+    const fetchCourierForDropDown = async () => {
+      const locationId = 1;
+      if (locationId) {
+        setLoading(true);
+        try {
+          const resultAction = await reduxDispatch(fetchCourierData());
+          const data = unwrapResult(resultAction);
+          setCourierPartnerDropDown(data);
+        } catch (error) {
+          console.error("Failed to fetch status counts: ", error);
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+    setLoading(false);
+
+    fetchStatusCounts();
+    fetchCourierForDropDown();
+  }, [reduxDispatch]);
 
   // useGetPickFiltersQuery
 
   const handleDropdownChange =
-    (type: keyof DropdownState) =>
-    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      dispatch({ type, value: event.target.value });
+    (type: "selectedBrand" | "selectedTray" | "selectedDeliveryMode") =>
+    (event: React.ChangeEvent<{ value: unknown }>) => {
+      dropdownDispatch({ type, value: event.target.value as string });
     };
 
-  const handleSubmit = () => {
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+
     const selectedValues = {
-      brand: state.brand,
-      tray: state.tray,
-      deliveryMode: state.deliveryMode,
-      category: state.category,
+      brand: dropdownState.selectedBrand,
+      tray: dropdownState.selectedTray,
+      deliveryMode: dropdownState.selectedDeliveryMode,
     };
-    console.log("Selected Values:", selectedValues);
-    // Add your logic to send these values to an API or handle them as needed
+    const values = Object.values(selectedValues);
+    const isValid = values.some(
+      (value) => value !== null && value !== undefined && value !== ""
+    );
+    if (!isValid) {
+      toast.error("At least one filter value must be selected.");
+      return;
+    } else {
+      setIsFilterSelected(true);
+      setSubmittedFilters({ ...selectedValues });
+    }
+  };
+
+  const brandDropdownValues = getDropdownValues(
+    dropdownState.brands,
+    "brandName",
+    "brandName"
+  );
+  const trayDropdownValues = getDropdownValues(
+    dropdownState.trays,
+    "trayCode",
+    "id"
+  );
+  const deliveryModeDropdownValues = getDropdownValues(
+    dropdownState.deliveryMode,
+    "deliveryModeName",
+    "deliveryModeName"
+  );
+
+  const getStatusCount = (status: any) => {
+    const statusObj: any = statusCounts.find(
+      (item: any) => item.packStatus === status
+    );
+    return statusObj ? statusObj.totalCount : 0;
+  };
+  const handleSearchSubmit = async () => {
+    if (!consignmentId) {
+      toast.error("Consignment ID is required");
+      return;
+    }
+    setLoading(true);
+
+    try {
+      const resultAction = await reduxDispatch(
+        getConsignmentCourierItems({ locationId: 115, consignmentId })
+      );
+      const data = unwrapResult(resultAction);
+      if (data && data.consignmentItems) {
+        setConsignmentData(data);
+        setModalOpen(true);
+      } else {
+        toast.error("No data found for the provided Consignment ID");
+      }
+    } catch (error) {
+      console.log("error", error);
+      toast.error("Failed to fetch consignment item details:");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleKeyPress = (event: React.KeyboardEvent) => {
+    if (event.key === "Enter") {
+      handleSearchSubmit();
+    }
+  };
+
+  const handleAssignCourier = () => {
+    setShowAssignCourierModal(true);
+  };
+
+  const courierDropDownData = courierPartnerDropDown?.map((courier: any) => {
+    return {
+      label: courier.courierName,
+      value: courier.courierName,
+    };
+  });
+
+  const handleCourierDropdownChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setSelectedCourierPartner(e.target.value);
+  };
+
+  const handleSubmittedCourierPartner = async (e: any) => {
+    e.preventDefault();
+    if (!selectedCourierPartner) {
+      toast.error("Courier partner is required");
+      return;
+    }
+    if (consignmentData.length === 0) {
+      toast.error("Consigments not reads");
+      return;
+    }
+
+    const payload = consignmentData.consignmentItems.map((item: any) => ({
+      omsId: String(item.omsId),
+      omsOrderId: item.orderId,
+      consignmentId: String(item.consignmentId),
+      courier: selectedCourierPartner,
+    }));
+
+    try {
+      const updateWeightResponse = await reduxDispatch(
+        updateCourierPartner(payload)
+      );
+      const response = unwrapResult(updateWeightResponse);
+      response && toast.success(response);
+      setShowAssignCourierModal(false);
+    } catch (error) {
+      console.error("Error updating weights:", error);
+    }
   };
 
   return (
     <>
+      {loading ? <Loader size={50} color="primary" overlay={true} /> : null}
+
       <Grid container spacing={3} padding={4}>
         {/* Left Grid with Dropdowns */}
         <Grid item xs={12} md={6}>
@@ -130,58 +358,46 @@ const PackScreenStage = () => {
                 selectSx={{
                   ...commonSelectSx,
                   "& label": {
-                    top: state.brand ? 0 : "-12px",
-                    display: state.brand ? "none" : "unset",
+                    top: dropdownState.selectedBrand ? 0 : "-12px",
+                    display: dropdownState.selectedBrand ? "none" : "unset",
                   },
                 }}
-                value={state.brand}
-                handleOnChange={handleDropdownChange("brand")}
-                data={channelMappingsArr}
+                value={dropdownState.selectedBrand}
+                handleOnChange={handleDropdownChange("selectedBrand")}
+                data={brandDropdownValues}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <SelectDropdown
                 label="Tray"
-                value={state.tray}
+                value={dropdownState.selectedTray}
                 selectSx={{
                   ...commonSelectSx,
                   "& label": {
-                    top: state.tray ? 0 : "-12px",
-                    display: state.tray ? "none" : "unset",
+                    top: dropdownState.selectedTray ? 0 : "-12px",
+                    display: dropdownState.selectedTray ? "none" : "unset",
                   },
                 }}
-                handleOnChange={handleDropdownChange("tray")}
-                data={channelMappingsArr}
+                handleOnChange={handleDropdownChange("selectedTray")}
+                data={trayDropdownValues}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+
+            <Grid item xs={12} sm={12}>
               <SelectDropdown
                 label="Delivery Mode"
-                value={state.deliveryMode}
+                value={dropdownState.selectedDeliveryMode}
                 selectSx={{
                   ...commonSelectSx,
                   "& label": {
-                    top: state.deliveryMode ? 0 : "-12px",
-                    display: state.deliveryMode ? "none" : "unset",
+                    top: dropdownState.selectedDeliveryMode ? 0 : "-12px",
+                    display: dropdownState.selectedDeliveryMode
+                      ? "none"
+                      : "unset",
                   },
                 }}
-                handleOnChange={handleDropdownChange("deliveryMode")}
-                data={channelMappingsArr}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <SelectDropdown
-                label="Category"
-                value={state.category}
-                selectSx={{
-                  ...commonSelectSx,
-                  "& label": {
-                    top: state.category ? 0 : "-12px",
-                    display: state.category ? "none" : "unset",
-                  },
-                }}
-                handleOnChange={handleDropdownChange("category")}
-                data={channelMappingsArr}
+                handleOnChange={handleDropdownChange("selectedDeliveryMode")}
+                data={deliveryModeDropdownValues}
               />
             </Grid>
             <Grid
@@ -209,7 +425,10 @@ const PackScreenStage = () => {
             }}
           >
             <Grid item xs={6} border={2} borderRadius={1} borderColor={"red"}>
-              <CustomCard title="Pick in Progress" number={10} />
+              <CustomCard
+                title="Pick in Progress"
+                number={getStatusCount("Pick in Progress")}
+              />
             </Grid>
             <Grid
               item
@@ -219,13 +438,230 @@ const PackScreenStage = () => {
               borderColor={"red"}
               ml={2}
             >
-              <CustomCard title="Dropped" number={5} />
+              <CustomCard title="Dropped" number={getStatusCount("Dropped")} />
             </Grid>
           </Box>
         </Grid>
       </Grid>
+      <div>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
+            gap: 1,
+            marginRight: 2,
+          }}
+        >
+          <TextField
+            label="Search by Consignment ID"
+            value={consignmentId}
+            onChange={(e) => setConsignmentId(e.target.value)}
+            variant="outlined"
+            size="small"
+            onKeyDown={handleKeyPress}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={handleSearchSubmit}>
+                    <GridSearchIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Box>
+        <ModalComponent
+          open={modalOpen}
+          onClose={() => setModalOpen(false)}
+          title=""
+          maxWidth="lg"
+        >
+          <Grid
+            sx={{
+              padding: 2,
+              backgroundColor: "white",
+
+              display: "flex",
+
+              flexDirection: "column",
+            }}
+          >
+            {consignmentData && consignmentData.consignmentItems.length
+              ? consignmentData.consignmentItems.map(
+                  (item: any, index: number) => (
+                    <>
+                      <Grid
+                        container
+                        spacing={2}
+                        key={item.consignmentId}
+                        marginTop={0.1}
+                      >
+                        <Grid item xs={12}>
+                          <Grid container width={"100%"}>
+                            <Grid item xs={12} md={12}>
+                              <TableContainer component={Card}>
+                                <Table>
+                                  <TableHead>
+                                    <TableRow>
+                                      <TableCell>Product Name</TableCell>
+                                      <TableCell>Brand</TableCell>
+                                      <TableCell>Sku</TableCell>
+                                      <TableCell>EAN</TableCell>
+                                      <TableCell>Price</TableCell>
+                                      <TableCell>CA Number</TableCell>
+                                      <TableCell>Quantity to Pack</TableCell>
+                                      <TableCell>Size</TableCell>
+                                      <TableCell>Colour</TableCell>
+                                    </TableRow>
+                                  </TableHead>
+                                  <TableBody>
+                                    {/* {itemsInConsignment.map((item: any, index) => ( */}
+                                    <TableRow key={index}>
+                                      <TableCell>{item.productName}</TableCell>
+                                      <TableCell>{item.brand}</TableCell>
+                                      <TableCell>{item.sku}</TableCell>
+                                      <TableCell>{item.ean}</TableCell>
+                                      <TableCell>{item.price}</TableCell>
+                                      <TableCell>{item.caNumber}</TableCell>
+                                      <TableCell>{item.quantity}</TableCell>
+                                      <TableCell>{item.size}</TableCell>
+                                      <TableCell>{item.color}</TableCell>
+                                    </TableRow>
+                                    {/* // ))} */}
+                                  </TableBody>
+                                </Table>
+                              </TableContainer>
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                    </>
+                  )
+                )
+              : null}
+            <Grid
+              sx={{
+                padding: 2,
+                backgroundColor: "white",
+
+                display: "flex",
+                gap: 4,
+              }}
+            >
+              {consignmentData && consignmentData.customerDetails ? (
+                <Box marginTop={4}>
+                  <Typography variant="h5">Customer Details</Typography>
+                  <Typography>
+                    {consignmentData.customerDetails.name}
+                  </Typography>{" "}
+                  <Typography>
+                    {consignmentData.customerDetails.address}
+                  </Typography>{" "}
+                  <Typography>
+                    {consignmentData.customerDetails.contactNo}
+                  </Typography>
+                </Box>
+              ) : null}
+              {consignmentData && consignmentData.shipmentDetails ? (
+                <Box marginTop={4}>
+                  <Typography variant="h5">Shipment Details</Typography>
+                  <Typography>
+                    {consignmentData.shipmentDetails.storeName}
+                  </Typography>
+                  <Typography>
+                    {consignmentData.shipmentDetails.address}
+                  </Typography>
+                </Box>
+              ) : null}
+              {consignmentData && consignmentData.courierDetails ? (
+                <Box marginTop={4}>
+                  <Typography variant="h5">Courier Details</Typography>
+                  <Typography>
+                    {consignmentData.courierDetails.courierName}
+                  </Typography>
+                </Box>
+              ) : null}
+            </Grid>
+            <Box display="flex" justifyContent="flex-end">
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleAssignCourier}
+                sx={{ marginTop: "1rem" }}
+                // disabled={assigncourierdisabled}
+              >
+                Assign Courier
+              </Button>
+            </Box>
+
+            {showAssignCourierModal ? (
+              <ModalComponent
+                open={showAssignCourierModal}
+                onClose={() => setShowAssignCourierModal(false)}
+                title=""
+                maxWidth="sm"
+              >
+                {/* <div style={{ height: "100%" }}> */}
+                <Box
+                  sx={{
+                    padding: 4,
+                    // height: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    // maxWidth: 400,
+                    // margin: "auto",
+                  }}
+                >
+                  <form onSubmit={handleSubmit}>
+                    <Grid container spacing={2} direction="column">
+                      <Grid
+                        item
+                        xs={12}
+                        sm={6}
+                        // sx={{ zIndex: 1300, position: "relative" }}
+                      >
+                        <SelectDropdown
+                          label="select courier partner"
+                          selectSx={{
+                            ...commonSelectSx,
+                            width: "220px",
+                            // overflow: "visible",
+                            "& label": {
+                              top: selectedCourierPartner ? 0 : "-12px",
+                              display: selectedCourierPartner
+                                ? "none"
+                                : "unset",
+                            },
+                          }}
+                          value={selectedCourierPartner}
+                          handleOnChange={handleCourierDropdownChange}
+                          data={courierDropDownData}
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Button
+                          fullWidth
+                          type="submit"
+                          onClick={handleSubmittedCourierPartner}
+                          variant="contained"
+                          color="primary"
+                        >
+                          Assign
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  </form>
+                </Box>
+                {/* </div> */}
+              </ModalComponent>
+            ) : null}
+          </Grid>
+        </ModalComponent>
+      </div>
       <Box>
-        <PackScreenTable />
+        <PackScreenTable filters={submittedFilters} />
       </Box>
     </>
   );
