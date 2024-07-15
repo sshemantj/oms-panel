@@ -29,7 +29,7 @@ export const navListArr: INavListArr[] = [
   {
     topHeading: "Customer Collections",
     icon: <PersonIcon color="inherit" />,
-    path: IAllRoutes.STORE,
+    path: IAllRoutes.CUSTOMER_COLLECTIONS,
   },
   {
     topHeading: "Carrier Collections",

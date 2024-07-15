@@ -1020,13 +1020,13 @@ export const carrierBookingRows = [
   },
 ];
 export const carrierCollectionsColumns: GridColDef[] = [
-  { field: "orderId", headerName: "Order Id", width: 130, align: "left" },
-  { field: "customer", headerName: "Customer", width: 130, align: "left" },
+  { field: "orderId", headerName: "Order Id", width: 110, align: "left" },
+  { field: "customer", headerName: "Customer", width: 110, align: "left" },
   {
     field: "awbNumber",
     headerName: "AWB Number",
     // type: "number",
-    width: 130,
+    width: 110,
     align: "left",
     renderCell: (params) => (
       <Typography sx={{ color: "blue", textDecoration: "underline" }}>
@@ -1045,19 +1045,33 @@ export const carrierCollectionsColumns: GridColDef[] = [
     field: "orderType",
     headerName: "Order Type",
     // type: "number",
-    width: 160,
+    width: 100,
     align: "left",
   },
   {
     field: "deliveryType",
     headerName: "Delivery Type",
     // type: "number",
-    width: 130,
+    width: 110,
     align: "left",
   },
   {
     field: "carrier",
     headerName: "Carrier",
+    // type: "number",
+    width: 130,
+    align: "left",
+  },
+  {
+    field: "shipmentNumber",
+    headerName: "Consignment Id",
+    // type: "number",
+    width: 220,
+    align: "left",
+  },
+  {
+    field: "reportid",
+    headerName: "Report Id",
     // type: "number",
     width: 130,
     align: "left",
