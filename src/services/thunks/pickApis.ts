@@ -66,8 +66,8 @@ const submitFormData = createAsyncThunk(
   "form/submitFormData",
   async (formData: SubmitFormData, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        "http://35.207.230.21:8089/picker/updatePickEntry",
+      const response = await axiosPublic.post(
+        "/picker/updatePickEntry",
         formData,
         {
           headers: {
@@ -86,8 +86,8 @@ const updateDropManualStatus = createAsyncThunk(
   "form/updateDropManualStatus",
   async (formData: ManualDropStatus, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        "http://35.207.230.21:8089/picker/updatePickEntry",
+      const response = await axiosPublic.post(
+        "/picker/updatePickEntry",
         formData,
         {
           headers: {
