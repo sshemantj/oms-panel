@@ -186,6 +186,7 @@ const CarrierCollectionModule = () => {
               orderNumber: row.orderNumber,
               customer: row.customer,
               awb: row.awb,
+              ...(row.reportid && { reportId: row.reportid }),
             }
           : null;
       })

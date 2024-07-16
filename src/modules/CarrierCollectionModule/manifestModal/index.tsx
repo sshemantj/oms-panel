@@ -101,7 +101,7 @@ const ManifestModal = (props: IProps) => {
       const manifestDetailSelected: any = selectedManifestRows;
       const manifestDetails = manifestDetailSelected.map((manifest: any) => ({
         ...manifest,
-        vehicleNumber: vehicleNumber,
+        vehicle: vehicleNumber,
         associateName: associateName,
       }));
       try {
@@ -119,6 +119,8 @@ const ManifestModal = (props: IProps) => {
 
           const reportId = generatedData.reportId;
           await handleDownloadPDF(reportId);
+        } else {
+          toast.error(generatedData.message);
         }
       } catch (error) {
         console.error(
