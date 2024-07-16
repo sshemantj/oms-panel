@@ -28,11 +28,11 @@ const GenerateOtpModal = (props: IProps) => {
     setOpenModal(false);
   };
 
-  const handleDownloadPDF = async (reportId: string) => {
+  const handleDownloadPDF = async (shipmentNo: string) => {
     const config: any = {
       method: "get",
       maxBodyLength: Infinity,
-      url: `${process.env.API_BASE_URL}/PDF/GetInvoice?shipmentno=${reportId}`,
+      url: `${process.env.API_BASE_URL}/PDF/GetInvoice?shipmentno=${shipmentNo}`,
       headers: {
         Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ...",
       },
@@ -44,10 +44,11 @@ const GenerateOtpModal = (props: IProps) => {
         console.log("response pdf", response);
 
         const blob = new Blob([response.data], { type: "application/pdf" });
+
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = `manifest_label_${reportId}.pdf`;
+        a.download = `Invoice_${shipmentNo}.pdf`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);

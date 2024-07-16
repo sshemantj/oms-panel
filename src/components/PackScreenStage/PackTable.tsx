@@ -144,7 +144,8 @@ const PackScreenTable = ({ filters }: PackScreenTableProps) => {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = `shipping_label_${shipmentNo}.pdf`;
+        const fileName = shipping ? "ShippingLabel" : "Invoice";
+        a.download = `${fileName}_${shipmentNo}.pdf`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);

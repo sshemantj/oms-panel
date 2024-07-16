@@ -48,7 +48,7 @@ const ManifestModal = (props: IProps) => {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = `manifest_label_${reportId}.pdf`;
+        a.download = `Manifest_${reportId}.pdf`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
