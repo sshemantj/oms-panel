@@ -1,10 +1,9 @@
 import CustomModal from "@/component/molecules/CustomModal";
 import Loader from "@/component/molecules/Loader";
-import { generateManifestOrder } from "@/services/thunks/carrierCollectionsApis";
+import { validateOTP } from "@/services/thunks/customerCollectionApis";
 import { useAppDispatch } from "@/store/hooks";
 import CloseIcon from "@mui/icons-material/Close";
 import { Box, Button, TextField, Typography } from "@mui/material";
-import { GridRowSelectionModel } from "@mui/x-data-grid";
 import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -12,15 +11,15 @@ import toast from "react-hot-toast";
 interface IProps {
   openModal: boolean;
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
-  selectedManifestRows: GridRowSelectionModel;
+  selectedConsigmentId: string;
   onSuccess?: () => void;
 }
 
-const ManifestModal = (props: IProps) => {
-  const { openModal, setOpenModal, selectedManifestRows, onSuccess } = props;
+const GenerateOtpModal = (props: IProps) => {
+  const { openModal, setOpenModal, selectedConsigmentId, onSuccess } = props;
 
-  const [associateName, setAssociateName] = useState("");
-  const [vehicleNumber, setVehicleNumber] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [generatedOtp, setGeneratedOtp] = useState("");
   const [loading, setLoading] = useState(false);
 
   const dispatch = useAppDispatch();
@@ -29,11 +28,11 @@ const ManifestModal = (props: IProps) => {
     setOpenModal(false);
   };
 
-  const handleDownloadPDF = async (reportId: string) => {
+  const handleDownloadPDF = async (shipmentNo: string) => {
     const config: any = {
       method: "get",
       maxBodyLength: Infinity,
-      url: `${process.env.API_BASE_URL}/PDF/GetManifest?ReportId=${reportId}`,
+      url: `${process.env.API_BASE_URL}/PDF/GetInvoice?shipmentno=${shipmentNo}`,
       headers: {
         Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ...",
       },
@@ -45,10 +44,11 @@ const ManifestModal = (props: IProps) => {
         console.log("response pdf", response);
 
         const blob = new Blob([response.data], { type: "application/pdf" });
+
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = `Manifest_${reportId}.pdf`;
+        a.download = `Invoice_${shipmentNo}.pdf`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -86,70 +86,72 @@ const ManifestModal = (props: IProps) => {
         }
       });
   };
+  console.log("selectedConsigmentId", selectedConsigmentId);
 
-  const handleGenerateClick = async (e: any) => {
+  const handleValidateOtp = async (e: any) => {
     e.preventDefault();
-    if (!vehicleNumber) {
-      toast.error("Vehicle Number is required ");
+    if (!generatedOtp) {
+      toast.error("Otp is required ");
       return;
     }
-    if (!associateName) {
-      toast.error("Associate Name is required ");
+    if (!mobileNumber) {
+      toast.error("Mobile Number is required ");
       return;
     }
-    if (selectedManifestRows.length) {
-      const manifestDetailSelected: any = selectedManifestRows;
-      const manifestDetails = manifestDetailSelected.map((manifest: any) => ({
-        ...manifest,
-        vehicle: vehicleNumber,
-        associateName: associateName,
-      }));
+    if (selectedConsigmentId) {
+      const otpDetail = {
+        shipmentNo: selectedConsigmentId,
+
+        otp: generatedOtp,
+        mobileNo: mobileNumber,
+      };
       try {
         setLoading(true);
 
-        const resultAction = await dispatch(
-          generateManifestOrder({ manifestDetails })
-        );
+        const resultAction = await dispatch(validateOTP(otpDetail));
         const generatedData = resultAction.payload;
+        console.log("generatedData", generatedData);
         if (generatedData.result) {
+          toast.success("OTP Validated Successfully");
+
+          await handleDownloadPDF(selectedConsigmentId);
           handleClose();
           if (onSuccess) await onSuccess();
-
-          toast.success("Manifest generated successfully");
-
-          const reportId = generatedData.reportId;
-          await handleDownloadPDF(reportId);
-        } else {
+        } else if (!generatedData.result) {
           toast.error(generatedData.message);
         }
       } catch (error) {
-        console.error(
-          "Failed to generate manifest order or download PDF:",
-          error
-        );
-        toast.error("Failed to generate manifest order or download PDF");
+        console.error("Failed to Validate Otp:", error);
+        toast.error("Failed to Validate Otp");
       } finally {
         setLoading(false);
       }
     }
   };
 
-  const handleAssociateNameChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleMobileNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    // Regex to allow only text characters (letters and spaces)
-    const regex = /^[a-zA-Z\s]*$/;
+    // Regex to match exactly 10 digits
+    const regex = /^[0-9]{0,10}$/;
 
     if (regex.test(value) || value === "") {
-      setAssociateName(value);
+      setMobileNumber(value);
+    }
+  };
+  const handleOtpChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    // Regex to match exactly 4 digits
+    const regex = /^[0-9]{0,4}$/;
+
+    if (regex.test(value) || value === "") {
+      setGeneratedOtp(value);
     }
   };
 
   const handleClear = (e: any) => {
     e.preventDefault();
-    setAssociateName("");
-    setVehicleNumber("");
+    setGeneratedOtp("");
+    setMobileNumber("");
   };
 
   return (
@@ -174,7 +176,7 @@ const ManifestModal = (props: IProps) => {
             }}
           >
             <Typography sx={{ marginTop: "2rem" }} color={"grey"} variant="h5">
-              Update Transport Associate Details
+              Validate OTP
             </Typography>
             <div
               style={{
@@ -204,9 +206,9 @@ const ManifestModal = (props: IProps) => {
                   }}
                   type="text"
                   required
-                  placeholder="Associate Name"
-                  value={associateName}
-                  onChange={handleAssociateNameChange}
+                  placeholder="Mobile Number"
+                  value={mobileNumber}
+                  onChange={handleMobileNumberChange}
                 />
                 <TextField
                   sx={{
@@ -215,10 +217,11 @@ const ManifestModal = (props: IProps) => {
                       padding: "8px",
                     },
                   }}
+                  type="text"
                   required
-                  placeholder="Vehicle Number"
-                  value={vehicleNumber}
-                  onChange={(e) => setVehicleNumber(e.target.value)}
+                  placeholder="Otp"
+                  value={generatedOtp}
+                  onChange={handleOtpChange}
                 />
               </Box>
               <Box
@@ -230,11 +233,11 @@ const ManifestModal = (props: IProps) => {
                 }}
               >
                 <Button
-                  onClick={(e) => handleGenerateClick(e)}
+                  onClick={(e) => handleValidateOtp(e)}
                   variant="contained"
                   color="info"
                 >
-                  GENERATE
+                  VALIDATE OTP
                 </Button>
                 <Button onClick={handleClear} variant="contained" color="info">
                   CLEAR
@@ -258,4 +261,4 @@ const ManifestModal = (props: IProps) => {
   );
 };
 
-export default ManifestModal;
+export default GenerateOtpModal;

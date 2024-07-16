@@ -31,6 +31,7 @@ const CustomModal = (props: IProps) => {
       onClose={handleClose}
       aria-labelledby="parent-modal-title"
       aria-describedby="parent-modal-description"
+      style={{ zIndex: "9999" }}
     >
       <>
         {children}

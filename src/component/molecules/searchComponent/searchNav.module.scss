@@ -2,12 +2,12 @@
 
 .searchValueContainer {
   background-color: $color_white;
-  width: 250px;
+  width: 320px;
   transition: top 0.3s ease-out;
   display: flex;
   align-items: center;
   position: relative;
-  border: 1px solid $color_11;
+  // border: 1px solid $color_11;
   // &::after {
   //   content: "";
   //   width: 100%;

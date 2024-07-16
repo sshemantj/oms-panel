@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { TextField } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
 import { useMobileCheck } from "@/hooks/useMobileCheck";
-import SearchIcon from "@mui/icons-material/Search";
 import { useAppDispatch } from "@/store/hooks";
+import SearchIcon from "@mui/icons-material/Search";
+import { TextField } from "@mui/material";
 import { useSearchParams } from "next/navigation";
+import React, { useCallback, useEffect, useState } from "react";
 import styles from "./searchNav.module.scss";
 
 interface ISearchProps {

@@ -105,7 +105,6 @@ const ProductForm = () => {
     quantityToBePicked: routerQuantiyPicked = 0,
     pickStatus = "",
   } = router.query;
-  console.log("router.query", router.query);
 
   const omsId = Number(routerOmsId);
 
@@ -114,7 +113,6 @@ const ProductForm = () => {
   const [productName, setProductName] = useState<string>("");
 
   useEffect(() => {
-    console.log("omsId here", omsId);
     let barcode: any;
     // scannedCodes ? JSON.parse(scannedCodes as any) : "";
     try {

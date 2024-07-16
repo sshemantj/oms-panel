@@ -3,20 +3,17 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   console.log("req.body", req.body);
-  const { offset, limit, filters } = req.body;
+  const { locationId, consignmentId } = req.body;
 
   // let data = JSON.stringify(filters);
-  let data = JSON.stringify({
-    ...filters,
-  });
+  const data = JSON.stringify({ locationId, consignmentId });
 
   const baseurl = process.env.API_BASE_URL;
 
   let config = {
     method: "get",
     maxBodyLength: Infinity,
-    url: `${baseurl}/picker/getPickItemDetails?offSet=${offset}&limit=${limit}`,
-    // url: `/picker/getPickItemDetails?offSet=${offset}&limit=${limit}`,
+    url: `${baseurl}/packer/Pack/getConsignmentCourierItems`,
     headers: {
       "Content-Type": "application/json",
     },

@@ -36,21 +36,15 @@ function PickScreenModule() {
 
   const [error, setError] = useState("");
   const dispatch = useAppDispatch();
-  console.log("filterReducer", filterReducer);
 
   const [state, stateDispatch] = useReducer(filterReducer, initialFilterState);
   const filters = useAppSelector((state) => state.filters.pickFilters);
-  console.log("state", state);
-  console.log("initialFilterState", initialFilterState);
-
-  console.log("filters", filters);
 
   useEffect(() => {
     dispatch(pickFilters(1));
   }, []);
 
   const handleSubmit = () => {
-    console.log("filtersForLoadPickItems", state);
     if (state.status.statusDescription) {
       setError("");
 

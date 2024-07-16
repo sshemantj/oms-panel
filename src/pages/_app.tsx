@@ -1,6 +1,7 @@
 import Loader from "@/component/atoms/loader";
 import { Providers } from "@/store/provider";
 import "@/styles/globals.css";
+import { useMediaQuery } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import type { AppProps } from "next/app";
 import { useEffect } from "react";
@@ -13,6 +14,7 @@ const theme = createTheme({
 });
 
 export default function App({ Component, pageProps }: AppProps) {
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   useEffect(() => {
     function setViewportHeight() {
       document.documentElement.style.setProperty(
@@ -27,14 +29,14 @@ export default function App({ Component, pageProps }: AppProps) {
     return () => {
       window.removeEventListener("resize", setViewportHeight);
     };
-  }, []); // Empty dependency array ensures this effect runs only once on component mount
+  }, []);
   return (
     <Providers>
       <ThemeProvider theme={theme}>
         <Component {...pageProps} />
         {/* <LoginComponent /> */}
         <Loader />
-        <Toaster />
+        <Toaster position={isMobile ? "bottom-center" : "top-right"} />
       </ThemeProvider>
     </Providers>
   );

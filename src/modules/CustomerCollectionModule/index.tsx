@@ -2,7 +2,6 @@ import Cards, { IBaseCardProps } from "@/component/atoms/cards";
 import CustomSelect from "@/component/atoms/customSelect";
 import Loader from "@/component/molecules/Loader";
 import SearchComponent from "@/component/molecules/searchComponent/SearchComponent";
-import { carrierCollectionsColumns } from "@/constants/tableConstant";
 import {
   fetchManifestDetails,
   getChannels,
@@ -10,19 +9,30 @@ import {
 import { fetchCourierData } from "@/services/thunks/packApis";
 import { useAppDispatch } from "@/store/hooks";
 import FeaturedTable from "@/tables/featuredTable";
-import { Box, Button, Grid, Typography } from "@mui/material";
-import { GridColDef, GridRowId } from "@mui/x-data-grid";
+import { Box, Grid, Typography } from "@mui/material";
+import { GridColDef } from "@mui/x-data-grid";
 import { unwrapResult } from "@reduxjs/toolkit";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import styles from "./carrierCollection.module.scss";
-import ManifestModal from "./manifestModal";
+import styles from "./customerCollection.module.scss";
+import GenerateOtpModal from "./otpGenerationModal";
 
 const flex = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
 };
+
+const data = [
+  { label: "SHIPDELIGHT", value: "SHIPDELIGHT" },
+  { label: "ECOM EXPRESS", value: "ECOM EXPRESS" },
+  { label: "BLOWHORN", value: "BLOWHORN" },
+  { label: "BLUEDART", value: "BLUEDART" },
+  { label: "DELHIVERY", value: "DELHIVERY" },
+  { label: "DUNZO", value: "DUNZO" },
+  { label: "XPRESSBEES", value: "XPRESSBEES" },
+  { label: "DEFAULT CARRIER", value: "DEFAULT CARRIER" },
+];
 
 interface ManifestColumnItem {
   orderId: string;
@@ -44,7 +54,76 @@ interface Filters {
   [key: string]: string;
 }
 
-const CarrierCollectionModule = () => {
+const CustomerCollecionModule = () => {
+  const customerCollectionsColumns: GridColDef[] = [
+    { field: "orderId", headerName: "Order Id", width: 110, align: "left" },
+    { field: "customer", headerName: "Customer", width: 110, align: "left" },
+    {
+      field: "awbNumber",
+      headerName: "AWB Number",
+      // type: "number",
+      width: 110,
+      align: "left",
+    },
+    {
+      field: "consignmentStatus",
+      headerName: "Consignment Status",
+      // type: "number",
+      width: 160,
+      align: "left",
+    },
+    {
+      field: "orderType",
+      headerName: "Order Type",
+      // type: "number",
+      width: 100,
+      align: "left",
+    },
+    {
+      field: "deliveryType",
+      headerName: "Delivery Type",
+      // type: "number",
+      width: 110,
+      align: "left",
+    },
+    {
+      field: "carrier",
+      headerName: "Carrier",
+      // type: "number",
+      width: 130,
+      align: "left",
+    },
+    {
+      field: "shipmentNumber",
+      headerName: "Consignment Id",
+      // type: "number",
+      width: 220,
+      align: "left",
+      renderCell: (params) => (
+        <Typography
+          style={{
+            textDecoration: "underline",
+            color: "blue",
+            cursor: "pointer",
+            // fontSize: "13px",
+            alignSelf: "center",
+            display: "inline-block",
+            textAlign: "center",
+          }}
+          onClick={() => handleShipment(params.row.shipmentNumber)}
+        >
+          {params.value}
+        </Typography>
+      ),
+    },
+    {
+      field: "reportid",
+      headerName: "Report Id",
+      // type: "number",
+      width: 130,
+      align: "left",
+    },
+  ];
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
   const [selectedCourier, setSelectedCourier] = useState("");
@@ -60,10 +139,10 @@ const CarrierCollectionModule = () => {
     columns: GridColDef[];
     rows: ManifestColumnItem[];
   }>({
-    columns: carrierCollectionsColumns,
+    columns: customerCollectionsColumns,
     rows: [],
   });
-  const [selectedTableRows, setSelectedTableRows] = useState<any>([]);
+  const [selectedConsigmentId, setSelectedConsigmentId] = useState<any>([]);
   const [openModal, setOpenModal] = useState<boolean>(false);
 
   const cardsList: IBaseCardProps[] = [
@@ -110,7 +189,6 @@ const CarrierCollectionModule = () => {
     fetchCourierForDropDown();
     fetchChannelsForDropDown();
   }, [dispatch]);
-
   const fetchData = async (filters: Filters = {}) => {
     try {
       setLoading(true);
@@ -169,29 +247,10 @@ const CarrierCollectionModule = () => {
     setSelectedChannel(e.target.value as string);
   };
 
-  const handleGenerateManifest = () => {
+  const handleShipment = (shipmentId: any) => {
+    console.log("shipmentId", shipmentId);
+    setSelectedConsigmentId(shipmentId);
     setOpenModal(true);
-  };
-
-  const onRowSelectionModelChange = (selectedRows: GridRowId[]) => {
-    const selectedRowDetails = selectedRows
-      .map((rowId) => {
-        const row = tableState.rows.find((r) => r.id === rowId);
-        return row
-          ? {
-              orderId: row.orderId,
-
-              shipmentNumber: row.shipmentNumber,
-              courier: row.courier,
-              orderNumber: row.orderNumber,
-              customer: row.customer,
-              awb: row.awb,
-              ...(row.reportid && { reportId: row.reportid }),
-            }
-          : null;
-      })
-      .filter(Boolean);
-    setSelectedTableRows(selectedRowDetails);
   };
 
   const handleSearchSubmit = async () => {
@@ -224,6 +283,7 @@ const CarrierCollectionModule = () => {
             deliveryType: item.deliveryType,
             carrier: item.carrier,
             shipmentNumber: item.shipmentNumber,
+            reportid: item.reportId,
           })
         );
         setTableState((prevTableState) => ({ ...prevTableState, rows }));
@@ -249,6 +309,13 @@ const CarrierCollectionModule = () => {
     }
   };
 
+  const handleSuccess = async () => {
+    await fetchData();
+
+    setSelectedConsigmentId([]);
+    setTableKey((prevKey) => prevKey + 1);
+  };
+
   const courierDropDownData = courierPartnerDropDown?.map((courier: any) => {
     return {
       label: courier.courierName,
@@ -262,16 +329,10 @@ const CarrierCollectionModule = () => {
     };
   });
 
-  const handleSuccess = () => {
-    fetchData();
-    setSelectedTableRows([]);
-    setTableKey((prevKey) => prevKey + 1);
-  };
-
   return (
     <>
       {loading ? <Loader size={50} color="primary" overlay={true} /> : null}
-      <Box className={styles.carrierCollectionWrapper}>
+      <Box className={styles.customerCollectionWrapper}>
         <Box
           sx={{
             width: "100%",
@@ -285,7 +346,7 @@ const CarrierCollectionModule = () => {
               sx={{ ...flex, width: "100%", justifyContent: "space-between" }}
             >
               <Box sx={{ ...flex, gap: "0.5rem" }}>
-                <Typography fontWeight={600}>Carrier Collections</Typography>
+                <Typography fontWeight={600}>Customer Collections</Typography>
               </Box>
             </Box>
           </Box>
@@ -308,15 +369,6 @@ const CarrierCollectionModule = () => {
                   onChange={handleSearch}
                   onSearchSubmit={handleSearchSubmit}
                 />
-                <Button
-                  sx={{
-                    visibility: selectedTableRows.length ? "visible" : "hidden",
-                  }}
-                  onClick={() => handleGenerateManifest()}
-                  variant="contained"
-                >
-                  GENERATE MANIFEST
-                </Button>
               </Box>
             </Grid>
             <Grid item sx={{ marginLeft: "auto" }} md={2.5}>
@@ -385,15 +437,13 @@ const CarrierCollectionModule = () => {
                 key: tableKey,
                 rows: tableState.rows,
                 columns: tableState.columns,
-                checkboxSelection: true,
-                onRowSelectionModelChange,
               }}
             />
           </Box>
           {openModal ? (
-            <ManifestModal
+            <GenerateOtpModal
               {...{ openModal, setOpenModal }}
-              selectedManifestRows={selectedTableRows}
+              selectedConsigmentId={selectedConsigmentId}
               onSuccess={handleSuccess}
             />
           ) : null}
@@ -403,4 +453,4 @@ const CarrierCollectionModule = () => {
   );
 };
 
-export default CarrierCollectionModule;
+export default CustomerCollecionModule;
