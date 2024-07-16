@@ -1,8 +1,8 @@
-import React from "react";
-import { useSearchParams } from "next/navigation";
+import MenuIconWrapper from "@/component/atoms/menuIcon";
 import { INavListArr, navListArr } from "@/constants/navlistArr";
 import { useMobileCheck } from "@/hooks/useMobileCheck";
-import MenuIconWrapper from "@/component/atoms/menuIcon";
+import { useSearchParams } from "next/navigation";
+import React from "react";
 import styles from "./navlist.module.scss";
 
 interface IProps {
@@ -51,7 +51,7 @@ const NavList = (props: IProps) => {
         {isMobile || <MenuIconWrapper {...{ handleIconClick, isNavOpen }} />}
         <div className={styles.navlist_container}>
           {navListArr.map((listItem: INavListArr, index: number) => {
-            const { topHeading, icon } = listItem;
+            const { topHeading, icon: IconComponent, iconType } = listItem;
             return (
               <div
                 onClick={() => handleRouteClick(listItem)}
@@ -62,7 +62,18 @@ const NavList = (props: IProps) => {
                   className={`${styles.topHeading} ${isNavOpen || styles.hide} 
                   ${activeCondition(listItem?.path) && styles.active}`}
                 >
-                  <span>{listItem.icon}</span> {isNavOpen && topHeading}
+                  {iconType === "svg" ? (
+                    <span>
+                      <IconComponent
+                        color="inherit"
+                        className={styles.iconStyle}
+                      />
+                    </span>
+                  ) : (
+                    <span>{IconComponent}</span>
+                  )}
+
+                  {isNavOpen && topHeading}
                 </p>
               </div>
             );
