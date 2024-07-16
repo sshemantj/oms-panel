@@ -32,7 +32,7 @@ const GenerateOtpModal = (props: IProps) => {
     const config: any = {
       method: "get",
       maxBodyLength: Infinity,
-      url: `${process.env.API_BASE_URL}/PDF/GetManifest?ReportId=${reportId}`,
+      url: `${process.env.API_BASE_URL}/PDF/GetInvoice?shipmentno=${reportId}`,
       headers: {
         Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ...",
       },
