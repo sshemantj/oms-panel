@@ -6,7 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint:fix": "eslint --fix && yarn format",
+    "lint:strict": "eslint --max-warnings=0 src",
+    "typecheck": "tsc --noEmit --incremental false",
+    "format": "prettier --write \"**/*.{ts,tsx,md,css,scss}\"",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",
@@ -22,7 +27,9 @@
     "axios": "^1.6.7",
     "dayjs": "^1.11.11",
     "html5-qrcode": "^2.3.8",
+    "husky": "^9.0.11",
     "next": "13.4",
+    "pretty-quick": "^4.0.0",
     "qrcode.react": "^3.1.0",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.1",
