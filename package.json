@@ -45,6 +45,7 @@
     "redux-persist": "^6.0.0",
     "sass": "^1.70.0",
     "yet-another-react-lightbox": "^3.21.1",
+    "sharp": "^0.33.4",
     "yup": "^1.4.0"
   },
   "devDependencies": {
