@@ -180,28 +180,30 @@ const BarcodeScanner = () => {
                   stopStream={stopStream}
                 />
               ) : null}
-              <Box
-                sx={{
-                  ...flex,
-                  flexDirection: "column",
-                  marginY: "8px",
-                }}
-              >
-                <Typography variant="h6" sx={{ marginBottom: "1rem" }}>
-                  Scanned Barcode
-                </Typography>
-                <Typography variant="h6" sx={{ marginBottom: "1rem" }}>
-                  {barcode}
-                </Typography>
-                <Button
-                  onClick={handleNext}
-                  variant="contained"
-                  color="primary"
+              {!stopStream ? (
+                <Box
+                  sx={{
+                    ...flex,
+                    flexDirection: "column",
+                    marginY: "8px",
+                  }}
                 >
-                  Next {""}
-                  {currentScan + 1}/{scanQuantity}
-                </Button>
-              </Box>
+                  <Typography variant="h6" sx={{ marginBottom: "1rem" }}>
+                    Scanned Barcode
+                  </Typography>
+                  <Typography variant="h6" sx={{ marginBottom: "1rem" }}>
+                    {barcode}
+                  </Typography>
+                  <Button
+                    onClick={handleNext}
+                    variant="contained"
+                    color="primary"
+                  >
+                    Next {""}
+                    {currentScan + 1}/{scanQuantity}
+                  </Button>
+                </Box>
+              ) : null}
             </Box>
           )
         )}
