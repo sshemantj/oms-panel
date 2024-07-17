@@ -10,7 +10,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     ...filters,
   });
 
-  const baseurl = process.env.API_BASE_URL;
+  const baseurl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   let config = {
     method: "get",
