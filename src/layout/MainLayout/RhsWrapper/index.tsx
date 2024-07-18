@@ -6,7 +6,6 @@ import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import { Box, IconButton, Popover, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import styles from "./rhsWrapper.module.scss";
-import Logout from "@/components/PackScreenStage/Logout";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
 import { deleteCookie, getCookie } from "cookies-next";
