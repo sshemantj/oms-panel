@@ -7,7 +7,10 @@ import ChipList from "@/modules/PickScreenModule/ChipList";
 import SwipeableCard from "@/modules/PickScreenModule/SwipeableCard";
 import TabNavigation from "@/modules/PickScreenModule/TabNavigation";
 import { fetchPickItemDetails } from "@/services/thunks/pickApis";
-import { deleteFilterItem } from "@/store/slices/filterSlice";
+import {
+  deleteFilterItem,
+  setSelectedFiltersForLoadPick,
+} from "@/store/slices/filterSlice";
 import { ToastError } from "@/utils/toast";
 import { Box, CircularProgress } from "@mui/material";
 import dayjs from "dayjs";
@@ -54,17 +57,24 @@ const ItemList = () => {
   const [chipData, setChipData] = useState(
     [
       { key: 0, label: brandName, filterKey: "brand" },
-      // { key: 1, label: categoryName, filterKey: "category" },
       { key: 1, label: channelName, filterKey: "channel" },
       { key: 2, label: deliveryModeName, filterKey: "deliveryMode" },
-      // { key: 4, label: statusDescription, filterKey: "status" },
     ].filter((chip) => chip.label)
   );
 
   const [value, setValue] = useState(Math.max(statusId - 1, 0));
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    console.log("newValue", newValue);
     setValue(newValue);
+    const state = {
+      estimatedShip: "",
+      status: {
+        statusId: newValue + 1,
+        statusDescription: statuses[newValue + 1],
+      },
+    };
+    dispatch(setSelectedFiltersForLoadPick(state));
   };
 
   const handleDelete = (chipToDelete: any) => () => {
@@ -79,21 +89,7 @@ const ItemList = () => {
     (state) => state.pickItemDetails
   );
   console.log("items check", items);
-  // const observer = useRef();
 
-  // const lastOrderElementRef = useCallback(
-  //   (node) => {
-  //     if (status === "loading") return;
-  //     if (observer.current) observer.current.disconnect();
-  //     observer.current = new IntersectionObserver((entries) => {
-  //       if (entries[0].isIntersecting) {
-  //         dispatch(incrementOffset());
-  //       }
-  //     });
-  //     if (node) observer.current.observe(node);
-  //   },
-  //   [status, dispatch]
-  // );
   useEffect(() => {
     const locationId = getStoreIdFromCookie();
 
@@ -103,11 +99,9 @@ const ItemList = () => {
 
     const filters: any = {};
     if (brandName) filters.brand = { brandName };
-    // if (categoryId && categoryName) filters.category = { categoryId, categoryName };
     if (channelName) filters.channel = { channelName };
     if (deliveryModeName) filters.deliveryMode = deliveryModeName;
     if (parsedEstimatedShip) filters.etd = parsedEstimatedShip;
-    // if (estimatedShip) filters.etd = estimatedShip.toISOString().split("T")[0];
     if (orderNumber) filters.orderNumber = orderNumber;
     console.log("value", value);
     console.log("statuses[value]", statuses[value]);
@@ -120,7 +114,9 @@ const ItemList = () => {
     if (locationId) filters.locationId = locationId;
     console.log({ offset, limit, filters });
 
-    dispatch(fetchPickItemDetails({ offset: 0, limit: 10, filters }));
+    const result = dispatch(
+      fetchPickItemDetails({ offset: 0, limit: 10, filters })
+    );
   }, [dispatch, selectedPickFilters, value]);
 
   if (status === "failed") {

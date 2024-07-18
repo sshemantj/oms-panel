@@ -28,7 +28,9 @@ export interface ProductDetails {
 }
 
 export interface ProductDetailsState {
-  data: ProductDetails | null;
+  // data: ProductDetails | null;
+  data: any | null;
+
   loading: boolean;
   error: string | null;
 }

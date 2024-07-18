@@ -17,6 +17,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { unwrapResult } from "@reduxjs/toolkit";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -30,14 +31,14 @@ const flex = {
 
 const BarcodeScanner = () => {
   const router = useRouter();
-  console.log("router.query", router.query);
 
   const dispatch = useAppDispatch();
   const statusDropStatusLoading = useAppSelector(selectDropStatusLoading);
   const statusDropStatusError = useAppSelector(selecDropStatusError);
   const statusDropSuccess = useAppSelector(selecDropStatusSuccess);
 
-  const { omsId, pickStatus, quantity } = router.query;
+  const { omsId, pickStatus, quantity, ean, trayName, locationId } =
+    router.query;
   const scanQuantity = parseInt(quantity as string, 10);
 
   const [scannedCodes, setScannedCodes] = useState<string[]>([]);
@@ -64,67 +65,114 @@ const BarcodeScanner = () => {
     }
   };
 
-  const handleDropMarkManual = () => {
+  const handleDropMarkManual = async () => {
     if (omsId) {
       const formData = {
         omsId: Number(omsId),
 
         status: "Dropped",
       };
-
-      dispatch(updateDropManualStatus(formData));
       setManuallyDropped(true);
+
+      const resultAction = await dispatch(updateDropManualStatus(formData));
+      const response = unwrapResult(resultAction);
+      console.log("response", response);
+      if (response.statusCode === 200) {
+        toast.success(
+          response.message ||
+            "Something went wrong while updating status on barcode"
+        );
+        const state = {
+          estimatedShip: "",
+          status: {
+            statusId: 5,
+            statusDescription: "Dropped",
+          },
+        };
+        dispatch(setSelectedFiltersForLoadPick(state));
+        router.push({
+          pathname: "/pick-screen/itemlist",
+        });
+      } else {
+        toast.error(
+          response.message ||
+            "Something went wrong while updating status on barcode"
+        );
+      }
     }
   };
 
-  useEffect(() => {
-    console.log("statusDropSuccess", statusDropSuccess);
-    if (statusDropSuccess) {
-      const state = {
-        estimatedShip: "",
-        status: {
-          statusId: 5,
-          statusDescription: "Dropped",
-        },
+  const updateStatusManually = async () => {
+    if (pickStatus === "Awaiting Pick") {
+      const formData = {
+        omsId: Number(omsId),
+
+        status: "Pick in Progress",
       };
-      dispatch(setSelectedFiltersForLoadPick(state));
-      router.push({
-        pathname: "/pick-screen/itemlist",
-      });
-      dispatch(resetDropStatusState());
+      dispatch(updateDropManualStatus(formData));
+      const resultAction = await dispatch(updateDropManualStatus(formData));
+      const response = unwrapResult(resultAction);
+      if (response.statusCode === 200) {
+        toast.success(
+          response.message ||
+            "Something went wrong pick in progress update status"
+        );
+      } else {
+        toast.error(
+          response.message ||
+            "Something went wrong pick in progress update status"
+        );
+      }
     }
-  }, [statusDropSuccess]);
-  console.log("statusDropSuccessn here", statusDropSuccess);
+  };
+  useEffect(() => {
+    updateStatusManually();
+  }, []);
 
   const handleSubmit = () => {
-    // Collect data and navigate
-    router.push({
-      pathname: "/pick-screen/productsform",
-      query: {
-        omsId,
-        pickStatus,
-        quantityToBePicked: scanQuantity,
-        scannedCodes: JSON.stringify(scannedCodes),
-      },
-    });
-  };
+    const eanForPickedStatus = `${locationId}${trayName}`;
+    const isStatusPicked = pickStatus === "Picked";
+    const scannedBarcode = scannedCodes[0];
 
-  const handleManualSubmit = () => {
-    console.log("omsId", omsId);
-    console.log("pickStatus", pickStatus);
-    console.log("scanQuantity", scanQuantity);
-    console.log("manualbarcode", manualBarcode);
-    if (manualBarcode) {
+    if (isStatusPicked && scannedBarcode === eanForPickedStatus) {
       showManualCodeError("");
+      handleDropMarkManual();
+    } else if (scannedBarcode === ean && !isStatusPicked) {
       router.push({
         pathname: "/pick-screen/productsform",
         query: {
           omsId,
           pickStatus,
           quantityToBePicked: scanQuantity,
-          scannedCodes: manualBarcode,
+          scannedCodes: JSON.stringify(scannedCodes),
         },
       });
+    }
+  };
+
+  const handleManualSubmit = () => {
+    if (manualBarcode) {
+      const eanForPickedStatus = `${locationId}${trayName}`;
+      const isStatusPicked = pickStatus === "Picked";
+
+      if (isStatusPicked && manualBarcode === eanForPickedStatus) {
+        showManualCodeError("");
+        handleDropMarkManual();
+      } else if (manualBarcode === ean && !isStatusPicked) {
+        showManualCodeError("");
+        const barcodeArray = [manualBarcode];
+        router.push({
+          pathname: "/pick-screen/productsform",
+          query: {
+            omsId,
+            pickStatus,
+            quantityToBePicked: scanQuantity,
+            scannedCodes: JSON.stringify(barcodeArray),
+          },
+        });
+      } else {
+        toast.error("Barcode EAN doesn't match");
+      }
     } else {
       showManualCodeError("Barcode is required");
     }
@@ -132,15 +180,23 @@ const BarcodeScanner = () => {
 
   const handleNext = () => {
     if (barcode) {
-      setScannedCodes((prev) => [...prev, barcode]);
-      setBarcode("");
-      setCurrentScan((prev) => prev + 1);
-      setStopStream(false);
+      const eanForPickedStatus = `${locationId}${trayName}`;
+      const checkBarcodeCondition =
+        pickStatus === "Picked"
+          ? barcode === eanForPickedStatus
+          : barcode === ean;
+      if (checkBarcodeCondition) {
+        setScannedCodes((prev) => [...prev, barcode]);
+        setBarcode("");
+        setCurrentScan((prev) => prev + 1);
+        setStopStream(false);
+      } else {
+        toast.error("Barcode EAN doesn't match");
+      }
     } else {
       toast.error("Scan the barcode to continue");
     }
   };
-  console.log("data", data);
 
   if (statusDropStatusError) {
     ToastError(statusDropStatusError || "Something went wrong");
@@ -207,19 +263,7 @@ const BarcodeScanner = () => {
             </Box>
           )
         )}
-        {/* <BarcodeScannerComponent
-          onUpdate={handleScan}
-          stopStream={stopStream}
-        /> */}
-        {pickStatus === "Picked" && (
-          <Box sx={{ ...flex }}>
-            <Checkbox
-              checked={manuallyDropped}
-              onChange={handleDropMarkManual}
-            />
-            <Typography variant="body2">Mark as Dropped Manually</Typography>
-          </Box>
-        )}
+
         {scannedCodes.length < scanQuantity ? (
           <Box
             sx={{
@@ -229,6 +273,17 @@ const BarcodeScanner = () => {
               ml: 2,
             }}
           >
+            {pickStatus === "Picked" && !stopStream && (
+              <Box sx={{ ...flex }}>
+                <Checkbox
+                  checked={manuallyDropped}
+                  onChange={handleDropMarkManual}
+                />
+                <Typography variant="body2">
+                  Mark as Dropped Manually
+                </Typography>
+              </Box>
+            )}
             {!stopStream ? (
               <Button
                 sx={{ textDecoration: "underline", padding: 0 }}
@@ -294,27 +349,6 @@ const BarcodeScanner = () => {
             </Button>
           </Box>
         )}
-        {/* {scannedCodes.length < scanQuantity ? (
-          <Box
-            sx={{
-              alignSelf: "flex-start", // Aligns the Box component (containing text and button) to the left
-              mt: 2,
-              ml: 2, // Adds top margin for spacing
-              // textAlign: "center", // Centers text content horizontally
-            }}
-          >
-            <Button
-              sx={{ textDecoration: "underline", padding: 0 }}
-              component={NextLinkComposed}
-              to={{
-                pathname: "/pick-screen/productsform",
-                query: { omsId, pickStatus, quantity },
-              }}
-            >
-              Not Able to Scan ?
-            </Button>
-          </Box>
-        ) : null} */}
 
         {/* <button onClick={() => setTorchOn(!torchOn)}>
             Switch Torch {torchOn ? "Off" : "On"}

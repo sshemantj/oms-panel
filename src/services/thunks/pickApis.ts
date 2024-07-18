@@ -9,7 +9,7 @@ import { axiosPublic } from "../client";
 
 const pickFilters = createAsyncThunk(
   "pick/PickFilters",
-  async (locationId: number) => {
+  async (locationId: string) => {
     try {
       const url = `/picker/getPickFilers?locationId=${locationId}`;
 
