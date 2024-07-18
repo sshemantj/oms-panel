@@ -20,6 +20,7 @@ import {
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const flex = {
   display: "flex",
@@ -130,10 +131,14 @@ const BarcodeScanner = () => {
   };
 
   const handleNext = () => {
-    setScannedCodes((prev) => [...prev, barcode]);
-    setBarcode("");
-    setCurrentScan((prev) => prev + 1);
-    setStopStream(false);
+    if (barcode) {
+      setScannedCodes((prev) => [...prev, barcode]);
+      setBarcode("");
+      setCurrentScan((prev) => prev + 1);
+      setStopStream(false);
+    } else {
+      toast.error("Scan the barcode to continue");
+    }
   };
   console.log("data", data);
 
@@ -175,7 +180,7 @@ const BarcodeScanner = () => {
                   stopStream={stopStream}
                 />
               ) : null}
-              {barcode && (
+              {!stopStream ? (
                 <Box
                   sx={{
                     ...flex,
@@ -194,10 +199,11 @@ const BarcodeScanner = () => {
                     variant="contained"
                     color="primary"
                   >
-                    Next
+                    Next {""}
+                    {currentScan + 1}/{scanQuantity}
                   </Button>
                 </Box>
-              )}
+              ) : null}
             </Box>
           )
         )}
