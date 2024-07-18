@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import styles from "./PackScreen.module.scss";
+import { getStoreIdFromCookie } from "@/utils/cookies";
 
 // Define interface for consignment item
 interface PackColumnItem {
@@ -123,6 +124,8 @@ const PackScreenTable = ({ filters }: PackScreenTableProps) => {
   const [selectedTableRows, setSelectedTableRows] =
     useState<GridRowSelectionModel>([]);
 
+  const locationId = getStoreIdFromCookie();
+
   const handleDownloadPDF = async (shipmentNo: string, shipping = false) => {
     const url = shipping ? "GetShippingLabel" : "GetInvoice";
     const config: any = {
@@ -191,7 +194,7 @@ const PackScreenTable = ({ filters }: PackScreenTableProps) => {
       try {
         setLoading(true);
         const resultAction = await dispatch(
-          getPackItemDetails({ offSet: 1, limit: 5, locationId: 115 })
+          getPackItemDetails({ offSet: 1, limit: 5, locationId: locationId })
         );
         const data = unwrapResult(resultAction);
         const rows: PackColumnItem[] = data.map((item: any, index: number) => ({
@@ -228,7 +231,7 @@ const PackScreenTable = ({ filters }: PackScreenTableProps) => {
         const packPayload: any = {
           offSet: 1,
           limit: 5,
-          locationId: 115,
+          locationId: locationId,
         };
 
         // Add existing filters if they exist

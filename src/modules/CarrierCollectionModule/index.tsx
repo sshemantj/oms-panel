@@ -17,6 +17,7 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import styles from "./carrierCollection.module.scss";
 import ManifestModal from "./manifestModal";
+import { getStoreIdFromCookie } from "@/utils/cookies";
 
 const flex = {
   display: "flex",
@@ -74,10 +75,10 @@ const CarrierCollectionModule = () => {
       path: "",
     },
   ];
+  const locationId = getStoreIdFromCookie();
 
   useEffect(() => {
     const fetchCourierForDropDown = async () => {
-      const locationId = 1;
       if (locationId) {
         setLoading(true);
         try {
@@ -92,7 +93,6 @@ const CarrierCollectionModule = () => {
       }
     };
     const fetchChannelsForDropDown = async () => {
-      const locationId = 1;
       if (locationId) {
         setLoading(true);
         try {
@@ -114,7 +114,6 @@ const CarrierCollectionModule = () => {
   const fetchData = async (filters: Filters = {}) => {
     try {
       setLoading(true);
-      const locationId = 902;
       if (locationId) filters.locationId = locationId.toString();
 
       const resultAction = await dispatch(fetchManifestDetails({ filters }));
@@ -201,7 +200,6 @@ const CarrierCollectionModule = () => {
     }
     setLoading(true);
     try {
-      const locationId = 902;
       const filters: { [key: string]: string } = {};
 
       if (locationId) filters.locationId = locationId.toString();

@@ -11,6 +11,7 @@ import { deleteFilterItem } from "@/store/slices/filterSlice";
 import { ToastError } from "@/utils/toast";
 import { Box, CircularProgress } from "@mui/material";
 import dayjs from "dayjs";
+import { getStoreIdFromCookie } from "@/utils/cookies";
 
 const statuses = [
   "Order Awaited",
@@ -47,7 +48,7 @@ const ItemList = () => {
     estimatedShip = new Date(),
     orderNumber = "",
     status: { statusId = 0, statusDescription = "" } = {},
-    locationId = "1",
+    // locationId = "1",
   } = selectedPickFilters || {};
 
   const [chipData, setChipData] = useState(
@@ -94,17 +95,8 @@ const ItemList = () => {
   //   [status, dispatch]
   // );
   useEffect(() => {
-    // const filters = {
-    //   brand: { brandId: "string", brandName: "string" },
-    //   channel: { channelId: 0, name: "string" },
-    //   category: "string",
-    //   deliveryMode: "string",
-    //   etd: "2024-07-01",
+    const locationId = getStoreIdFromCookie();
 
-    //   orderNumber: "string",
-    //   status: { statusCode: "string", statusDescription: "Pick In Progress" },
-    //   locationId: "100",
-    // };
     const parsedEstimatedShip = dayjs(estimatedShip).isValid()
       ? dayjs(estimatedShip).format("YYYY-MM-DD")
       : "";

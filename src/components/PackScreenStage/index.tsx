@@ -36,6 +36,7 @@ import { unwrapResult } from "@reduxjs/toolkit";
 import { useEffect, useReducer, useState } from "react";
 import toast from "react-hot-toast";
 import PackScreenTable from "./PackTable";
+import { getStoreIdFromCookie } from "@/utils/cookies";
 
 const commonSelectSx = {
   width: "170px",
@@ -154,6 +155,8 @@ const PackScreenStage = () => {
 
   const [loading, setLoading] = useState(false);
 
+  const locationId = getStoreIdFromCookie();
+
   useEffect(() => {
     setLoading(true);
 
@@ -172,7 +175,6 @@ const PackScreenStage = () => {
       });
 
     const fetchStatusCounts = async () => {
-      const locationId = 1;
       if (locationId) {
         setLoading(true);
         try {
@@ -189,7 +191,6 @@ const PackScreenStage = () => {
       }
     };
     const fetchCourierForDropDown = async () => {
-      const locationId = 1;
       if (locationId) {
         setLoading(true);
         try {
@@ -269,7 +270,7 @@ const PackScreenStage = () => {
 
     try {
       const resultAction = await reduxDispatch(
-        getConsignmentCourierItems({ locationId: 115, consignmentId })
+        getConsignmentCourierItems({ locationId: locationId, consignmentId })
       );
       const data = unwrapResult(resultAction);
       if (data && data.consignmentItems) {

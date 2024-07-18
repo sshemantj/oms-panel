@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import CustomModal from "../CustomModal";
-import { Cookies } from "react-cookie";
 import { useRouter } from "next/router";
 import { Button } from "@mui/material";
-const cookie = new Cookies();
+import { deleteCookie } from "cookies-next";
 
 interface IProps {
   openModal: boolean;
@@ -16,7 +15,7 @@ const LogoutModal = (props: IProps) => {
   const router = useRouter();
 
   const handleLogin = () => {
-    cookie.remove("token");
+    deleteCookie("token");
     toast.success("Logout success!", {
       position: "top-right",
       duration: 2000,

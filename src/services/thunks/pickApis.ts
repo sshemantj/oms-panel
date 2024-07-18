@@ -16,8 +16,8 @@ const pickFilters = createAsyncThunk(
       const response = await axiosPublic.get(url);
 
       return response.data;
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      throw new Error(error);
     }
   }
 );
@@ -38,10 +38,9 @@ const fetchPickItemDetails = createAsyncThunk(
 
     try {
       const response = await axios.request(config);
-      console.log("response here", response);
       return response.data;
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      throw new Error(error);
     }
   }
 );
@@ -57,8 +56,8 @@ const fetchProductDetails = createAsyncThunk<
         `/picker/getProductDetails?omsId=${omsId}&ean=${ean}`
       );
       return response.data;
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      throw new Error(error);
     }
   }
 );
@@ -77,8 +76,8 @@ const submitFormData = createAsyncThunk(
         }
       );
       return response.data;
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      throw new Error(error);
     }
   }
 );
@@ -97,8 +96,8 @@ const updateDropManualStatus = createAsyncThunk(
         }
       );
       return response.data;
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      throw new Error(error);
     }
   }
 );
