@@ -5,6 +5,8 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useRef, useState } from "react";
 import styles from "./SwipeableCard.module.scss";
+import { useAppDispatch } from "@/store/hooks";
+import { updateDropManualStatus } from "@/services/thunks/pickApis";
 
 interface Order {
   omsId: number;
@@ -39,31 +41,50 @@ interface SwipeableCardProps {
 
 const SwipeableCard: React.FC<SwipeableCardProps> = ({ order }) => {
   const [isSwiping, setIsSwiping] = useState(false);
+  const [swipeHandled, setSwipeHandled] = useState(false);
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
-  const handleSwipe = (direction: Direction) => {
-    if (direction === "left") {
+  const handleSwipe = async (direction: Direction) => {
+    if (swipeHandled) return;
+    const {
+      omsId,
+      quantity,
+      status,
+      trayName,
+      ean,
+      locationId,
+      productName,
+      color,
+      skuSize,
+    } = order;
+
+    const isTrayExists = Boolean(trayName && status !== "Dropped");
+    if (direction === "left" && !isSwiping && isTrayExists) {
       setIsSwiping(true);
+      setSwipeHandled(true);
       setTimeout(() => {
         console.log("order here", order);
-        const { omsId, quantity, status, trayId } = order;
+
+        const queryParams = new URLSearchParams({
+          omsId: String(omsId),
+          quantity: String(quantity),
+          trayName: String(trayName),
+          locationId: String(locationId),
+          productName: String(productName),
+          color: String(color),
+          skuSize: String(skuSize),
+          pickStatus: String(status),
+          ean: String(ean),
+        });
 
         router.push({
           pathname: "/pick-screen/barcode",
-          query: {
-            omsId,
-            quantity,
-            trayId,
-            pickStatus: status,
-          },
+          query: Object.fromEntries(queryParams.entries()),
         });
-        // router.push(
-        //   `/pick-screen/barcode/?omsId=${order.omsId}&&quantity=${order.quantity}&&pickStatus=${order.status}`
-        // );
       }, 300);
     } else if (direction === "right") {
       setIsSwiping(false);
-      // router.push("/pick-screen/barcode");
     }
   };
   const cardRef = useRef<HTMLDivElement>(null);
@@ -71,7 +92,7 @@ const SwipeableCard: React.FC<SwipeableCardProps> = ({ order }) => {
   useTouch(cardRef, handleSwipe);
 
   const handleCardClick = () => {
-    router.push(`/pick-screen/item-details/${order.omsId}`); // Replace with your actual route and order ID
+    router.push(`/pick-screen/itemlist/${order.omsId}`);
   };
 
   const truncateText = (text: string, maxLength: number) => {
@@ -84,7 +105,6 @@ const SwipeableCard: React.FC<SwipeableCardProps> = ({ order }) => {
     <Box sx={{ position: "relative" }}>
       {isSwiping && (
         <Box className={styles.swipeBackground}>
-          {/* <Typography variant="h4">Scan</Typography> */}
           <BarcodeScannerIcon style={{ color: "#fff", fontSize: "4.125rem" }} />
         </Box>
       )}
@@ -117,10 +137,15 @@ const SwipeableCard: React.FC<SwipeableCardProps> = ({ order }) => {
               height={40}
             />
           ) : (
-            <div />
+            <Image
+              src="https://via.placeholder.com/40"
+              width={40}
+              height={40}
+              alt="Product placeholder"
+            />
           )}
           <Chip
-            label={order.trayName}
+            label={order.trayName || "N/A"}
             sx={{
               backgroundColor: "#3375FF",
               color: "#fff",
@@ -129,27 +154,11 @@ const SwipeableCard: React.FC<SwipeableCardProps> = ({ order }) => {
           />
         </Box>
 
-        {/* <Box
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                flexWrap: "wrap",
-                gap: 1,
-              }}
-            > */}
-        {/* <Typography>{order.item1}</Typography>
-              <Typography> {order.orderId}</Typography>
-              <Typography> {order.soId}</Typography>
-              <Typography>{order.consignmentId}</Typography>
-              <Typography> {order.etd}</Typography>
-              <Typography> {order.channel}</Typography> */}
-        {/* </Box> */}
         <Box
           sx={{
             display: "flex",
             flexDirection: "column",
             flexWrap: "wrap",
-            // gap: 0.5,
             paddingTop: 1,
           }}
         >

@@ -71,8 +71,8 @@ export const generateManifestOrder = createAsyncThunk(
       };
       const response = await axiosPublic(config);
       return response.data;
-    } catch (error) {
-      console.log("error in generateManifestOrder", error);
+    } catch (error: any) {
+      throw new Error(`error in generateManifestOrder,${error.message}`);
     }
   }
 );

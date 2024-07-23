@@ -1,11 +1,13 @@
-import { useMediaQuery } from "@mui/material";
+import { useMediaQuery, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 
-export const useMobileCheck = (width = "768px") => {
-  const [isMobile, setIsMobile] = useState(false);
-  const isMobileCheck = useMediaQuery(`(min-width : ${width} )`);
+export const useMobileCheck = (width = "468px") => {
+  const theme = useTheme();
+  const isMobileCheck = useMediaQuery(theme.breakpoints.down("sm"));
+  const [isMobile, setIsMobile] = useState(isMobileCheck);
+
   useEffect(() => {
-    setIsMobile(!isMobileCheck);
+    setIsMobile(isMobileCheck);
   }, [isMobileCheck]);
 
   return isMobile;

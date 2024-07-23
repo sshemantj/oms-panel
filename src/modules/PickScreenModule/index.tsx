@@ -16,6 +16,7 @@ import EstimatedShipDatePicker from "./filters/estimatedshipdatepicker";
 import OrderNumberTextInput from "./filters/ordernumbertextfield";
 import StatusDropdown, { PickStatus } from "./filters/statusdropdown";
 import styles from "./pickScreen.module.scss";
+import { getStoreIdFromCookie } from "@/utils/cookies";
 
 const flex = {
   display: "flex",
@@ -41,7 +42,8 @@ function PickScreenModule() {
   const filters = useAppSelector((state) => state.filters.pickFilters);
 
   useEffect(() => {
-    dispatch(pickFilters(1));
+    const locationId = getStoreIdFromCookie();
+    if (locationId) dispatch(pickFilters(locationId));
   }, []);
 
   const handleSubmit = () => {

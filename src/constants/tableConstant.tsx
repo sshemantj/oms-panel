@@ -1028,11 +1028,11 @@ export const carrierCollectionsColumns: GridColDef[] = [
     // type: "number",
     width: 110,
     align: "left",
-    renderCell: (params) => (
-      <Typography sx={{ color: "blue", textDecoration: "underline" }}>
-        {params.value}
-      </Typography>
-    ),
+    // renderCell: (params) => (
+    //   <Typography sx={{ color: "blue", textDecoration: "underline" }}>
+    //     {params.value}
+    //   </Typography>
+    // ),
   },
   {
     field: "consignmentStatus",

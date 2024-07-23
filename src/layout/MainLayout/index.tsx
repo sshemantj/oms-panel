@@ -6,6 +6,7 @@ import LhsWrapper from "./LhsWrapper";
 import RhsWrapper from "./RhsWrapper";
 import NavList from "./navlist";
 import styles from "./newNavbar.module.scss";
+import LoginComponent from "@/component/molecules/LoginModal";
 
 interface IProps {
   children: JSX.Element;
@@ -34,6 +35,8 @@ const MainLayout = (props: IProps) => {
 
   return (
     <div className={styles.newNavWrapper}>
+      <LoginComponent />
+
       <nav className={styles.navContainer}>
         <LhsWrapper {...{ isNavOpen, setisNavOpen }} />
         <RhsWrapper />

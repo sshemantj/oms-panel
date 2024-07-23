@@ -1,10 +1,7 @@
 import { handleStatus } from "@/utils/handleStatus";
 import axios, { AxiosError } from "axios";
-import { Cookies } from "react-cookie";
 import { NEXT_PUBLIC_API_BASE_URL } from "../constants/allEnv";
-const cookie = new Cookies();
-
-console.log("NEXT_PUBLIC_API_BASE_URL", NEXT_PUBLIC_API_BASE_URL);
+import { getCookie } from "cookies-next";
 
 const axiosPrivate = axios.create({
   baseURL: NEXT_PUBLIC_API_BASE_URL,
@@ -14,7 +11,7 @@ const axiosPrivate = axios.create({
 
 axiosPrivate.interceptors.request.use(
   (config) => {
-    const token = cookie.get("token");
+    const token = getCookie("token");
     config.headers.Authorization = `Bearer ${token}`;
     return config;
   },

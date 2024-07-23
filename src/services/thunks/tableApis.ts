@@ -34,8 +34,8 @@ const postChannelMapping = createAsyncThunk(
       const response = await axiosPrivate.post(url, payload);
 
       return response.data;
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      throw new Error(error);
     }
   }
 );

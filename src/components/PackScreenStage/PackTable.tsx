@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import styles from "./PackScreen.module.scss";
+import { getStoreIdFromCookie } from "@/utils/cookies";
 
 // Define interface for consignment item
 interface PackColumnItem {
@@ -47,20 +48,23 @@ const PackScreenTable = ({ filters }: PackScreenTableProps) => {
       headerName: "Consignment ID",
       width: 200,
       renderCell: (params) => (
-        <Typography
-          style={{
-            textDecoration: "underline",
-            color: "blue",
-            cursor: "pointer",
-            // fontSize: "13px",
-            alignSelf: "center",
-            display: "inline-block",
-            textAlign: "center",
-          }}
-          onClick={() => handleConsignmentClick(params.row.consignmentId)}
-        >
-          {params.value}
-        </Typography>
+        <div className={styles.consignmentIdContainer}>
+          <Typography
+            style={{
+              textDecoration: "underline",
+              color: "blue",
+              cursor: "pointer",
+              // fontSize: "13px",
+              alignSelf: "center",
+              display: "inline-block",
+              textAlign: "center",
+            }}
+            onClick={() => handleConsignmentClick(params.row.consignmentId)}
+          >
+            {params.value}
+          </Typography>
+          <span className={styles.consignmentIdFull}>{params.value}</span>
+        </div>
       ),
     },
     {
@@ -70,7 +74,7 @@ const PackScreenTable = ({ filters }: PackScreenTableProps) => {
 
       renderCell: (params) => (
         <>
-          {params.row.status.toLowerCase() === "fulfilled" ? (
+          {params.row.status.toLowerCase() === "fulfilled" && params.row.awb ? (
             <DownloadIcon
               color="primary"
               style={{
@@ -92,7 +96,7 @@ const PackScreenTable = ({ filters }: PackScreenTableProps) => {
 
       renderCell: (params) => (
         <>
-          {params.row.status.toLowerCase() === "fulfilled" ? (
+          {params.row.status.toLowerCase() === "fulfilled" && params.row.awb ? (
             <DownloadIcon
               color="primary"
               style={{
@@ -122,6 +126,8 @@ const PackScreenTable = ({ filters }: PackScreenTableProps) => {
 
   const [selectedTableRows, setSelectedTableRows] =
     useState<GridRowSelectionModel>([]);
+
+  const locationId = getStoreIdFromCookie();
 
   const handleDownloadPDF = async (shipmentNo: string, shipping = false) => {
     const url = shipping ? "GetShippingLabel" : "GetInvoice";
@@ -191,7 +197,7 @@ const PackScreenTable = ({ filters }: PackScreenTableProps) => {
       try {
         setLoading(true);
         const resultAction = await dispatch(
-          getPackItemDetails({ offSet: 1, limit: 5, locationId: 115 })
+          getPackItemDetails({ offSet: 1, limit: 100, locationId: locationId })
         );
         const data = unwrapResult(resultAction);
         const rows: PackColumnItem[] = data.map((item: any, index: number) => ({
@@ -227,8 +233,8 @@ const PackScreenTable = ({ filters }: PackScreenTableProps) => {
 
         const packPayload: any = {
           offSet: 1,
-          limit: 5,
-          locationId: 115,
+          limit: 100,
+          locationId: locationId,
         };
 
         // Add existing filters if they exist
@@ -276,35 +282,36 @@ const PackScreenTable = ({ filters }: PackScreenTableProps) => {
 
   return (
     <>
-      {loading ? <Loader size={50} color="primary" overlay={true} /> : null}
-
-      <Box className={styles.packScreenWrapper}>
-        <Box
-          sx={{
-            width: "100%",
-            marginTop: "1rem",
-            padding: "0 1rem 1rem 1rem",
-            background: "#fff",
-          }}
-        >
-          <Box mt={2}>
-            {tableState.rows && tableState.rows.length ? (
-              <FeaturedTable
-                {...{
-                  rows: tableState.rows,
-                  columns: tableState.columns,
-                  checkboxSelection: false,
-                  // onRowSelectionModelChange,
-                }}
-              />
-            ) : (
-              <Box display="flex" justifyContent="center" alignItems="center">
-                <Typography variant="h4">No Pack Items found</Typography>
-              </Box>
-            )}
+      {loading ? (
+        <Loader size={50} color="primary" overlay={true} />
+      ) : (
+        <Box className={styles.packScreenWrapper}>
+          <Box
+            sx={{
+              width: "100%",
+              marginTop: "1rem",
+              padding: "0 1rem 1rem 1rem",
+              background: "#fff",
+            }}
+          >
+            <Box mt={2}>
+              {tableState.rows && tableState.rows.length ? (
+                <FeaturedTable
+                  {...{
+                    rows: tableState.rows,
+                    columns: tableState.columns,
+                    checkboxSelection: false,
+                  }}
+                />
+              ) : (
+                <Box display="flex" justifyContent="center" alignItems="center">
+                  <Typography variant="h4">No Pack Items found</Typography>
+                </Box>
+              )}
+            </Box>
           </Box>
         </Box>
-      </Box>
+      )}
     </>
   );
 };

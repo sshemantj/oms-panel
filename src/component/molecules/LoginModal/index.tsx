@@ -1,55 +1,75 @@
 import { callLogin, getUserDetails } from "@/services/thunks/loginApi";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { setLoader } from "@/store/slices/dashboardSlice";
-import { closeLoginModal, persistUsername } from "@/store/slices/loginSlice";
+import {
+  closeLoginModal,
+  openLoginModal,
+  persistUsername,
+} from "@/store/slices/loginSlice";
 import { Button, Grid, Paper, TextField, Typography } from "@mui/material";
 import { useRouter } from "next/router";
-import { useState } from "react";
-import { Cookies } from "react-cookie";
+import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import CustomModal from "../CustomModal";
 import styles from "./login.module.scss";
-
-const cookie = new Cookies();
+import { getCookie, setCookie } from "cookies-next";
 
 const LoginComponent = () => {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
-  const showLoginModal = useAppSelector((state) => state.login.showLoginModal);
+  const showLoginModal = useAppSelector(
+    (state) => state?.login?.showLoginModal
+  );
 
   const router = useRouter();
   const dispatch = useAppDispatch();
 
+  const setStoreId = (storeId: any) => {
+    setCookie("storeId", storeId, {
+      secure: process.env.NODE_ENV !== "development",
+      path: "/",
+    });
+    handleModalClose();
+    router.reload();
+  };
+
   const handleLogin = () => {
-    if (!username && !password) toast.error("username and password required!");
-    dispatch(setLoader(true));
-    dispatch(callLogin({ Username: username, Password: password }))
-      .then(() => {
-        dispatch(persistUsername(username));
-        dispatch(getUserDetails(username)).then(() => {
-          dispatch(setLoader(false));
-          router.reload();
-          handleModalClose();
-        });
-      })
-      .catch((error: any) =>
-        toast.error(error.message || "Error while trying to login!", {
-          position: "top-right",
-          duration: 2000,
-        })
-      );
+    if (!username && !password) {
+      toast.error("username and password required!");
+      return;
+    }
+    if (username !== password) {
+      toast.error("username and password doesn't match!");
+      return;
+    }
+    setStoreId(username);
+    // dispatch(setLoader(true));
+    console.log("username", username);
+    console.log("password", password);
+
+    // setStoreId()
+
+    // dispatch(callLogin({ Username: username, Password: password }))
+    //   .then(() => {
+    //     dispatch(persistUsername(username));
+    //     dispatch(getUserDetails(username)).then(() => {
+    //       dispatch(setLoader(false));
+    //       router.reload();
+    //       handleModalClose();
+    //     });
+    //   })
+    //   .catch((error: any) =>
+    //     toast.error(error.message || "Error while trying to login!", {
+    //       position: "top-right",
+    //       duration: 2000,
+    //     })
+    //   );
   };
 
   const handleModalClose = () => {
     dispatch(closeLoginModal());
   };
-
-  // useEffect(() => {
-  //   if (!cookie.get("token")) {
-  //     dispatch(openLoginModal());
-  //   }
-  // }, []);
 
   return (
     <CustomModal
@@ -95,6 +115,7 @@ const LoginComponent = () => {
                     },
                   }}
                   value={username}
+                  type="number"
                   onChange={(e) => setUserName(e.target.value)}
                   label="Username"
                 />
@@ -111,15 +132,16 @@ const LoginComponent = () => {
                     },
                   }}
                   value={password}
+                  type="number"
                   onChange={(e) => setPassword(e.target.value)}
                   label="Password"
-                  type={"password"}
+                  // type={"password"}
                 />
               </Grid>
               <Grid item xs={12} width={"310px"}>
                 <Button
                   fullWidth
-                  onClick={() => handleLogin()}
+                  onClick={handleLogin}
                   sx={{ width: "100%", margin: "1rem 0" }}
                   variant="contained"
                 >
@@ -129,7 +151,6 @@ const LoginComponent = () => {
             </Grid>
           </Paper>
         </div>
-        <Toaster />
       </div>
     </CustomModal>
   );
