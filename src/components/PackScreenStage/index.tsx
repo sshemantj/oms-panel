@@ -36,8 +36,9 @@ import { unwrapResult } from "@reduxjs/toolkit";
 import { useEffect, useReducer, useState } from "react";
 import toast from "react-hot-toast";
 import PackScreenTable from "./PackTable";
+import { getStoreIdFromCookie } from "@/utils/cookies";
 
-const commonSelectSx = {
+export const commonSelectSx = {
   width: "170px",
   "& .MuiInputBase-input": {
     padding: "5px",
@@ -53,21 +54,6 @@ const commonSelectSx = {
     top: "15px",
   },
 };
-
-// const courierPartnerDropDown = [
-//   {
-//     courierId: 1,
-//     courierName: "DTDC Express",
-//   },
-//   {
-//     courierId: 2,
-//     courierName: "ECOM Express",
-//   },
-//   {
-//     courierId: 3,
-//     courierName: "BLUEDART",
-//   },
-// ];
 
 const initialDropdownState: DropdownState = {
   brands: [],
@@ -98,7 +84,14 @@ const CustomCard = ({ title, number }: CustomCardProps) => (
     <Typography variant="h6" align="center" color="red">
       {title}
     </Typography>
-    <Card style={{ maxWidth: "25%", margin: "0 auto", borderRadius: "10px" }}>
+    <Card
+      style={{
+        maxWidth: "25%",
+        margin: "0 auto",
+        borderRadius: "10px",
+        boxShadow: "0px 3px 6px rgba(0, 0, 0, 0.16)",
+      }}
+    >
       <CardContent
         sx={{
           padding: "0.5rem",
@@ -154,25 +147,27 @@ const PackScreenStage = () => {
 
   const [loading, setLoading] = useState(false);
 
+  const locationId = getStoreIdFromCookie();
+
   useEffect(() => {
     setLoading(true);
 
-    reduxDispatch(packFilters(1))
-      .unwrap()
-      .then((response) => {
-        dropdownDispatch({ type: "brands", value: response.brands });
-        dropdownDispatch({ type: "trays", value: response.trays });
-        dropdownDispatch({
-          type: "deliveryMode",
-          value: response.deliveryMode,
+    if (locationId)
+      reduxDispatch(packFilters(locationId))
+        .unwrap()
+        .then((response) => {
+          dropdownDispatch({ type: "brands", value: response.brands });
+          dropdownDispatch({ type: "trays", value: response.trays });
+          dropdownDispatch({
+            type: "deliveryMode",
+            value: response.deliveryMode,
+          });
+        })
+        .catch((err) => {
+          console.log("error", err);
         });
-      })
-      .catch((err) => {
-        console.log("error", err);
-      });
 
     const fetchStatusCounts = async () => {
-      const locationId = 1;
       if (locationId) {
         setLoading(true);
         try {
@@ -189,7 +184,6 @@ const PackScreenStage = () => {
       }
     };
     const fetchCourierForDropDown = async () => {
-      const locationId = 1;
       if (locationId) {
         setLoading(true);
         try {
@@ -269,10 +263,10 @@ const PackScreenStage = () => {
 
     try {
       const resultAction = await reduxDispatch(
-        getConsignmentCourierItems({ locationId: 115, consignmentId })
+        getConsignmentCourierItems({ locationId: locationId, consignmentId })
       );
       const data = unwrapResult(resultAction);
-      if (data && data.consignmentItems) {
+      if (data && data.consignmentItems.length) {
         setConsignmentData(data);
         setModalOpen(true);
       } else {
@@ -322,9 +316,10 @@ const PackScreenStage = () => {
 
     const payload = consignmentData.consignmentItems.map((item: any) => ({
       omsId: String(item.omsId),
-      omsOrderId: item.orderId,
+      omsOrderId: item.omsOrderId,
       consignmentId: String(item.consignmentId),
       courier: selectedCourierPartner,
+      locationId: locationId,
     }));
 
     try {
@@ -332,8 +327,18 @@ const PackScreenStage = () => {
         updateCourierPartner(payload)
       );
       const response = unwrapResult(updateWeightResponse);
-      response && toast.success(response);
-      setShowAssignCourierModal(false);
+      if (response.statusCode === 200) {
+        toast.success(
+          response.message ||
+            "Something went wrong while updating courier partner"
+        );
+        setShowAssignCourierModal(false);
+      } else {
+        toast.error(
+          response.message ||
+            "Something went wrong while updating courier partner"
+        );
+      }
     } catch (error) {
       console.error("Error updating weights:", error);
     }
@@ -424,18 +429,22 @@ const PackScreenStage = () => {
               gap: "4 px",
             }}
           >
-            <Grid item xs={6} border={2} borderRadius={1} borderColor={"red"}>
+            <Grid
+              item
+              xs={6}
+              borderRadius={2}
+              style={{ boxShadow: "0px 3px 6px rgba(0, 0, 0, 0.16)" }}
+            >
               <CustomCard
                 title="Pick in Progress"
-                number={getStatusCount("Pick in Progress")}
+                number={getStatusCount("Pick In Progress")}
               />
             </Grid>
             <Grid
               item
               xs={6}
-              border={2}
-              borderRadius={1}
-              borderColor={"red"}
+              borderRadius={2}
+              style={{ boxShadow: "0px 3px 6px rgba(0, 0, 0, 0.16)" }}
               ml={2}
             >
               <CustomCard title="Dropped" number={getStatusCount("Dropped")} />
@@ -499,8 +508,14 @@ const PackScreenStage = () => {
                       >
                         <Grid item xs={12}>
                           <Grid container width={"100%"}>
-                            <Grid item xs={12} md={12}>
-                              <TableContainer component={Card}>
+                            <Grid item xs={12} md={12} my={0.5}>
+                              <TableContainer
+                                component={Card}
+                                style={{
+                                  boxShadow: "0px 3px 6px rgba(0, 0, 0, 0.16)",
+                                  transition: "transform 0.3s ease-in-out",
+                                }}
+                              >
                                 <Table>
                                   <TableHead>
                                     <TableRow>
@@ -541,47 +556,102 @@ const PackScreenStage = () => {
                 )
               : null}
             <Grid
+              container
+              xs={12}
               sx={{
-                padding: 2,
+                paddingY: 2,
                 backgroundColor: "white",
 
                 display: "flex",
+                marginTop: 3,
+
                 gap: 4,
               }}
             >
-              {consignmentData && consignmentData.customerDetails ? (
-                <Box marginTop={4}>
-                  <Typography variant="h5">Customer Details</Typography>
-                  <Typography>
-                    {consignmentData.customerDetails.name}
-                  </Typography>{" "}
-                  <Typography>
-                    {consignmentData.customerDetails.address}
-                  </Typography>{" "}
-                  <Typography>
-                    {consignmentData.customerDetails.contactNo}
-                  </Typography>
-                </Box>
-              ) : null}
-              {consignmentData && consignmentData.shipmentDetails ? (
-                <Box marginTop={4}>
-                  <Typography variant="h5">Shipment Details</Typography>
-                  <Typography>
-                    {consignmentData.shipmentDetails.storeName}
-                  </Typography>
-                  <Typography>
-                    {consignmentData.shipmentDetails.address}
-                  </Typography>
-                </Box>
-              ) : null}
-              {consignmentData && consignmentData.courierDetails ? (
-                <Box marginTop={4}>
-                  <Typography variant="h5">Courier Details</Typography>
-                  <Typography>
-                    {consignmentData.courierDetails.courierName}
-                  </Typography>
-                </Box>
-              ) : null}
+              <Grid
+                xs={3}
+                component={Card}
+                padding={2}
+                sx={{
+                  borderRadius: 2,
+                  boxShadow: "0px 3px 6px rgba(0, 0, 0, 0.16)",
+                }}
+              >
+                {consignmentData && consignmentData.customerDetails ? (
+                  <Box
+                    sx={{
+                      display: "flex",
+
+                      gap: 0.5,
+                      flexDirection: "column",
+                    }}
+                  >
+                    <Typography variant="h6">Customer Information</Typography>
+                    <Typography variant="subtitle2">
+                      {consignmentData.customerDetails.name}
+                    </Typography>{" "}
+                    <Typography variant="subtitle2">
+                      {consignmentData.customerDetails.address}
+                    </Typography>{" "}
+                    <Typography variant="subtitle2">
+                      {consignmentData.customerDetails.contactNo}
+                    </Typography>
+                  </Box>
+                ) : null}
+              </Grid>
+              <Grid
+                xs={3}
+                component={Card}
+                padding={2}
+                sx={{
+                  borderRadius: 2,
+                  boxShadow: "0px 3px 6px rgba(0, 0, 0, 0.16)",
+                }}
+              >
+                {consignmentData && consignmentData.shipmentDetails ? (
+                  <Box
+                    sx={{
+                      display: "flex",
+
+                      gap: 0.5,
+                      flexDirection: "column",
+                    }}
+                  >
+                    <Typography variant="h6">Shipment Information</Typography>
+                    <Typography variant="subtitle2">
+                      {consignmentData.shipmentDetails.storeName}
+                    </Typography>
+                    <Typography variant="subtitle2">
+                      {consignmentData.shipmentDetails.address}
+                    </Typography>
+                  </Box>
+                ) : null}
+              </Grid>
+              <Grid
+                xs={3}
+                component={Card}
+                padding={2}
+                sx={{
+                  borderRadius: 2,
+                  boxShadow: "0px 3px 6px rgba(0, 0, 0, 0.16)",
+                }}
+              >
+                {consignmentData && consignmentData.courierDetails ? (
+                  <Box
+                    sx={{
+                      display: "flex",
+
+                      gap: 0.5,
+                      flexDirection: "column",
+                    }}
+                  >
+                    <Typography variant="h6">Courier Information</Typography>
+                    <Typography variant="subtitle2">
+                      {consignmentData.courierDetails.courierName}
+                    </Typography>
+                  </Box>
+                ) : null}
+              </Grid>
             </Grid>
             <Box display="flex" justifyContent="flex-end">
               <Button

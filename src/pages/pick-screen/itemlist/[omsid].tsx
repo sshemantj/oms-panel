@@ -76,13 +76,18 @@ const ItemDetails = () => {
               height={250}
             />
           ) : (
-            <div />
+            <Image
+              src="https://via.placeholder.com/250"
+              width={250}
+              height={250}
+              alt="Product placeholder"
+            />
           )}
           <Typography sx={{ fontWeight: "bold" }}>
             {order.productName}
           </Typography>
         </Box>
-        <Box sx={{ marginTop: 4 }}>
+        <Box sx={{ marginTop: 2, paddingBottom: 2 }}>
           {/* Additional details if needed */}
           {/* <DetailRow label="Item " value={order.item1} /> */}
           <DetailRow label="Consignment ID" value={order.consignmentId} />

@@ -17,6 +17,9 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import styles from "./carrierCollection.module.scss";
 import ManifestModal from "./manifestModal";
+import { getStoreIdFromCookie } from "@/utils/cookies";
+import BarcodeScannerComponent from "../PickScreenModule/BarCodeScanner";
+import ToastMessage from "@/component/molecules/ToastInfoMessage";
 
 const flex = {
   display: "flex",
@@ -28,7 +31,7 @@ interface ManifestColumnItem {
   orderId: string;
   orderNumber: string;
   customer: string;
-  awb: string;
+  awbNumber: string;
   po: string;
   courier: string;
   consignmentStatus: string;
@@ -43,6 +46,45 @@ interface ManifestColumnItem {
 interface Filters {
   [key: string]: string;
 }
+
+// function generateUniqueId(baseId, index) {
+//   return `${baseId}${index}`;
+// }
+
+// Define the template for the static objects
+// const orderTemplate = {
+//   awb: "10035623564",
+//   carrier: "DTDC Express",
+//   consignmentStatus: "Awaiting_Courier_Collection",
+//   courier: "DTDC Express",
+//   customer: "test name",
+//   deliveryType: "Standard",
+//   invoiceNo: "",
+//   omsOrderId: "",
+//   orderId: "",
+//   orderNumber: "",
+//   orderType: "Standard",
+//   po: "",
+//   reportId: "",
+//   shipmentNumber: "",
+//   id: 0,
+// };
+
+// const data = [];
+// for (let i = 0; i < 100; i++) {
+//   const newOrder = { ...orderTemplate }; // Copy the template
+//   newOrder.orderId = generateUniqueId("2189178707", i);
+//   newOrder.id = i;
+//   newOrder.omsOrderId = `mac_${newOrder.orderId}`;
+//   newOrder.orderNumber = `144428665${i < 10 ? `0${i}` : i}`; // Ensure order number uniqueness
+//   newOrder.invoiceNo = `TX0115mac1000000${i < 10 ? `0${i}` : i}`;
+//   newOrder.reportId = `2024071912395${i < 10 ? `0${i}` : i}`;
+//   newOrder.awb = `10035623564${i < 10 ? `0${i}` : i}`;
+
+//   newOrder.shipmentNumber = `115-${i + 1}-mac_${newOrder.orderId}`;
+//   data.push(newOrder);
+// }
+// console.log("data", data);
 
 const CarrierCollectionModule = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -59,12 +101,20 @@ const CarrierCollectionModule = () => {
   const [tableState, setTableState] = useState<{
     columns: GridColDef[];
     rows: ManifestColumnItem[];
+    pageSize: number;
   }>({
     columns: carrierCollectionsColumns,
     rows: [],
+    pageSize: 10,
   });
   const [selectedTableRows, setSelectedTableRows] = useState<any>([]);
+  const [selectedRows, setSelectedRows] = useState<any>([]);
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openScanModal, setOpenScanModal] = useState<boolean>(false);
+  const [paginationModel, setPaginationModel] = useState({
+    pageSize: 10,
+    page: 0,
+  });
 
   const cardsList: IBaseCardProps[] = [
     {
@@ -74,10 +124,10 @@ const CarrierCollectionModule = () => {
       path: "",
     },
   ];
+  const locationId = getStoreIdFromCookie();
 
   useEffect(() => {
     const fetchCourierForDropDown = async () => {
-      const locationId = 1;
       if (locationId) {
         setLoading(true);
         try {
@@ -92,7 +142,6 @@ const CarrierCollectionModule = () => {
       }
     };
     const fetchChannelsForDropDown = async () => {
-      const locationId = 1;
       if (locationId) {
         setLoading(true);
         try {
@@ -114,7 +163,6 @@ const CarrierCollectionModule = () => {
   const fetchData = async (filters: Filters = {}) => {
     try {
       setLoading(true);
-      const locationId = 902;
       if (locationId) filters.locationId = locationId.toString();
 
       const resultAction = await dispatch(fetchManifestDetails({ filters }));
@@ -125,7 +173,7 @@ const CarrierCollectionModule = () => {
           orderId: item.orderId,
           orderNumber: item.orderNumber,
           customer: item.customer,
-          awb: item.awb,
+          awbNumber: item.awb,
           po: item.po,
           courier: item.courier,
           consignmentStatus: item.consignmentStatus,
@@ -172,26 +220,18 @@ const CarrierCollectionModule = () => {
   const handleGenerateManifest = () => {
     setOpenModal(true);
   };
+  const handleBulkScanAwb = () => {
+    setOpenScanModal(!openScanModal);
+  };
 
-  const onRowSelectionModelChange = (selectedRows: GridRowId[]) => {
-    const selectedRowDetails = selectedRows
-      .map((rowId) => {
-        const row = tableState.rows.find((r) => r.id === rowId);
-        return row
-          ? {
-              orderId: row.orderId,
-
-              shipmentNumber: row.shipmentNumber,
-              courier: row.courier,
-              orderNumber: row.orderNumber,
-              customer: row.customer,
-              awb: row.awb,
-              ...(row.reportid && { reportId: row.reportid }),
-            }
-          : null;
-      })
-      .filter(Boolean);
-    setSelectedTableRows(selectedRowDetails);
+  const handlePageSizeChange = (model: any) => {
+    console.log("model", model);
+    setPageSize(model.pageSize);
+    setPaginationModel(model);
+    setTableState((prevState) => ({
+      ...prevState,
+      pageSize: model.pageSize,
+    }));
   };
 
   const handleSearchSubmit = async () => {
@@ -201,7 +241,6 @@ const CarrierCollectionModule = () => {
     }
     setLoading(true);
     try {
-      const locationId = 902;
       const filters: { [key: string]: string } = {};
 
       if (locationId) filters.locationId = locationId.toString();
@@ -268,8 +307,104 @@ const CarrierCollectionModule = () => {
     setTableKey((prevKey) => prevKey + 1);
   };
 
+  const [stopStream, setStopStream] = useState(false);
+  const [scannedCodes, setScannedCodes] = useState<string[]>([]);
+  const [currentScan, setCurrentScan] = useState<number>(0);
+  const [pageSize, setPageSize] = useState(10);
+
+  const currentPageCount = pageSize;
+
+  const updateSelectedRows = (scannedBarcode: any) => {
+    console.log("pageSize", pageSize);
+    console.log("tableState.pageSize", tableState.pageSize);
+    const startIndex = 0;
+    const endIndex = currentPageCount;
+    console.log("startIndex", startIndex);
+    console.log("endIndex", endIndex);
+    const selectedRowsToUpdate = tableState.rows
+      .slice(startIndex, endIndex)
+      .filter((row) => row.awbNumber === scannedBarcode);
+    console.log("selectedRowsToUpdate", selectedRowsToUpdate);
+    const matchingRowInSlice = selectedRowsToUpdate.find(
+      (row) => row.awbNumber === scannedBarcode
+    );
+
+    if (!matchingRowInSlice) {
+      toast.error(`You can only scan within current page's selected rows`, {
+        position: "top-center",
+      });
+      return;
+    }
+
+    const isAlreadyScanned = selectedRows.some(
+      (row: any) => row.awbNumber === scannedBarcode
+    );
+
+    if (isAlreadyScanned) {
+      toast.error(`AWB Number ${scannedBarcode} is already scanned`, {
+        position: "top-center",
+      });
+      return;
+    }
+    if (matchingRowInSlice) {
+      setScannedCodes((prev) => [...prev, scannedBarcode]);
+
+      setCurrentScan((prev) => {
+        const newScanCount = prev + 1;
+        if (newScanCount < currentPageCount) {
+          ToastMessage({
+            message: `Scanned ${newScanCount}/${currentPageCount} quantity`,
+            position: "top-center",
+          });
+        }
+
+        if (newScanCount >= currentPageCount) {
+          toast.success("All items have been scanned successfully!", {
+            position: "top-center",
+          });
+        }
+        return newScanCount;
+      });
+
+      const newSelectedRows = [...selectedRows, ...selectedRowsToUpdate];
+      setSelectedRows(Array.from(new Set(newSelectedRows)));
+    }
+  };
+  useEffect(() => {
+    if (scannedCodes.length >= currentPageCount) {
+      setStopStream(true);
+    }
+  }, [scannedCodes, currentPageCount]);
+  const handleScan = (err: any, result: any) => {
+    if (result) {
+      const scannedBarcode = result.getText();
+      if (scannedBarcode) {
+        const matchingRow = tableState.rows.find(
+          (row) => row.awbNumber === scannedBarcode
+        );
+        console.log("matchingRow", matchingRow);
+
+        if (matchingRow && matchingRow.awbNumber) {
+          if (!scannedCodes.includes(scannedBarcode)) {
+            setStopStream(false);
+            updateSelectedRows(scannedBarcode);
+          } else {
+            toast.error(`Awb Number ${scannedBarcode} is already scanned`);
+          }
+        } else {
+          toast.error("AWB doesn't match or is already picked");
+        }
+      } else {
+        toast.error("Barcode EAN doesn't match");
+      }
+    }
+  };
+
+  console.log("scannedCodes", scannedCodes);
   return (
     <>
+      {console.log("pageSize", pageSize)}
+
       {loading ? <Loader size={50} color="primary" overlay={true} /> : null}
       <Box className={styles.carrierCollectionWrapper}>
         <Box
@@ -298,6 +433,30 @@ const CarrierCollectionModule = () => {
               );
             })}
           </Grid>
+          <Grid container mt={2} xs={6}>
+            <Grid item xs={4}>
+              <Button onClick={() => handleBulkScanAwb()} variant="contained">
+                {!openScanModal ? " Scan Awb" : "Stop Scan Awb"}
+              </Button>
+            </Grid>
+          </Grid>
+          <Grid container mt={2}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
+              }}
+            >
+              {!stopStream && openScanModal ? (
+                <BarcodeScannerComponent
+                  onUpdate={handleScan}
+                  stopStream={stopStream}
+                />
+              ) : null}
+            </div>
+          </Grid>
           <Grid container mt={2}>
             <Grid item sx={{ marginRight: "auto" }} md={6}>
               <Box display="flex" gap="1rem">
@@ -319,6 +478,7 @@ const CarrierCollectionModule = () => {
                 </Button>
               </Box>
             </Grid>
+
             <Grid item sx={{ marginLeft: "auto" }} md={2.5}>
               <CustomSelect
                 {...{
@@ -386,10 +546,21 @@ const CarrierCollectionModule = () => {
                 rows: tableState.rows,
                 columns: tableState.columns,
                 checkboxSelection: true,
-                onRowSelectionModelChange,
+
+                onPaginationModelChange: handlePageSizeChange,
+                onSelectionModelChange: (newSelection: any) =>
+                  setSelectedRows(
+                    newSelection.selectionModel.map((id: any) =>
+                      tableState.rows.find((row) => row.id === id)
+                    )
+                  ),
+                selectionModel: selectedRows?.map((row: any) => row.id),
+
+                rowSelectionModel: selectedRows?.map((row: any) => row.id),
               }}
             />
           </Box>
+
           {openModal ? (
             <ManifestModal
               {...{ openModal, setOpenModal }}
