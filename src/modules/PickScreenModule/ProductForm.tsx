@@ -154,7 +154,7 @@ const ProductForm = () => {
     const statusToBeUpdated = data.pickFailReasons.length
       ? "Pick Fail"
       : "Picked";
-    const statusToBeUpdatedCount = data.pickFailReasons.length ? 6 : 4;
+    const statusToBeUpdatedCount = data.pickFailReasons.length ? 5 : 3;
     const qcFlagToBeUpdated = data.pickFailReasons.length
       ? "QC Failed"
       : "QC Pass";
@@ -234,6 +234,7 @@ const ProductForm = () => {
 
   const quantityPicked = watch("quantityPicked");
   const quantityToBePicked = watch("quantityToBePicked");
+  const maxPickableQuantity = Math.max(quantityToBePicked - 1, 0);
 
   const reasonsCount = Math.max(quantityToBePicked - quantityPicked, 0);
   const reasonsArray = Array.from({ length: reasonsCount }, (_, i) => i);
@@ -529,7 +530,7 @@ const ProductForm = () => {
               onClick={() =>
                 setValue("quantityPicked", (quantityPicked || 0) + 1)
               }
-              disabled={quantityPicked >= quantityToBePicked}
+              disabled={quantityPicked >= maxPickableQuantity}
             >
               <AddIcon />
             </IconButton>

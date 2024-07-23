@@ -3,7 +3,13 @@ import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import { useRouter } from "next/router";
 import { useMobileCheck } from "@/hooks/useMobileCheck";
 import styles from "./lhsWrapper.module.scss";
-import { Box, IconButton, Popover, Typography } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  Popover,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 
 import MenuIconWrapper from "@/component/atoms/menuIcon";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
@@ -63,42 +69,54 @@ const LhsWrapper = (props: IProps) => {
       >
         <p className={styles.first}>OMS</p>
         <p className={styles.second}>Panel</p>
-        {storeId ? <p className={styles.second}> ({storeId})</p> : null}
-        {isMobile || <div className={styles.divider} />}
-        <div style={{ color: "#fff", marginLeft: isMobile ? "auto" : "unset" }}>
-          <LocalGroceryStoreIcon color="inherit" />
-        </div>
-        {isMobile || <p className={styles.omsStore}>OMS store</p>}
+        {storeId && isMobile ? (
+          <p className={styles.second}> ({storeId})</p>
+        ) : null}
+        {isMobile ? (
+          <>
+            <div className={styles.divider} />
+            <div
+              style={{ color: "#fff", marginLeft: isMobile ? "auto" : "unset" }}
+            >
+              <LocalGroceryStoreIcon color="inherit" />
+            </div>
+            {/* <p className={styles.omsStore}>OMS store</p> */}
+          </>
+        ) : null}
       </div>
-      <IconButton
-        // disabled={!isAdmin}
-        onClick={handlePopoverOpen}
-        className={styles.profile_container}
-      >
-        <PermIdentityIcon color="inherit" />
-      </IconButton>
-      <Popover
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handlePopoverClose}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "right",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
-      >
-        <Box sx={{ p: 2 }}>
-          <Typography
-            sx={{ cursor: "pointer", mb: 1 }}
-            onClick={() => handleLogout()}
+      {isMobile ? (
+        <>
+          <IconButton
+            // disabled={!isAdmin}
+            onClick={handlePopoverOpen}
+            className={styles.profile_container}
           >
-            Logout
-          </Typography>
-        </Box>
-      </Popover>
+            <PermIdentityIcon color="inherit" />
+          </IconButton>
+          <Popover
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handlePopoverClose}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "right",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+          >
+            <Box sx={{ p: 2 }}>
+              <Typography
+                sx={{ cursor: "pointer", mb: 1 }}
+                onClick={() => handleLogout()}
+              >
+                Logout
+              </Typography>
+            </Box>
+          </Popover>
+        </>
+      ) : null}
     </div>
   );
 };

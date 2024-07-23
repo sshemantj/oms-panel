@@ -19,7 +19,7 @@ import { getStoreIdFromCookie } from "@/utils/cookies";
 const statuses = [
   "Order Awaited",
   "Awaiting Pick",
-  "Pick in Progress",
+  // "Pick in Progress",
   "Picked",
   "Dropped",
   "Pick Fail",
@@ -28,7 +28,7 @@ const statuses = [
 const tabColors = [
   "#FFC9C9", // Order Awaited
   "#E8590C", // Awaiting Pick
-  "#FFEC99", // Pick in Progress
+  // "#FFEC99", // Pick in Progress
   "#A5D8FF", // Picked
   "#B2F2BB", // Dropped
   "#C2255C", // Pick Fail
@@ -115,7 +115,7 @@ const ItemList = () => {
     console.log({ offset, limit, filters });
 
     const result = dispatch(
-      fetchPickItemDetails({ offset: 0, limit: 10, filters })
+      fetchPickItemDetails({ offset: 0, limit: 100, filters })
     );
   }, [dispatch, selectedPickFilters, value]);
 

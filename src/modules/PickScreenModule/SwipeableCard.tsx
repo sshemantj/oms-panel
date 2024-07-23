@@ -47,7 +47,17 @@ const SwipeableCard: React.FC<SwipeableCardProps> = ({ order }) => {
 
   const handleSwipe = async (direction: Direction) => {
     if (swipeHandled) return;
-    const { omsId, quantity, status, trayName, ean, locationId } = order;
+    const {
+      omsId,
+      quantity,
+      status,
+      trayName,
+      ean,
+      locationId,
+      productName,
+      color,
+      skuSize,
+    } = order;
 
     const isTrayExists = Boolean(trayName && status !== "Dropped");
     if (direction === "left" && !isSwiping && isTrayExists) {
@@ -56,16 +66,21 @@ const SwipeableCard: React.FC<SwipeableCardProps> = ({ order }) => {
       setTimeout(() => {
         console.log("order here", order);
 
+        const queryParams = new URLSearchParams({
+          omsId: String(omsId),
+          quantity: String(quantity),
+          trayName: String(trayName),
+          locationId: String(locationId),
+          productName: String(productName),
+          color: String(color),
+          skuSize: String(skuSize),
+          pickStatus: String(status),
+          ean: String(ean),
+        });
+
         router.push({
           pathname: "/pick-screen/barcode",
-          query: {
-            omsId,
-            quantity,
-            trayName,
-            locationId,
-            pickStatus: status,
-            ean,
-          },
+          query: Object.fromEntries(queryParams.entries()),
         });
       }, 300);
     } else if (direction === "right") {
