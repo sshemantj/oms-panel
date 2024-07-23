@@ -11,7 +11,7 @@ import { fetchCourierData } from "@/services/thunks/packApis";
 import { useAppDispatch } from "@/store/hooks";
 import FeaturedTable from "@/tables/featuredTable";
 import { Box, Button, Grid, Typography } from "@mui/material";
-import { GridColDef, GridRowId } from "@mui/x-data-grid";
+import { GridColDef, GridRowId, GridRowSelectionModel } from "@mui/x-data-grid";
 import { unwrapResult } from "@reduxjs/toolkit";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -400,11 +400,16 @@ const CarrierCollectionModule = () => {
     }
   };
 
+  const handleSelectionModelChange = (newSelectionModel: any) => {
+    const newSelectedRows = newSelectionModel.map((id: any) =>
+      tableState.rows.find((row) => row.id === id)
+    );
+    setSelectedRows(newSelectedRows);
+  };
+
   console.log("scannedCodes", scannedCodes);
   return (
     <>
-      {console.log("pageSize", pageSize)}
-
       {loading ? <Loader size={50} color="primary" overlay={true} /> : null}
       <Box className={styles.carrierCollectionWrapper}>
         <Box
@@ -469,7 +474,7 @@ const CarrierCollectionModule = () => {
                 />
                 <Button
                   sx={{
-                    visibility: selectedTableRows.length ? "visible" : "hidden",
+                    visibility: selectedRows.length ? "visible" : "hidden",
                   }}
                   onClick={() => handleGenerateManifest()}
                   variant="contained"
@@ -546,17 +551,11 @@ const CarrierCollectionModule = () => {
                 rows: tableState.rows,
                 columns: tableState.columns,
                 checkboxSelection: true,
-
                 onPaginationModelChange: handlePageSizeChange,
-                onSelectionModelChange: (newSelection: any) =>
-                  setSelectedRows(
-                    newSelection.selectionModel.map((id: any) =>
-                      tableState.rows.find((row) => row.id === id)
-                    )
-                  ),
-                selectionModel: selectedRows?.map((row: any) => row.id),
+                onRowSelectionModelChange: handleSelectionModelChange,
+                selectionModel: selectedRows?.map((row: any) => row?.id),
 
-                rowSelectionModel: selectedRows?.map((row: any) => row.id),
+                rowSelectionModel: selectedRows?.map((row: any) => row?.id),
               }}
             />
           </Box>
