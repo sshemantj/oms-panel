@@ -9,29 +9,29 @@ import { axiosPublic } from "../client";
 
 const packFilters = createAsyncThunk(
   "pack/PickFilters",
-  async (locationId: number) => {
+  async (locationId: string) => {
     try {
       const url = `/packer/Pack/getPackFilers?locationId=${locationId}`;
 
       const response = await axiosPublic.get(url);
 
       return response.data;
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      throw new Error(error);
     }
   }
 );
 const getPackStatusCount = createAsyncThunk(
   "pack/getPackStatusCount",
-  async (locationId: number) => {
+  async (locationId: string) => {
     try {
       const url = `/packer/Pack/getPackStatusCount?locationId=${locationId}`;
 
       const response = await axiosPublic.get(url);
 
       return response.data;
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      throw new Error(error);
     }
   }
 );
@@ -50,11 +50,10 @@ const getPackItemDetails = createAsyncThunk(
         data: data,
       };
       const response = await axios.request(config);
-      console.log("response here", response);
       return response.data;
     } catch (error: any) {
-      console.log("error in getpackdetails", error);
-      return rejectWithValue(error.response.data);
+      throw new Error("error in getpackdetails", error);
+      // return rejectWithValue(error.response.data);
     }
   }
 );

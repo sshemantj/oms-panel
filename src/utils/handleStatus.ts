@@ -1,7 +1,6 @@
 import { store } from "@/store";
 import { openLoginModal } from "@/store/slices/loginSlice";
-import { Cookies } from "react-cookie";
-const cookie = new Cookies();
+// import { setCookie } from "cookies-next";
 
 const handleStatus = (status: number | undefined, message: string) => {
   switch (status) {
@@ -18,7 +17,7 @@ const handleStatus = (status: number | undefined, message: string) => {
 };
 
 function handleUnauthorize(message?: string) {
-  cookie.remove("token");
+  // setCookie("token");
   store.dispatch(openLoginModal());
 }
 

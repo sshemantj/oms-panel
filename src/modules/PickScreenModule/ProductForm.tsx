@@ -4,12 +4,13 @@ import {
 } from "@/services/thunks/pickApis";
 import { RootState } from "@/store";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { setSelectedFiltersForLoadPick } from "@/store/slices/filterSlice";
 import {
-  resetState,
   selectFormError,
   selectFormLoading,
   selectFormSuccess,
 } from "@/store/slices/formSlice";
+import { resetState } from "@/store/slices/pickItemDetailsSlice";
 import { ProductDetails } from "@/types/productdetails";
 import { ToastError } from "@/utils/toast";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -20,16 +21,19 @@ import {
   Button,
   CircularProgress,
   FormControl,
+  FormHelperText,
   Grid,
   IconButton,
   MenuItem,
   TextField,
   Typography,
 } from "@mui/material";
+import { unwrapResult } from "@reduxjs/toolkit";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Controller, FieldErrors, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import * as yup from "yup";
 
 interface FormValues {
@@ -75,18 +79,6 @@ const schema = yup.object().shape({
   pickFailReasons: yup.array().of(yup.string().required()).required(),
 });
 
-const flex = {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-};
-
-// const data = [
-//   { label: "reason1", value: "reason1" },
-//   { label: "reason2", value: "reason2" },
-//   { label: "reason3", value: "reason3" },
-// ];
-
 const ProductForm = () => {
   const {
     data = [],
@@ -114,6 +106,7 @@ const ProductForm = () => {
 
   useEffect(() => {
     let barcode: any;
+    console.log("scannedCodes", scannedCodes);
     // scannedCodes ? JSON.parse(scannedCodes as any) : "";
     try {
       barcode = JSON.parse(scannedCodes as any);
@@ -123,9 +116,10 @@ const ProductForm = () => {
     }
     console.log("barcode", barcode);
 
-    // const ean = barcode && barcode.length ? barcode[0] : "";
-    const ean = "14054LAVENDER003";
-    dispatch(fetchProductDetails({ omsId, ean }));
+    const barcodeEan = barcode && barcode.length ? barcode[0] : "";
+    console.log(barcodeEan, "ean here");
+    const ean = barcodeEan;
+    if (omsId) dispatch(fetchProductDetails({ omsId, ean }));
   }, [dispatch, omsId]);
   const {
     control,
@@ -151,52 +145,70 @@ const ProductForm = () => {
     },
   });
 
-  // Ensure errors is correctly typed as FieldErrors<FormValues>
   const formErrors: FieldErrors<FormValues> = errors;
 
   console.log("errors", errors);
 
-  const onSubmit = (data: any) => {
-    // Example data to submit (adjust as per your form fields)
+  const onSubmit = async (data: any) => {
     console.log("data", data);
-
+    const statusToBeUpdated = data.pickFailReasons.length
+      ? "Pick Fail"
+      : "Picked";
+    const statusToBeUpdatedCount = data.pickFailReasons.length ? 5 : 3;
+    const qcFlagToBeUpdated = data.pickFailReasons.length
+      ? "QC Failed"
+      : "QC Pass";
     const formData = {
       omsId: omsId,
-      status: (pickStatus as string) || "",
+      status: statusToBeUpdated || "",
       additionalDamage: Number(data.additionalDamage),
       quantityToBePicked: data.quantityToBePicked || 0,
+      qcFlag: qcFlagToBeUpdated,
       quantityPicked: data.quantityPicked || 0,
-      reasonForFail: "COLOR NOT MATCHED",
+      ...(data.pickFailReasons.length && {
+        reasonForFail: data.pickFailReasons.join(" # "),
+      }),
     };
-
-    dispatch(submitFormData(formData));
-  };
-
-  useEffect(() => {
-    console.log("submitFormSuccess", submitFormSuccess);
-    if (submitFormSuccess) {
-      // const state = {
-      //   estimatedShip: "",
-      //   status: {
-      //     statusId: 5,
-      //     statusDescription: "Dropped",
-      //   },
-      // };
-      // dispatch(setSelectedFiltersForLoadPick(state));
+    console.log("formData", formData);
+    const resultAction = await dispatch(submitFormData(formData));
+    const response = unwrapResult(resultAction);
+    console.log("response", response);
+    if (response.statusCode === 200) {
+      const state = {
+        estimatedShip: "",
+        status: {
+          statusId: statusToBeUpdatedCount,
+          statusDescription: statusToBeUpdated,
+        },
+      };
+      dispatch(setSelectedFiltersForLoadPick(state));
+      toast.success(
+        response.message || "Something went wrong while submitting form"
+      );
       router.push({
         pathname: "/pick-screen/itemlist",
       });
       dispatch(resetState());
+    } else {
+      toast.error(
+        response.message || "Something went wrong while submitting form"
+      );
     }
-  }, [submitFormSuccess]);
+  };
 
   useEffect(() => {
-    if (data && Array.isArray(data) && data.length) {
+    console.log("data here", data);
+    if (
+      data &&
+      Array.isArray(data.pickEntryItems) &&
+      data?.pickEntryItems?.length
+    ) {
       // const productDetails = (data.length && (data[0] as any)) || "";
-      const productDetails: ProductDetails = data[0] as ProductDetails;
+      const productDetails: ProductDetails = data
+        ?.pickEntryItems[0] as ProductDetails;
       console.log("productDetails hceck", productDetails);
       console.log(" productDetails.orderNumber", productDetails.orderNumber);
-      setValue("orderNumber", productDetails.orderNumber || "");
+      setValue("orderNumber", productDetails.orderId || "");
       setValue("consignmentNumber", productDetails.consignmentId || "");
       setValue("sku", productDetails.sku || "");
       setValue("ean", productDetails.ean || "");
@@ -217,11 +229,12 @@ const ProductForm = () => {
   const handleReasonChange = (value: string, index: number) => {
     const reasons = [...watch("pickFailReasons")];
     reasons[index] = value;
-    // setValue("pickFailReasons", reasons);
+    setValue("pickFailReasons", reasons);
   };
 
   const quantityPicked = watch("quantityPicked");
   const quantityToBePicked = watch("quantityToBePicked");
+  const maxPickableQuantity = Math.max(quantityToBePicked - 1, 0);
 
   const reasonsCount = Math.max(quantityToBePicked - quantityPicked, 0);
   const reasonsArray = Array.from({ length: reasonsCount }, (_, i) => i);
@@ -295,9 +308,9 @@ const ProductForm = () => {
                   helperText={errors.orderNumber?.message}
                   type="text"
                   size="small"
-                  // InputProps={{
-                  //   readOnly: true,
-                  // }}
+                  InputProps={{
+                    readOnly: true,
+                  }}
                 />
               )}
             />
@@ -502,6 +515,7 @@ const ProductForm = () => {
                 <TextField
                   {...field}
                   type="number"
+                  disabled
                   error={!!errors.quantityPicked}
                   helperText={errors.quantityPicked?.message}
                   size="small"
@@ -516,7 +530,7 @@ const ProductForm = () => {
               onClick={() =>
                 setValue("quantityPicked", (quantityPicked || 0) + 1)
               }
-              disabled={quantityPicked >= quantityToBePicked}
+              disabled={quantityPicked >= maxPickableQuantity}
             >
               <AddIcon />
             </IconButton>
@@ -543,76 +557,97 @@ const ProductForm = () => {
               />
             </Grid>
           </>
-
-          {reasonsArray.map((reason, index) => (
-            <Grid
-              container
-              spacing={2}
-              alignItems={"center"}
-              key={index}
-              sx={{ marginY: 1, paddingX: 2 }}
-            >
-              <Grid item xs={5}>
-                <Typography>
-                  <span>#</span> {index}
-                </Typography>
-              </Grid>
-              <Grid
-                item
-                xs={7}
-                key={index}
-                sx={{ display: "flex", alignItems: "center", gap: 1 }}
-              >
-                <FormControl
-                  fullWidth
-                  error={
-                    !!errors[
-                      `pickFailReason${index}` as keyof FieldErrors<FormValues>
-                    ]
-                  }
-                >
-                  <Controller
-                    name={`pickFailReasons.${index}`}
-                    control={control}
-                    render={({ field }) => (
-                      <TextField
-                        select
-                        size="medium"
-                        {...field}
-                        sx={{
-                          width: "200px",
-                          "& .MuiSelect-outlined": {
-                            padding: "6px",
-                          },
-                          "& .MuiInputLabel-shrink": {
-                            top: "0px",
-                          },
-                          "& label": {
-                            top: "-10px",
-                          },
-                          "& .Mui-focused": {
-                            top: "0",
-                          },
-                        }}
-                        label="Reason for Pick Fail"
-                        value={reason}
-                        onChange={(e) =>
-                          handleReasonChange(e.target.value, index)
+          <>
+            {" "}
+            {data &&
+            data.reasonForFail &&
+            Array.isArray(data.reasonForFail) &&
+            data.reasonForFail.length
+              ? reasonsArray.map((reason, index) => (
+                  <Grid
+                    container
+                    spacing={2}
+                    alignItems={"center"}
+                    key={index}
+                    sx={{ marginY: 1, paddingX: 2 }}
+                  >
+                    <Grid item xs={5}>
+                      <Typography>
+                        <span>#</span> {index}
+                      </Typography>
+                    </Grid>
+                    <Grid
+                      item
+                      xs={7}
+                      key={index}
+                      sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                    >
+                      <FormControl
+                        fullWidth
+                        error={
+                          !!errors.pickFailReasons &&
+                          !!errors.pickFailReasons[index]
                         }
+                        // error={
+
+                        //   !!errors[
+                        //     `pickFailReason${index}` as keyof FieldErrors<FormValues>
+                        //   ]
+                        // }
                       >
-                        <MenuItem value="">
-                          <em>None</em>
-                        </MenuItem>
-                        <MenuItem value="reason1">Reason 1</MenuItem>
-                        <MenuItem value="reason2">Reason 2</MenuItem>
-                        <MenuItem value="reason3">Reason 3</MenuItem>
-                      </TextField>
-                    )}
-                  />
-                </FormControl>
-              </Grid>
-            </Grid>
-          ))}
+                        <Controller
+                          name={`pickFailReasons.${index}`}
+                          control={control}
+                          render={({ field }) => (
+                            <TextField
+                              select
+                              size="medium"
+                              {...field}
+                              sx={{
+                                width: "200px",
+                                "& .MuiSelect-outlined": {
+                                  padding: "6px",
+                                },
+                                "& .MuiInputLabel-shrink": {
+                                  top: "0px",
+                                },
+                                "& label": {
+                                  top: "-10px",
+                                },
+                                "& .Mui-focused": {
+                                  top: "0",
+                                },
+                              }}
+                              label="Reason for Pick Fail"
+                              // value={reason}
+                              value={watch(`pickFailReasons.${index}`)}
+                              onChange={(e) =>
+                                handleReasonChange(e.target.value, index)
+                              }
+                            >
+                              {data.reasonForFail.map((failReason: any) => (
+                                <MenuItem
+                                  key={failReason.id}
+                                  value={failReason.reason}
+                                >
+                                  {failReason.reason}
+                                </MenuItem>
+                              ))}
+                            </TextField>
+                          )}
+                        />
+                        {errors.pickFailReasons &&
+                          errors.pickFailReasons[index] && (
+                            <FormHelperText error>
+                              {errors.pickFailReasons[index]?.message}
+                            </FormHelperText>
+                          )}
+                      </FormControl>
+                    </Grid>
+                  </Grid>
+                ))
+              : null}
+          </>
         </Grid>
         <Button type="submit" variant="contained" sx={{ marginTop: 3 }}>
           Submit

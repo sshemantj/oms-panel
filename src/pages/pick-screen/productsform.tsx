@@ -6,9 +6,6 @@ const ProductsForm = () => {
   return (
     <MainLayout mainStyle={{ padding: 0 }}>
       <Box sx={{ padding: 2 }}>
-        {/* <Typography variant="h4" component="h1" gutterBottom>
-        Product Form
-      </Typography> */}
         <ProductForm />
       </Box>
     </MainLayout>

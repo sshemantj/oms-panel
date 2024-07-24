@@ -1,5 +1,5 @@
-import { callLogin, getUserDetails } from "@/services/thunks/loginApi";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { callLogin, getUserDetails } from "@/services/thunks/loginApi";
 
 interface IloginSlice {
   showLoginModal: boolean;
@@ -22,8 +22,8 @@ export const login = createSlice({
   initialState,
   reducers: {
     openLoginModal: (state) => {
-      // localStorage.clear();
-      // state.showLoginModal = true;
+      localStorage.clear();
+      state.showLoginModal = true;
     },
     closeLoginModal: (state) => {
       state.showLoginModal = false;
@@ -34,7 +34,6 @@ export const login = createSlice({
   },
   extraReducers(builder) {
     builder
-      // callLogin
       .addCase(callLogin.pending, (state) => {
         state.status = "loading";
       })
@@ -45,7 +44,6 @@ export const login = createSlice({
         state.status = "failed";
         state.error = action.error.message || "";
       })
-      //getUserDetails
       .addCase(getUserDetails.fulfilled, (state, action) => {
         state.userDetails = action.payload;
       });

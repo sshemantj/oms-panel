@@ -28,7 +28,9 @@ export interface ProductDetails {
 }
 
 export interface ProductDetailsState {
-  data: ProductDetails | null;
+  // data: ProductDetails | null;
+  data: any | null;
+
   loading: boolean;
   error: string | null;
 }
@@ -38,7 +40,7 @@ export interface SubmitFormData {
   additionalDamage: number;
   quantityToBePicked: number;
   quantityPicked: number;
-  reasonForFail: string;
+  reasonForFail?: string;
   // trayId: number;
   // qcFlag: string;
 

@@ -41,7 +41,10 @@ const Breadcrumbs = () => {
     if (pathStr === "/") {
       return router.replace("/", undefined, { shallow: true });
     }
-    if (!isLastPath) {
+    if (pathStr === "itemlist" && !isLastPath) {
+      router.replace("/pick-screen/itemlist", undefined, { shallow: true });
+    }
+    if (pathStr !== "itemlist" && !isLastPath) {
       router.replace("/" + pathStr, undefined, { shallow: true });
     }
   };
