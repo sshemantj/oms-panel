@@ -51,7 +51,6 @@ interface Filters {
 //   return `${baseId}${index}`;
 // }
 
-// Define the template for the static objects
 // const orderTemplate = {
 //   awb: "10035623564",
 //   carrier: "DTDC Express",
@@ -312,29 +311,19 @@ const CarrierCollectionModule = () => {
   const [currentScan, setCurrentScan] = useState<number>(0);
   const [pageSize, setPageSize] = useState(10);
 
-  const currentPageCount = pageSize;
+  const pageCount = tableState.rows.length;
 
   const updateSelectedRows = (scannedBarcode: any) => {
     console.log("pageSize", pageSize);
-    console.log("tableState.pageSize", tableState.pageSize);
-    const startIndex = 0;
-    const endIndex = currentPageCount;
-    console.log("startIndex", startIndex);
-    console.log("endIndex", endIndex);
-    const selectedRowsToUpdate = tableState.rows
-      .slice(startIndex, endIndex)
-      .filter((row) => row.awbNumber === scannedBarcode);
+    console.log("tableState.rows", tableState.rows);
+
+    const selectedRowsToUpdate = tableState.rows.filter(
+      (row) => row.awbNumber === scannedBarcode
+    );
     console.log("selectedRowsToUpdate", selectedRowsToUpdate);
     const matchingRowInSlice = selectedRowsToUpdate.find(
       (row) => row.awbNumber === scannedBarcode
     );
-
-    if (!matchingRowInSlice) {
-      toast.error(`You can only scan within current page's selected rows`, {
-        position: "top-center",
-      });
-      return;
-    }
 
     const isAlreadyScanned = selectedRows.some(
       (row: any) => row.awbNumber === scannedBarcode
@@ -351,14 +340,14 @@ const CarrierCollectionModule = () => {
 
       setCurrentScan((prev) => {
         const newScanCount = prev + 1;
-        if (newScanCount < currentPageCount) {
+        if (newScanCount < pageCount) {
           ToastMessage({
-            message: `Scanned ${newScanCount}/${currentPageCount} quantity`,
+            message: `Scanned ${newScanCount}/${pageCount} quantity`,
             position: "top-center",
           });
         }
 
-        if (newScanCount >= currentPageCount) {
+        if (newScanCount >= pageCount) {
           toast.success("All items have been scanned successfully!", {
             position: "top-center",
           });
@@ -371,10 +360,10 @@ const CarrierCollectionModule = () => {
     }
   };
   useEffect(() => {
-    if (scannedCodes.length >= currentPageCount) {
+    if (scannedCodes.length >= pageCount) {
       setStopStream(true);
     }
-  }, [scannedCodes, currentPageCount]);
+  }, [scannedCodes, pageCount]);
   const handleScan = (err: any, result: any) => {
     if (result) {
       const scannedBarcode = result.getText();
@@ -563,7 +552,7 @@ const CarrierCollectionModule = () => {
           {openModal ? (
             <ManifestModal
               {...{ openModal, setOpenModal }}
-              selectedManifestRows={selectedTableRows}
+              selectedManifestRows={selectedRows}
               onSuccess={handleSuccess}
             />
           ) : null}
