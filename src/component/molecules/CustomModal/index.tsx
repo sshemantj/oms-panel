@@ -1,5 +1,5 @@
-import Modal from "@mui/material/Modal";
 import CloseIcon from "@mui/icons-material/Close";
+import Modal from "@mui/material/Modal";
 
 interface IProps {
   open: boolean;
@@ -31,6 +31,7 @@ const CustomModal = (props: IProps) => {
       onClose={handleClose}
       aria-labelledby="parent-modal-title"
       aria-describedby="parent-modal-description"
+      style={{ zIndex: "9999" }}
     >
       <>
         {children}

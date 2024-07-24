@@ -11,6 +11,9 @@ export enum IAllRoutes {
   PROOF_OF_DELIEVERY = "proof-of-delivery",
   FULFILLMENTS = "/fulfillments",
   RETURNS = "/returns",
+  PICK_SCREEN = "/pick-screen",
+  PACK_SCREEN = "/pack-screen",
+  CUSTOMER_COLLECTIONS = "/customer-collections",
 }
 
 //Store sub routes

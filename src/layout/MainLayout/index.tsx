@@ -1,11 +1,12 @@
+import HeaderLabel from "@/component/atoms/headerLabel";
+import { IAllRoutes, IListRoutes } from "@/constants/allRoutes";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
+import LhsWrapper from "./LhsWrapper";
 import RhsWrapper from "./RhsWrapper";
 import NavList from "./navlist";
-import { useRouter } from "next/router";
-import { IAllRoutes, IListRoutes } from "@/constants/allRoutes";
-import HeaderLabel from "@/component/atoms/headerLabel";
-import LhsWrapper from "./LhsWrapper";
 import styles from "./newNavbar.module.scss";
+import LoginComponent from "@/component/molecules/LoginModal";
 
 interface IProps {
   children: JSX.Element;
@@ -24,6 +25,9 @@ const MainLayout = (props: IProps) => {
       case IAllRoutes.FULFILLMENTS:
       case IAllRoutes.DASHBOARD:
       case IAllRoutes.RETURNS:
+      case IAllRoutes.PICK_SCREEN:
+      case IAllRoutes.PACK_SCREEN:
+      case IAllRoutes.CUSTOMER_COLLECTIONS:
         router.push(`${path}`);
         return;
     }
@@ -31,6 +35,8 @@ const MainLayout = (props: IProps) => {
 
   return (
     <div className={styles.newNavWrapper}>
+      <LoginComponent />
+
       <nav className={styles.navContainer}>
         <LhsWrapper {...{ isNavOpen, setisNavOpen }} />
         <RhsWrapper />

@@ -1,4 +1,3 @@
-import React from "react";
 import {
   MenuItem,
   SxProps,
@@ -6,6 +5,7 @@ import {
   TextFieldProps,
   Theme,
 } from "@mui/material";
+import React from "react";
 import styles from "./customSelect.module.scss";
 
 interface IProps {
@@ -42,7 +42,7 @@ const CustomSelect = (props: IProps & Omit<TextFieldProps, "variant">) => {
         sx={selectSx}
         {...rest}
       >
-        {data.map(({ label, value }) => (
+        {data?.map(({ label, value }) => (
           <MenuItem key={value} value={value}>
             {label}
           </MenuItem>

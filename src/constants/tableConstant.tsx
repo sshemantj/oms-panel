@@ -1,12 +1,11 @@
-import { GridColDef } from "@mui/x-data-grid";
-import staticImg from "@/images/ss-logo.jpg";
 import { unsplashimgurl } from "@/images/AllDataIcons";
 import { ITabList } from "@/interfaces/home.interface";
-import Link from "next/link";
-import QuantityColumn from "@/modules/storeModule/subRoutesModule/pick/quantityColumn";
 import PickImage from "@/modules/storeModule/subRoutesModule/pick/pickImage";
-import { Box, Button, Typography } from "@mui/material";
+import QuantityColumn from "@/modules/storeModule/subRoutesModule/pick/quantityColumn";
 import PrintIcon from "@mui/icons-material/Print";
+import { Button, Typography } from "@mui/material";
+import { GridColDef } from "@mui/x-data-grid";
+import Link from "next/link";
 import { IAllRoutes } from "./allRoutes";
 
 export const initialAllTableState = {
@@ -1021,19 +1020,19 @@ export const carrierBookingRows = [
   },
 ];
 export const carrierCollectionsColumns: GridColDef[] = [
-  { field: "orderRef", headerName: "Order Ref", width: 130, align: "left" },
-  { field: "customer", headerName: "Customer", width: 130, align: "left" },
+  { field: "orderId", headerName: "Order Id", width: 110, align: "left" },
+  { field: "customer", headerName: "Customer", width: 110, align: "left" },
   {
     field: "awbNumber",
     headerName: "AWB Number",
     // type: "number",
-    width: 130,
+    width: 110,
     align: "left",
-    renderCell: (params) => (
-      <Typography sx={{ color: "blue", textDecoration: "underline" }}>
-        {params.value}
-      </Typography>
-    ),
+    // renderCell: (params) => (
+    //   <Typography sx={{ color: "blue", textDecoration: "underline" }}>
+    //     {params.value}
+    //   </Typography>
+    // ),
   },
   {
     field: "consignmentStatus",
@@ -1046,14 +1045,14 @@ export const carrierCollectionsColumns: GridColDef[] = [
     field: "orderType",
     headerName: "Order Type",
     // type: "number",
-    width: 160,
+    width: 100,
     align: "left",
   },
   {
     field: "deliveryType",
     headerName: "Delivery Type",
     // type: "number",
-    width: 130,
+    width: 110,
     align: "left",
   },
   {
@@ -1063,9 +1062,35 @@ export const carrierCollectionsColumns: GridColDef[] = [
     width: 130,
     align: "left",
   },
+  {
+    field: "shipmentNumber",
+    headerName: "Consignment Id",
+    // type: "number",
+    width: 220,
+    align: "left",
+  },
+  {
+    field: "reportid",
+    headerName: "Report Id",
+    // type: "number",
+    width: 130,
+    align: "left",
+  },
 ];
 
-export const carrierCollectionsRows = [
+export const consigmentColummns = [
+  { field: "consignmentId", headerName: "Consignment ID", width: 150 },
+  { field: "sku", headerName: "SKU", width: 150 },
+  { field: "productName", headerName: "Product Name", width: 200 },
+  { field: "brand", headerName: "Brand", width: 90 },
+  { field: "ean", headerName: "EAN", width: 150 },
+  { field: "quantity", headerName: "Quantity", width: 100 },
+  { field: "size", headerName: "Size", width: 80 },
+  { field: "weight", headerName: "Weight", width: 80 },
+  { field: "color", headerName: "Color", width: 150 },
+];
+
+export const consigmentRows = [
   {
     id: 1,
     orderRef: "Snow",
@@ -1077,87 +1102,13 @@ export const carrierCollectionsRows = [
     consignmentStatus: "Processing",
     assingCarrier: "",
   },
+];
+
+export const carrierCollectionsRows = [
   {
-    id: 2,
-    orderRef: "Lannister",
-    customer: "Cersei",
-    orderType: "manual",
-    deliveryType: "manual",
-    awbNumber: `${Math.ceil(Math.random() * 10000000)}`,
-    carrier: "Default Carrier",
-    consignmentStatus: "Processing",
-    assingCarrier: "",
-  },
-  {
-    id: 3,
-    orderRef: "Lannister",
-    customer: "Jaime",
-    orderType: "manual",
-    deliveryType: "manual",
-    awbNumber: `${Math.ceil(Math.random() * 10000000)}`,
-    carrier: "Default Carrier",
-    consignmentStatus: "Processing",
-    assingCarrier: "",
-  },
-  {
-    id: 4,
-    orderRef: "Stark",
-    customer: "Arya",
-    orderType: "manual",
-    deliveryType: "manual",
-    awbNumber: `${Math.ceil(Math.random() * 10000000)}`,
-    carrier: "Default Carrier",
-    consignmentStatus: "Processing",
-    assingCarrier: "",
-  },
-  {
-    id: 5,
-    orderRef: "Targaryen",
-    customer: "Daenerys",
-    orderType: "manual",
-    deliveryType: "manual",
-    awbNumber: `${Math.ceil(Math.random() * 10000000)}`,
-    carrier: "Default Carrier",
-    consignmentStatus: "Processing",
-    assingCarrier: "",
-  },
-  {
-    id: 6,
-    orderRef: "Melisandre",
-    customer: null,
-    orderType: "manual",
-    deliveryType: "manual",
-    awbNumber: `${Math.ceil(Math.random() * 10000000)}`,
-    carrier: "Default Carrier",
-    consignmentStatus: "Processing",
-    assingCarrier: "",
-  },
-  {
-    id: 7,
-    orderRef: "Clifford",
-    customer: "Ferrara",
-    orderType: "manual",
-    deliveryType: "manual",
-    awbNumber: `${Math.ceil(Math.random() * 10000000)}`,
-    carrier: "Default Carrier",
-    consignmentStatus: "Processing",
-    assingCarrier: "",
-  },
-  {
-    id: 8,
-    orderRef: "Frances",
-    customer: "Rossini",
-    orderType: "manual",
-    deliveryType: "manual",
-    awbNumber: `${Math.ceil(Math.random() * 10000000)}`,
-    carrier: "Default Carrier",
-    consignmentStatus: "Processing",
-    assingCarrier: "",
-  },
-  {
-    id: 9,
-    orderRef: "Roxie",
-    customer: "Harvey",
+    id: 1,
+    orderRef: "Snow",
+    customer: "Jon",
     orderType: "manual",
     deliveryType: "manual",
     awbNumber: `${Math.ceil(Math.random() * 10000000)}`,

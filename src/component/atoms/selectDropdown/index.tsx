@@ -1,4 +1,3 @@
-import React, { forwardRef, useRef } from "react";
 import {
   MenuItem,
   SxProps,
@@ -6,6 +5,7 @@ import {
   TextFieldProps,
   Theme,
 } from "@mui/material";
+import React, { forwardRef } from "react";
 import styles from "./selectDropdown.module.scss";
 
 interface IProps {
