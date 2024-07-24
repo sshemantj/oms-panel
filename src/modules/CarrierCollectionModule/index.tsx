@@ -360,7 +360,7 @@ const CarrierCollectionModule = () => {
     }
   };
   useEffect(() => {
-    if (scannedCodes.length >= pageCount) {
+    if (pageCount && scannedCodes.length >= pageCount) {
       setStopStream(true);
     }
   }, [scannedCodes, pageCount]);
