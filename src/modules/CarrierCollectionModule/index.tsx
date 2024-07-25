@@ -31,7 +31,7 @@ interface ManifestColumnItem {
   orderId: string;
   orderNumber: string;
   customer: string;
-  awbNumber: string;
+  awb: string;
   po: string;
   courier: string;
   consignmentStatus: string;
@@ -172,7 +172,7 @@ const CarrierCollectionModule = () => {
           orderId: item.orderId,
           orderNumber: item.orderNumber,
           customer: item.customer,
-          awbNumber: item.awb,
+          awb: item.awb,
           po: item.po,
           courier: item.courier,
           consignmentStatus: item.consignmentStatus,
@@ -318,15 +318,15 @@ const CarrierCollectionModule = () => {
     console.log("tableState.rows", tableState.rows);
 
     const selectedRowsToUpdate = tableState.rows.filter(
-      (row) => row.awbNumber === scannedBarcode
+      (row) => row.awb === scannedBarcode
     );
     console.log("selectedRowsToUpdate", selectedRowsToUpdate);
     const matchingRowInSlice = selectedRowsToUpdate.find(
-      (row) => row.awbNumber === scannedBarcode
+      (row) => row.awb === scannedBarcode
     );
 
     const isAlreadyScanned = selectedRows.some(
-      (row: any) => row.awbNumber === scannedBarcode
+      (row: any) => row.awb === scannedBarcode
     );
 
     if (isAlreadyScanned) {
@@ -369,11 +369,11 @@ const CarrierCollectionModule = () => {
       const scannedBarcode = result.getText();
       if (scannedBarcode) {
         const matchingRow = tableState.rows.find(
-          (row) => row.awbNumber === scannedBarcode
+          (row) => row.awb === scannedBarcode
         );
         console.log("matchingRow", matchingRow);
 
-        if (matchingRow && matchingRow.awbNumber) {
+        if (matchingRow && matchingRow.awb) {
           if (!scannedCodes.includes(scannedBarcode)) {
             setStopStream(false);
             updateSelectedRows(scannedBarcode);
