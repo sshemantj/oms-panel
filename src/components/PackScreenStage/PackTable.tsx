@@ -97,7 +97,8 @@ const PackScreenTable = ({ filters }: PackScreenTableProps) => {
 
       renderCell: (params) => (
         <>
-          {params.row.status.toLowerCase() === "fulfilled" && params.row.awb ? (
+          {params.row.status.toLowerCase() === "fulfilled" &&
+          params.row.awb.toLowerCase() !== "not generated" ? (
             <DownloadIcon
               color="primary"
               style={{
