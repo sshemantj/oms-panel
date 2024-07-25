@@ -24,12 +24,11 @@ const pickFilters = createAsyncThunk(
 const fetchPickItemDetails = createAsyncThunk(
   "pickItemDetails/fetchPickItemDetails",
   async ({ offset, limit, filters }: any) => {
-    let data = { offset, limit, filters };
+    let data = { ...filters };
 
     let config = {
       method: "post",
-      url: `/api/getPickItemDetails`,
-      // url: `/picker/getPickItemDetails?offSet=${offset}&limit=${limit}`,
+      url: `/picker/getPickItemDetails?offSet=${offset}&limit=${limit}`,
       headers: {
         "Content-Type": "application/json",
       },
@@ -37,7 +36,7 @@ const fetchPickItemDetails = createAsyncThunk(
     };
 
     try {
-      const response = await axios.request(config);
+      const response = await axiosPublic.request(config);
       return response.data;
     } catch (error: any) {
       throw new Error(error);

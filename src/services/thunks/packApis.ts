@@ -38,18 +38,40 @@ const getPackStatusCount = createAsyncThunk(
 const getPackItemDetails = createAsyncThunk(
   "pack/getPackItemDetails",
   async (packPayload: any, { rejectWithValue }) => {
-    let data = packPayload;
+    const {
+      offSet,
+      limit,
+      locationId,
+      brand = "",
+      deliveryMode = "",
+      tray = "",
+    } = packPayload;
+
+    const data: any = {
+      locationId,
+    };
+
+    if (brand) {
+      data.brand = brand;
+    }
+    if (deliveryMode) {
+      data.deliveryMode = deliveryMode;
+    }
+    if (tray) {
+      data.tray = tray;
+    }
 
     try {
       let config = {
         method: "post",
-        url: `/api/getPackItemDetails`,
+
+        url: `/packer/Pack/getPackItemDetails?offSet=${offSet}&limit=${limit}`,
         headers: {
           "Content-Type": "application/json",
         },
         data: data,
       };
-      const response = await axios.request(config);
+      const response = await axiosPublic.request(config);
       return response.data;
     } catch (error: any) {
       throw new Error("error in getpackdetails", error);
@@ -61,12 +83,12 @@ const getPackItemDetails = createAsyncThunk(
 export const getConsignmentsItem = createAsyncThunk(
   "pack/getConsignmentsItem",
   async ({ locationId, consignmentId }: any, { rejectWithValue }) => {
-    const data = JSON.stringify({ locationId, consignmentId });
+    const data = { locationId, consignmentId };
 
     const config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: `/api/getConsignmentItems`,
+      url: `/packer/Pack/getConsignmentsItem`,
       headers: {
         "Content-Type": "application/json",
       },
@@ -74,7 +96,7 @@ export const getConsignmentsItem = createAsyncThunk(
     };
 
     try {
-      const response = await axios(config);
+      const response = await axiosPublic(config);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
@@ -84,12 +106,12 @@ export const getConsignmentsItem = createAsyncThunk(
 export const getConsignmentCourierItems = createAsyncThunk(
   "pack/getConsignmentCourierItems",
   async ({ locationId, consignmentId }: any, { rejectWithValue }) => {
-    const data = JSON.stringify({ locationId, consignmentId });
+    const data = { locationId, consignmentId };
 
     const config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: `/api/getConsignmentCourierItems`,
+      url: `/packer/Pack/getConsignmentCourierItems`,
       headers: {
         "Content-Type": "application/json",
       },
@@ -97,7 +119,7 @@ export const getConsignmentCourierItems = createAsyncThunk(
     };
 
     try {
-      const response = await axios(config);
+      const response = await axiosPublic(config);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
