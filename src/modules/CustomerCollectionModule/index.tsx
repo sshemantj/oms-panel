@@ -17,23 +17,14 @@ import toast from "react-hot-toast";
 import styles from "./customerCollection.module.scss";
 import GenerateOtpModal from "./otpGenerationModal";
 import { getStoreIdFromCookie } from "@/utils/cookies";
+import DownloadIcon from "@mui/icons-material/Download";
+import axios from "axios";
 
 const flex = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
 };
-
-const data = [
-  { label: "SHIPDELIGHT", value: "SHIPDELIGHT" },
-  { label: "ECOM EXPRESS", value: "ECOM EXPRESS" },
-  { label: "BLOWHORN", value: "BLOWHORN" },
-  { label: "BLUEDART", value: "BLUEDART" },
-  { label: "DELHIVERY", value: "DELHIVERY" },
-  { label: "DUNZO", value: "DUNZO" },
-  { label: "XPRESSBEES", value: "XPRESSBEES" },
-  { label: "DEFAULT CARRIER", value: "DEFAULT CARRIER" },
-];
 
 interface ManifestColumnItem {
   orderId: string;
@@ -60,17 +51,17 @@ const CustomerCollecionModule = () => {
     { field: "orderId", headerName: "Order Id", width: 110, align: "left" },
     { field: "customer", headerName: "Customer", width: 110, align: "left" },
     {
-      field: "awbNumber",
+      field: "awb",
       headerName: "AWB Number",
       // type: "number",
-      width: 110,
+      width: 140,
       align: "left",
     },
     {
       field: "consignmentStatus",
       headerName: "Consignment Status",
       // type: "number",
-      width: 160,
+      width: 260,
       align: "left",
     },
     {
@@ -87,13 +78,13 @@ const CustomerCollecionModule = () => {
       width: 110,
       align: "left",
     },
-    {
-      field: "carrier",
-      headerName: "Carrier",
-      // type: "number",
-      width: 130,
-      align: "left",
-    },
+    // {
+    //   field: "carrier",
+    //   headerName: "Carrier",
+    //   // type: "number",
+    //   width: 130,
+    //   align: "left",
+    // },
     {
       field: "shipmentNumber",
       headerName: "Consignment Id",
@@ -118,20 +109,43 @@ const CustomerCollecionModule = () => {
       ),
     },
     {
-      field: "reportid",
-      headerName: "Report Id",
-      // type: "number",
-      width: 130,
-      align: "left",
+      field: "Invoice",
+      headerName: "Invoice",
+      width: 80,
+
+      renderCell: (params) => (
+        <>
+          {params.row.awb.toLowerCase() !== "not generated" ? (
+            <DownloadIcon
+              color="primary"
+              style={{
+                marginLeft: "1rem",
+                marginTop: "10px",
+                cursor: "pointer",
+              }}
+              onClick={() => handleDownloadPDF(params.row.shipmentNumber)}
+            >
+              Download
+            </DownloadIcon>
+          ) : null}
+        </>
+      ),
     },
+    // {
+    //   field: "reportid",
+    //   headerName: "Report Id",
+    //   // type: "number",
+    //   width: 130,
+    //   align: "left",
+    // },
   ];
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
-  const [selectedCourier, setSelectedCourier] = useState("");
+  // const [selectedCourier, setSelectedCourier] = useState("");
   const [selectedChannel, setSelectedChannel] = useState("");
   const [tableKey, setTableKey] = useState(0);
 
-  const [courierPartnerDropDown, setCourierPartnerDropDown] = useState<any>([]);
+  // const [courierPartnerDropDown, setCourierPartnerDropDown] = useState<any>([]);
   const [channelsDropDown, setChannelsDropDown] = useState<any>([]);
 
   const dispatch = useAppDispatch();
@@ -156,21 +170,84 @@ const CustomerCollecionModule = () => {
   ];
   const locationId = getStoreIdFromCookie();
 
-  useEffect(() => {
-    const fetchCourierForDropDown = async () => {
-      if (locationId) {
-        setLoading(true);
-        try {
-          const resultAction = await dispatch(fetchCourierData());
-          const data = unwrapResult(resultAction);
-          setCourierPartnerDropDown(data);
-        } catch (error) {
-          console.error("Failed to fetch status counts: ", error);
-        } finally {
-          setLoading(false);
-        }
-      }
+  const handleDownloadPDF = async (shipmentNo: string) => {
+    const url = "GetInvoice";
+    const config: any = {
+      method: "get",
+      maxBodyLength: Infinity,
+      url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/PDF/${url}?shipmentno=${shipmentNo}`,
+      headers: {
+        Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ...",
+      },
+      responseType: "blob",
     };
+    setLoading(true);
+
+    axios(config)
+      .then((response: any) => {
+        console.log("response pdf", response);
+
+        const blob = new Blob([response.data], { type: "application/pdf" });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        const fileName = "Invoice";
+        a.download = `${fileName}_${shipmentNo}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+        setLoading(false);
+      })
+      .catch((error: any) => {
+        console.log("response error pdf", error);
+
+        if (error.response?.status === 400) {
+          if (error.response.data instanceof Blob) {
+            new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload = () => {
+                try {
+                  const errorMessage = JSON.parse(
+                    reader.result as string
+                  ).message;
+                  resolve(Promise.reject(error));
+                  toast.error(`Failed to fetch PDF: ${errorMessage}`);
+                } catch (error) {
+                  toast.error("Failed to fetch PDF: Unknown error");
+                }
+              };
+              reader.readAsText(error.response.data);
+            })
+              .then((err) => {
+                console.log("err", err);
+              })
+              .catch((err) => {
+                console.log("err", err);
+              });
+          }
+        } else {
+          toast.error(`Failed to fetch PDF:`);
+        }
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    // const fetchCourierForDropDown = async () => {
+    //   if (locationId) {
+    //     setLoading(true);
+    //     try {
+    //       const resultAction = await dispatch(fetchCourierData());
+    //       const data = unwrapResult(resultAction);
+    //       setCourierPartnerDropDown(data);
+    //     } catch (error) {
+    //       console.error("Failed to fetch status counts: ", error);
+    //     } finally {
+    //       setLoading(false);
+    //     }
+    //   }
+    // };
     const fetchChannelsForDropDown = async () => {
       if (locationId) {
         setLoading(true);
@@ -186,7 +263,7 @@ const CustomerCollecionModule = () => {
       }
     };
 
-    fetchCourierForDropDown();
+    // fetchCourierForDropDown();
     fetchChannelsForDropDown();
   }, [dispatch]);
   const fetchData = async (filters: Filters = {}) => {
@@ -225,21 +302,21 @@ const CustomerCollecionModule = () => {
       const filters: { [key: string]: string } = {};
 
       if (selectedChannel) filters.channel = selectedChannel;
-      if (selectedCourier) filters.courier = selectedCourier;
+      // if (selectedCourier) filters.courier = selectedCourier;
       await fetchData(filters);
     };
-    if (selectedChannel || selectedCourier) {
+    if (selectedChannel) {
       fetchDataWithFilters();
     } else if (!searchTerm) {
       fetchData();
     }
-  }, [dispatch, selectedChannel, selectedCourier, searchTerm]);
+  }, [dispatch, selectedChannel, searchTerm]);
 
-  const handleCourierOnChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setSelectedCourier(e.target.value as string);
-  };
+  // const handleCourierOnChange = (
+  //   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  // ) => {
+  //   setSelectedCourier(e.target.value as string);
+  // };
   const handleChannelOnChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -314,12 +391,12 @@ const CustomerCollecionModule = () => {
     setTableKey((prevKey) => prevKey + 1);
   };
 
-  const courierDropDownData = courierPartnerDropDown?.map((courier: any) => {
-    return {
-      label: courier.courierName,
-      value: courier.courierName,
-    };
-  });
+  // const courierDropDownData = courierPartnerDropDown?.map((courier: any) => {
+  //   return {
+  //     label: courier.courierName,
+  //     value: courier.courierName,
+  //   };
+  // });
   const channelDropDownData = channelsDropDown?.map((courier: any) => {
     return {
       label: courier.channelName,
@@ -369,7 +446,7 @@ const CustomerCollecionModule = () => {
                 />
               </Box>
             </Grid>
-            <Grid item sx={{ marginLeft: "auto" }} md={2.5}>
+            {/* <Grid item sx={{ marginLeft: "auto" }} md={2.5}>
               <CustomSelect
                 {...{
                   data: courierDropDownData,
@@ -396,7 +473,7 @@ const CustomerCollecionModule = () => {
                   },
                 }}
               />
-            </Grid>
+            </Grid> */}
             <Grid md={2.2}>
               {" "}
               <CustomSelect

@@ -371,7 +371,7 @@ const BarcodeScanner = () => {
                   Able to Scan ?
                 </Button>
               )}
-              {pickStatus === "Picked" && !stopStream && (
+              {/* {pickStatus === "Picked" && !stopStream && (
                 <Box sx={{ ...flex }}>
                   <Button
                     onClick={handleDropMarkManual}
@@ -382,7 +382,7 @@ const BarcodeScanner = () => {
                     Mark as Dropped Manually
                   </Button>
                 </Box>
-              )}
+              )} */}
               {!stopStream && pickStatus !== "Picked" && (
                 <Box sx={{ ...flex }}>
                   <Checkbox checked={pickFailed} onChange={handlePickFailed} />
