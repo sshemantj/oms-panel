@@ -514,7 +514,7 @@ const ConsignmentModal: React.FC = () => {
                     direction="column"
                   >
                     {" "}
-                    {!isStatusFulfilled ? (
+                    {/* {!isStatusFulfilled ? (
                       <Grid item>
                         <Button
                           variant="contained"
@@ -525,7 +525,7 @@ const ConsignmentModal: React.FC = () => {
                           Handover
                         </Button>
                       </Grid>
-                    ) : null}
+                    ) : null} */}
                     {isStatusFulfilled ? (
                       <>
                         <Grid item>
