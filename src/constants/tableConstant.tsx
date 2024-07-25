@@ -1023,56 +1023,44 @@ export const carrierCollectionsColumns: GridColDef[] = [
   { field: "orderId", headerName: "Order Id", width: 110, align: "left" },
   { field: "customer", headerName: "Customer", width: 110, align: "left" },
   {
-    field: "awbNumber",
+    field: "awb",
     headerName: "AWB Number",
-    // type: "number",
     width: 110,
     align: "left",
-    // renderCell: (params) => (
-    //   <Typography sx={{ color: "blue", textDecoration: "underline" }}>
-    //     {params.value}
-    //   </Typography>
-    // ),
   },
   {
     field: "consignmentStatus",
     headerName: "Consignment Status",
-    // type: "number",
     width: 160,
     align: "left",
   },
   {
     field: "orderType",
     headerName: "Order Type",
-    // type: "number",
     width: 100,
     align: "left",
   },
   {
     field: "deliveryType",
     headerName: "Delivery Type",
-    // type: "number",
     width: 110,
     align: "left",
   },
   {
     field: "carrier",
     headerName: "Carrier",
-    // type: "number",
     width: 130,
     align: "left",
   },
   {
     field: "shipmentNumber",
     headerName: "Consignment Id",
-    // type: "number",
     width: 220,
     align: "left",
   },
   {
     field: "reportid",
     headerName: "Report Id",
-    // type: "number",
     width: 130,
     align: "left",
   },
