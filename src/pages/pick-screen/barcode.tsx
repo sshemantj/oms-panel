@@ -116,6 +116,7 @@ const BarcodeScanner = () => {
           // setCurrentScan((prev) => prev + 1);
           setCurrentScan((prev) => {
             const newScanCount = prev + 1;
+
             if (newScanCount < scanQuantity) {
               ToastMessage({
                 message: `Scanned ${newScanCount}/${scanQuantity} quantity`,
@@ -252,26 +253,31 @@ const BarcodeScanner = () => {
         showManualCodeError("");
         handleDropMarkManual();
       } else if (manualBarcode === ean && !isStatusPicked) {
-        showManualCodeError("");
-        const barcodeArray = [manualBarcode];
+        if (
+          Number(manualQuantityPicked) < scanQuantity ||
+          Number(manualQuantityPicked) > scanQuantity
+        ) {
+          toast.error(
+            "Please enter correct quanity or select pick fail status"
+          );
+          return;
+        } else {
+          showManualCodeError("");
+          const barcodeArray = [manualBarcode];
 
-        const statusToBeUpdated = "Picked";
-        const qcFlagToBeUpdated = "QC Pass";
-        const formData = {
-          omsId: Number(omsId),
-          status: statusToBeUpdated || "",
-          additionalDamage: 0,
-          quantityToBePicked: Number(scanQuantity) || 0,
-          qcFlag: qcFlagToBeUpdated,
-          quantityPicked: Number(manualQuantityPicked) || 0,
-        };
-        console.log("formData", formData);
-        await handleSubmitFormData(formData);
-      } else if (
-        Number(manualQuantityPicked) < scanQuantity ||
-        Number(manualQuantityPicked) > scanQuantity
-      ) {
-        toast.error("Please enter correct quanity or select pick fail status");
+          const statusToBeUpdated = "Picked";
+          const qcFlagToBeUpdated = "QC Pass";
+          const formData = {
+            omsId: Number(omsId),
+            status: statusToBeUpdated || "",
+            additionalDamage: 0,
+            quantityToBePicked: Number(scanQuantity) || 0,
+            qcFlag: qcFlagToBeUpdated,
+            quantityPicked: Number(manualQuantityPicked) || 0,
+          };
+          console.log("formData", formData);
+          await handleSubmitFormData(formData);
+        }
       } else {
         toast.error("Barcode EAN doesn't match");
       }
@@ -428,25 +434,29 @@ const BarcodeScanner = () => {
               )}
             </Box>
           ) : null}
-        </div>
 
-        {/* <button onClick={() => setTorchOn(!torchOn)}>
+          {/* <button onClick={() => setTorchOn(!torchOn)}>
         Switch Torch {torchOn ? "Off" : "On"}
       </button> */}
-        {scannedCodes.length >= scanQuantity && (
-          <Box sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-            <Typography variant="h6">Scanned Barcodes</Typography>
-            {scannedCodes.map((code, index) => (
-              <Typography key={index} variant="body2">
-                {scannedCodes.length > 1 ? `${index + 1}. ${code}` : code}
-              </Typography>
-            ))}
+          {scannedCodes.length >= scanQuantity && (
+            <Box sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+              <Typography variant="h6">Scanned Barcodes</Typography>
+              {scannedCodes.map((code, index) => (
+                <Typography key={index} variant="body2">
+                  {scannedCodes.length > 1 ? `${index + 1}. ${code}` : code}
+                </Typography>
+              ))}
 
-            <Button onClick={handleSubmit} variant="contained" color="primary">
-              Submit
-            </Button>
-          </Box>
-        )}
+              <Button
+                onClick={handleSubmit}
+                variant="contained"
+                color="primary"
+              >
+                Submit
+              </Button>
+            </Box>
+          )}
+        </div>
       </div>
     </>
   );

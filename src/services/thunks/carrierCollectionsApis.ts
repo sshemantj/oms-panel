@@ -17,13 +17,17 @@ export const fetchManifestDetails = createAsyncThunk(
   async (params?: FetchManifestDetailsParams) => {
     const { searchTerm, filters } = params || {};
 
+    const isPayPickup = "1";
+
     let query = new URLSearchParams();
     if (searchTerm) query.append("searchTerm", searchTerm);
+    query.append("isPayPickup", isPayPickup);
     if (filters) {
       Object.keys(filters).forEach((key) => {
         query.append(key, filters[key]);
       });
     }
+
     const queryString = query.toString();
     const url = `/packer/Pack/getManifestDetails${
       queryString ? `?${queryString}` : ""
