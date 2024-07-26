@@ -268,8 +268,10 @@ const CustomerCollecionModule = () => {
   }, [dispatch]);
   const fetchData = async (filters: Filters = {}) => {
     try {
+      const isPayPickUp = "1";
       setLoading(true);
       if (locationId) filters.locationId = locationId.toString();
+      if (isPayPickUp) filters.isPayPickup = isPayPickUp;
 
       const resultAction = await dispatch(fetchManifestDetails({ filters }));
       const data = unwrapResult(resultAction);
@@ -337,8 +339,11 @@ const CustomerCollecionModule = () => {
     setLoading(true);
     try {
       const filters: { [key: string]: string } = {};
+      const isPayPickUp = "1";
 
       if (locationId) filters.locationId = locationId.toString();
+      if (isPayPickUp) filters.isPayPickup = isPayPickUp;
+
       const resultAction = await dispatch(
         fetchManifestDetails({ searchTerm: searchTerm, filters })
       );
