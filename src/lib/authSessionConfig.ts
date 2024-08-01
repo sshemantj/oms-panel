@@ -1,6 +1,10 @@
 import type { IronSessionOptions } from "iron-session";
 import type { IronSessionOptions as IronSessionOptionsEdge } from "iron-session/edge";
 
+console.log(
+  "process.env.NEXT_SECRET_COOKIE_PASSWORD ",
+  process.env.NEXT_SECRET_COOKIE_PASSWORD
+);
 // eslint-disable-next-line import/prefer-default-export
 export const sessionOptions: IronSessionOptions | IronSessionOptionsEdge = {
   password: process.env.NEXT_SECRET_COOKIE_PASSWORD as string,
