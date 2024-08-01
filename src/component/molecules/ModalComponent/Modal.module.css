@@ -1,0 +1,7 @@
+.modal-paper {
+  transition:
+    max-width 300ms ease-in-out,
+    opacity 300ms ease-in-out;
+  opacity: 0;
+  max-width: 0;
+}
