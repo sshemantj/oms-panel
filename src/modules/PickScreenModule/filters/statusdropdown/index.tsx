@@ -74,7 +74,7 @@ const StatusDropdown = ({
             data: pickStatusFiltersForDropdown,
             value: selectedPickStatus.statusId,
             handleOnChange,
-            label: "Select",
+            label: "Select *",
             selectSx: {
               width: "170px",
               "& .MuiSelect-outlined": {

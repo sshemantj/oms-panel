@@ -1,27 +1,36 @@
 import CustomModal from "@/component/molecules/CustomModal";
 import Loader from "@/component/molecules/Loader";
-import { validateOTP } from "@/services/thunks/customerCollectionApis";
+import { sendOtp, validateOTP } from "@/services/thunks/customerCollectionApis";
 import { useAppDispatch } from "@/store/hooks";
 import CloseIcon from "@mui/icons-material/Close";
 import { Box, Button, TextField, Typography } from "@mui/material";
+import { unwrapResult } from "@reduxjs/toolkit";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 interface IProps {
   openModal: boolean;
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
   selectedConsigmentId: string;
+  selectedOmsOrderId: string;
   onSuccess?: () => void;
 }
 
 const GenerateOtpModal = (props: IProps) => {
-  const { openModal, setOpenModal, selectedConsigmentId, onSuccess } = props;
+  const {
+    openModal,
+    setOpenModal,
+    selectedConsigmentId,
+    onSuccess,
+    selectedOmsOrderId,
+  } = props;
 
   const [mobileNumber, setMobileNumber] = useState("");
   const [generatedOtp, setGeneratedOtp] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const [isTimerActive, setIsTimerActive] = useState(false);
+  const [timer, setTimer] = useState(0);
   const dispatch = useAppDispatch();
 
   const handleClose = () => {
@@ -154,6 +163,43 @@ const GenerateOtpModal = (props: IProps) => {
     setMobileNumber("");
   };
 
+  const handleSendOtp = async (e: any) => {
+    e.preventDefault();
+    if (!mobileNumber) {
+      toast.error("Mobile Number is required ");
+      return;
+    }
+    try {
+      if (selectedConsigmentId && selectedOmsOrderId) {
+        const resultAction = await dispatch(
+          sendOtp({
+            mobileNo: mobileNumber,
+            omsOrderId: selectedOmsOrderId,
+            shipmentNo: selectedConsigmentId,
+          })
+        );
+        const response = unwrapResult(resultAction);
+        console.log("response", response);
+        setIsTimerActive(true);
+        setTimer(60);
+      }
+    } catch (error) {
+      console.error("Failed to send OTP:", error);
+    }
+  };
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isTimerActive && timer > 0) {
+      interval = setInterval(() => {
+        setTimer((prev) => prev - 1);
+      }, 1000);
+    } else if (timer === 0) {
+      setIsTimerActive(false);
+    }
+    return () => clearInterval(interval);
+  }, [isTimerActive, timer]);
+
   return (
     <>
       <CustomModal open={openModal} setOpen={setOpenModal} showClose={false}>
@@ -241,6 +287,14 @@ const GenerateOtpModal = (props: IProps) => {
                 </Button>
                 <Button onClick={handleClear} variant="contained" color="info">
                   CLEAR
+                </Button>
+                <Button
+                  onClick={handleSendOtp}
+                  variant="contained"
+                  color="info"
+                  disabled={isTimerActive}
+                >
+                  RESEND OTP {isTimerActive && `(${timer})`}
                 </Button>
               </Box>
             </div>

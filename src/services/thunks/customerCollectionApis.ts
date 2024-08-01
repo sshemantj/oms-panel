@@ -7,6 +7,12 @@ interface ValidateOTPParams {
   shipmentNo: string;
 }
 
+interface SendOtpPayload {
+  mobileNo: string;
+  omsOrderId: string;
+  shipmentNo: string;
+}
+
 export const validateOTP = createAsyncThunk(
   "packer/validateOTP",
   async (params: ValidateOTPParams) => {
@@ -27,6 +33,29 @@ export const validateOTP = createAsyncThunk(
       data: data,
     };
 
+    const response = await axiosPublic(config);
+    return response.data;
+  }
+);
+
+export const sendOtp = createAsyncThunk(
+  "otp/sendOtp",
+  async (params: SendOtpPayload) => {
+    const data = JSON.stringify({
+      mobileNo: params.mobileNo,
+      omsOrderId: params.omsOrderId,
+      shipmentNo: params.shipmentNo,
+    });
+    const config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: "/packer/Pack/sendOTP",
+      headers: {
+        accept: "*/*",
+        "Content-Type": "application/json-patch+json",
+      },
+      data: data,
+    };
     const response = await axiosPublic(config);
     return response.data;
   }

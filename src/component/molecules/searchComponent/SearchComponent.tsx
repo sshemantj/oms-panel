@@ -1,5 +1,11 @@
 import SearchIcon from "@mui/icons-material/Search";
-import { IconButton, InputAdornment, TextField } from "@mui/material";
+import {
+  IconButton,
+  InputAdornment,
+  SxProps,
+  TextField,
+  Theme,
+} from "@mui/material";
 import React from "react";
 import styles from "./searchNav.module.scss";
 
@@ -9,6 +15,7 @@ interface SearchComponentProps {
   onChange: (value: string) => void;
   onKeyDown?: (e: React.KeyboardEvent) => void;
   onSearchSubmit?: () => void;
+  sx?: SxProps<Theme>;
 }
 
 const SearchComponent: React.FC<SearchComponentProps> = ({
@@ -17,6 +24,7 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
   onChange,
   onKeyDown,
   onSearchSubmit,
+  sx = {},
 }) => {
   return (
     <div className={`${styles.searchValueContainer} `}>
@@ -26,6 +34,7 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
         onChange={(e) => onChange(e.target.value)}
         variant="outlined"
         fullWidth
+        sx={sx}
         onKeyDown={onKeyDown}
         InputProps={{
           endAdornment: (

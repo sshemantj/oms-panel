@@ -40,6 +40,7 @@ interface ManifestColumnItem {
   id: number;
   shipmentNumber: string;
   reportid: string;
+  omsOrderId: string;
   // orderRef: string;
 }
 interface Filters {
@@ -102,7 +103,9 @@ const CustomerCollecionModule = () => {
             display: "inline-block",
             textAlign: "center",
           }}
-          onClick={() => handleShipment(params.row.shipmentNumber)}
+          onClick={() =>
+            handleShipment(params.row.shipmentNumber, params.row.omsOrderId)
+          }
         >
           {params.value}
         </Typography>
@@ -158,6 +161,8 @@ const CustomerCollecionModule = () => {
     rows: [],
   });
   const [selectedConsigmentId, setSelectedConsigmentId] = useState<any>([]);
+  const [selectedOmsOrderId, setSelectedOmsOrderId] = useState<any>([]);
+
   const [openModal, setOpenModal] = useState<boolean>(false);
 
   const cardsList: IBaseCardProps[] = [
@@ -277,6 +282,8 @@ const CustomerCollecionModule = () => {
         (item: any, index: number) => ({
           id: index + 1,
           orderId: item.orderId,
+          omsOrderId: item.omsOrderId,
+
           orderNumber: item.orderNumber,
           customer: item.customer,
           awb: item.awb,
@@ -323,9 +330,11 @@ const CustomerCollecionModule = () => {
     setSelectedChannel(e.target.value as string);
   };
 
-  const handleShipment = (shipmentId: any) => {
+  const handleShipment = (shipmentId: any, omsOrderId: any) => {
     console.log("shipmentId", shipmentId);
+    console.log("omsOrderId", omsOrderId);
     setSelectedConsigmentId(shipmentId);
+    setSelectedOmsOrderId(omsOrderId);
     setOpenModal(true);
   };
 
@@ -359,6 +368,7 @@ const CustomerCollecionModule = () => {
             carrier: item.carrier,
             shipmentNumber: item.shipmentNumber,
             reportid: item.reportId,
+            omsOrderId: item.omsOrderId,
           })
         );
         setTableState((prevTableState) => ({ ...prevTableState, rows }));
@@ -397,10 +407,10 @@ const CustomerCollecionModule = () => {
   //     value: courier.courierName,
   //   };
   // });
-  const channelDropDownData = channelsDropDown?.map((courier: any) => {
+  const channelDropDownData = channelsDropDown?.map((channel: any) => {
     return {
-      label: courier.channelName,
-      value: courier.channelName,
+      label: channel.channelName,
+      value: channel.channelName,
     };
   });
 
@@ -441,6 +451,25 @@ const CustomerCollecionModule = () => {
                   label="search by order , awb, invoice "
                   value={searchTerm}
                   onKeyDown={handleKeyPress}
+                  sx={{
+                    width: "320px",
+                    "& .MuiSelect-outlined": {
+                      padding: "6px",
+                    },
+
+                    "& .MuiInputBase-root": {
+                      height: "40px",
+                    },
+                    "& .MuiInputLabel-shrink": {
+                      top: "0px",
+                    },
+                    "& label": {
+                      top: "-7px",
+                    },
+                    "& .Mui-focused": {
+                      top: "0",
+                    },
+                  }}
                   onChange={handleSearch}
                   onSearchSubmit={handleSearchSubmit}
                 />
@@ -519,6 +548,7 @@ const CustomerCollecionModule = () => {
             <GenerateOtpModal
               {...{ openModal, setOpenModal }}
               selectedConsigmentId={selectedConsigmentId}
+              selectedOmsOrderId={selectedOmsOrderId}
               onSuccess={handleSuccess}
             />
           ) : null}

@@ -14,6 +14,7 @@ export enum IAllRoutes {
   PICK_SCREEN = "/pick-screen",
   PACK_SCREEN = "/pack-screen",
   CUSTOMER_COLLECTIONS = "/customer-collections",
+  CUSTOMER_SERVICE_PANEL = "/customer-service-panel",
 }
 
 //Store sub routes

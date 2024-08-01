@@ -32,7 +32,6 @@ const OrderNumberTextInput = ({
       <Typography fontWeight={600}>Order Number</Typography>
       <TextField
         id="outlined-basic"
-        type="number"
         size="small"
         value={orderNumber}
         // onChange={(e) => handleNumberChange(1, "Id", e.target.value)}
