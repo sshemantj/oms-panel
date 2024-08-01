@@ -1,12 +1,13 @@
 import HeaderLabel from "@/component/atoms/headerLabel";
 import { IAllRoutes, IListRoutes } from "@/constants/allRoutes";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import LhsWrapper from "./LhsWrapper";
 import RhsWrapper from "./RhsWrapper";
 import NavList from "./navlist";
 import styles from "./newNavbar.module.scss";
 import LoginComponent from "@/component/molecules/LoginModal";
+import { useStoreInfo } from "@/utils/cookies";
 
 interface IProps {
   children: JSX.Element;
@@ -18,6 +19,13 @@ const MainLayout = (props: IProps) => {
   const router = useRouter();
 
   const [isNavOpen, setisNavOpen] = useState<boolean>(false);
+  const [storeId, setStoreId] = useState("");
+
+  const { storeId: locationId, role } = useStoreInfo();
+
+  useEffect(() => {
+    if (locationId) setStoreId(locationId);
+  }, [locationId]);
 
   const handleTypeClick = (value: any, path: IAllRoutes | IListRoutes) => {
     switch (path) {
@@ -36,16 +44,14 @@ const MainLayout = (props: IProps) => {
 
   return (
     <div className={styles.newNavWrapper}>
-      <LoginComponent />
-
       <nav className={styles.navContainer}>
-        <LhsWrapper {...{ isNavOpen, setisNavOpen }} />
-        <RhsWrapper />
+        <LhsWrapper {...{ isNavOpen, setisNavOpen, storeId }} />
+        <RhsWrapper storeId={storeId} />
       </nav>
       <HeaderLabel />
       <div className={styles.mainBodyWrapper}>
         <div className={styles.navListWrapper}>
-          <NavList {...{ handleTypeClick, isNavOpen, setisNavOpen }} />
+          <NavList {...{ handleTypeClick, isNavOpen, setisNavOpen, role }} />
         </div>
         <main style={mainStyle} className={styles.mainWrapper}>
           {children}

@@ -1,4 +1,6 @@
+import useUser from "@/hooks/useUser";
 import MainLayout from "@/layout/MainLayout";
+import { withRoleGuard } from "@/lib/WithRoleGuard";
 import PickScreenModule from "@/modules/PickScreenModule";
 import { NextPage } from "next";
 import Head from "next/head";
@@ -6,6 +8,9 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 
 const PickScreen: NextPage = () => {
+  const { user } = useUser({
+    redirectTo: "/login",
+  });
   const [selectedFilters, setSelectedFilters] = useState({});
 
   const router = useRouter();
@@ -28,5 +33,7 @@ const PickScreen: NextPage = () => {
     </>
   );
 };
-
-export default PickScreen;
+export default withRoleGuard(PickScreen, {
+  requiredRoles: ["picker", "storeTL", "globalTL"],
+  fallbackUrl: "/404",
+});

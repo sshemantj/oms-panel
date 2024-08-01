@@ -15,17 +15,21 @@ import MenuIconWrapper from "@/component/atoms/menuIcon";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import { deleteCookie } from "cookies-next";
 import toast from "react-hot-toast";
-import { getStoreIdFromCookie } from "@/utils/cookies";
+import { getStoreIdFromCookie, useStoreId } from "@/utils/cookies";
+import { logOut } from "@/services/thunks/authApis";
+import { useAppDispatch } from "@/store/hooks";
 
 interface IProps {
   isNavOpen: boolean;
   setisNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  storeId: string;
 }
 
 const LhsWrapper = (props: IProps) => {
-  const { isNavOpen, setisNavOpen } = props;
+  const { isNavOpen, setisNavOpen, storeId } = props;
   const router = useRouter();
   const isMobile = useMobileCheck();
+  const dispatch = useAppDispatch();
 
   const handleIconClick = (isOpen: boolean) => {
     setisNavOpen(isOpen);
@@ -34,7 +38,6 @@ const LhsWrapper = (props: IProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
-  const [storeId, setStoreId] = useState("");
 
   const [modalContent, setModalContent] = useState<React.ReactNode | null>(
     null
@@ -49,16 +52,13 @@ const LhsWrapper = (props: IProps) => {
   };
   const open = Boolean(anchorEl);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     deleteCookie("storeId");
-    toast.success("Logout success!");
-    router.reload();
-  };
+    await dispatch(logOut());
 
-  useEffect(() => {
-    const storeId = getStoreIdFromCookie();
-    if (storeId) setStoreId(storeId);
-  }, []);
+    toast.success("Logout success!");
+    await router.reload();
+  };
 
   return (
     <div className={styles.lhs_Wrapper}>
@@ -94,7 +94,7 @@ const LhsWrapper = (props: IProps) => {
             <PermIdentityIcon color="inherit" />
           </IconButton>
           <Popover
-            open={open}
+            open={open && Boolean(storeId)}
             anchorEl={anchorEl}
             onClose={handlePopoverClose}
             anchorOrigin={{
@@ -106,14 +106,16 @@ const LhsWrapper = (props: IProps) => {
               horizontal: "right",
             }}
           >
-            <Box sx={{ p: 2 }}>
-              <Typography
-                sx={{ cursor: "pointer", mb: 1 }}
-                onClick={() => handleLogout()}
-              >
-                Logout
-              </Typography>
-            </Box>
+            {storeId ? (
+              <Box sx={{ p: 2 }}>
+                <Typography
+                  sx={{ cursor: "pointer", mb: 1 }}
+                  onClick={() => handleLogout()}
+                >
+                  Logout
+                </Typography>
+              </Box>
+            ) : null}
           </Popover>
         </>
       ) : null}

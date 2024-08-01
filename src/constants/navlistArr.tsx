@@ -15,6 +15,7 @@ export interface INavListArr {
   icon?: any;
   path?: string | any;
   iconType?: string;
+  roles: string[];
 }
 
 export const navListArr: INavListArr[] = [
@@ -23,59 +24,79 @@ export const navListArr: INavListArr[] = [
     icon: <BarChartIcon color="inherit" />,
     iconType: "mui",
     path: IAllRoutes.DASHBOARD,
+    roles: ["storeTL", "globalTL"],
   },
-  {
-    topHeading: "Waves",
-    icon: <StoreIcon color="inherit" />,
-    iconType: "mui",
-    path: IAllRoutes.STORE,
-  },
+  // {
+  //   topHeading: "Waves",
+  //   icon: <StoreIcon color="inherit" />,
+  //   iconType: "mui",
+  //   path: IAllRoutes.STORE,
+  // },
   {
     topHeading: "Customer Collections",
     icon: DeliveryManIcon,
     iconType: "svg",
     path: IAllRoutes.CUSTOMER_COLLECTIONS,
+    roles: ["packer", "storeTL", "globalTL"],
   },
   {
     topHeading: "Carrier Collections",
     icon: <LocalShippingIcon color="inherit" />,
     iconType: "mui",
     path: IAllRoutes.CARRIER_COLLECTIONS,
+    roles: ["packer", "storeTL", "globalTL"],
   },
-  {
-    topHeading: "Uncollected Articles",
-    icon: <AssignmentLateIcon color="inherit" />,
-    iconType: "mui",
-    path: IAllRoutes.STORE,
-  },
-  {
-    topHeading: "Fulfillments",
-    icon: <ArticleIcon color="inherit" />,
-    iconType: "mui",
-    path: IAllRoutes.FULFILLMENTS,
-  },
-  {
-    topHeading: "Returns",
-    icon: <AssignmentReturnIcon color="inherit" />,
-    iconType: "mui",
-    path: IAllRoutes.RETURNS,
-  },
+  // {
+  //   topHeading: "Uncollected Articles",
+  //   icon: <AssignmentLateIcon color="inherit" />,
+  //   iconType: "mui",
+  //   path: IAllRoutes.STORE,
+  // },
+  // {
+  //   topHeading: "Fulfillments",
+  //   icon: <ArticleIcon color="inherit" />,
+  //   iconType: "mui",
+  //   path: IAllRoutes.FULFILLMENTS,
+  // },
+  // {
+  //   topHeading: "Returns",
+  //   icon: <AssignmentReturnIcon color="inherit" />,
+  //   iconType: "mui",
+  //   path: IAllRoutes.RETURNS,
+  // },
   {
     topHeading: "Pick Screen",
     icon: <ListIcon color="inherit" />,
     iconType: "mui",
     path: IAllRoutes.PICK_SCREEN,
+    roles: ["picker", "storeTL", "globalTL"],
   },
   {
     topHeading: "Pack Screen",
     icon: PackIcon,
     iconType: "svg",
     path: IAllRoutes.PACK_SCREEN,
+    roles: ["packer", "storeTL", "globalTL"],
   },
   {
     topHeading: "CP Panel",
     icon: CustomerSupportIcon,
     iconType: "svg",
     path: IAllRoutes.CUSTOMER_SERVICE_PANEL,
+    roles: ["customerService"],
   },
+  // {
+  //   topHeading: "ELCA Report Screen",
+  //   icon: <ArticleIcon color="inherit" />,
+  //   iconType: "mui",
+  //   path: IAllRoutes.ELCA_REPORT_SCREEN,
+  //   roles: ['finance'],
+  // },
+  // {
+  //   topHeading: "ELCA CS Panel",
+  //   icon: CustomerSupportIcon,
+  //   iconType: "svg",
+  //   path: IAllRoutes.ELCA_CS_PANEL,
+  //   roles: ['finance'],
+  // },
 ];

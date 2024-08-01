@@ -21,7 +21,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/modules/PickScreenModule/BarCodeScanner.jsx"
+    "src/modules/PickScreenModule/BarCodeScanner.jsx",
+    ".next/types/**/*.ts"
   ],
   "exclude": ["node_modules"]
 }

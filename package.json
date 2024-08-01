@@ -28,6 +28,7 @@
     "dayjs": "^1.11.11",
     "html5-qrcode": "^2.3.8",
     "husky": "^8.0.2",
+    "iron-session": "^6.3.1",
     "next": "13.4",
     "pretty-quick": "^4.0.0",
     "qrcode.react": "^3.1.0",

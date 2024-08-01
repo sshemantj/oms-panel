@@ -1,6 +1,6 @@
 import ModalComponent from "@/component/molecules/ModalComponent";
 
-import { useAppSelector } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import { Box, IconButton, Popover, Typography } from "@mui/material";
@@ -9,19 +9,26 @@ import styles from "./rhsWrapper.module.scss";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
 import { deleteCookie, getCookie } from "cookies-next";
+import { logOut } from "@/services/thunks/authApis";
 
-const RhsWrapper = () => {
+interface IProps {
+  storeId: string;
+}
+const RhsWrapper = (props: IProps) => {
+  const { storeId } = props;
+
   // const isAdmin = userRole === "admin";
   const router = useRouter();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
-  const [storeId, setStoreId] = useState("");
 
   const [modalContent, setModalContent] = useState<React.ReactNode | null>(
     null
   );
+
+  const dispatch = useAppDispatch();
 
   const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -43,17 +50,13 @@ const RhsWrapper = () => {
     setModalTitle("");
     setModalContent(null);
   };
-  useEffect(() => {
-    if (getCookie("storeId")) {
-      const storeId = getCookie("storeId");
-      if (storeId) setStoreId(storeId);
-    }
-  }, []);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     deleteCookie("storeId");
+    await dispatch(logOut());
+
     toast.success("Logout success!");
-    router.reload();
+    await router.reload();
   };
   const open = Boolean(anchorEl);
   return (
@@ -76,7 +79,7 @@ const RhsWrapper = () => {
         <PermIdentityIcon color="inherit" />
       </IconButton>
       <Popover
-        open={open}
+        open={open && Boolean(storeId)}
         anchorEl={anchorEl}
         onClose={handlePopoverClose}
         anchorOrigin={{
@@ -88,14 +91,16 @@ const RhsWrapper = () => {
           horizontal: "right",
         }}
       >
-        <Box sx={{ p: 2 }}>
-          <Typography
-            sx={{ cursor: "pointer", mb: 1 }}
-            onClick={() => handleLogout()}
-          >
-            Logout
-          </Typography>
-        </Box>
+        {storeId ? (
+          <Box sx={{ p: 2 }}>
+            <Typography
+              sx={{ cursor: "pointer", mb: 1 }}
+              onClick={() => handleLogout()}
+            >
+              Logout
+            </Typography>
+          </Box>
+        ) : null}
       </Popover>
       <ModalComponent
         open={modalOpen}
