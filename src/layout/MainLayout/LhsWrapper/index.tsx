@@ -15,7 +15,7 @@ import MenuIconWrapper from "@/component/atoms/menuIcon";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import { deleteCookie } from "cookies-next";
 import toast from "react-hot-toast";
-import { getStoreIdFromCookie, useStoreId } from "@/utils/cookies";
+import { getStoreIdFromCookie } from "@/utils/cookies";
 import { logOut } from "@/services/thunks/authApis";
 import { useAppDispatch } from "@/store/hooks";
 
