@@ -9,10 +9,11 @@ interface IProps {
   isNavOpen: boolean;
   handleTypeClick: (value: any, path?: any) => void;
   setisNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  role: string | null;
 }
 
 const NavList = (props: IProps) => {
-  const { isNavOpen, handleTypeClick, setisNavOpen } = props;
+  const { isNavOpen, handleTypeClick, setisNavOpen, role } = props;
 
   const searchParams = useSearchParams();
   const isMobile = useMobileCheck();
@@ -36,6 +37,10 @@ const NavList = (props: IProps) => {
   const handleIconClick = (isOpen: boolean) => {
     setisNavOpen(isOpen);
   };
+  // Filter navigation items based on the user's role
+  const roleBaseNavListArr = navListArr.filter((item) =>
+    item.roles.includes(role || "")
+  );
 
   return (
     <div
@@ -50,7 +55,7 @@ const NavList = (props: IProps) => {
       >
         {isMobile || <MenuIconWrapper {...{ handleIconClick, isNavOpen }} />}
         <div className={styles.navlist_container}>
-          {navListArr.map((listItem: INavListArr, index: number) => {
+          {roleBaseNavListArr.map((listItem: INavListArr, index: number) => {
             const { topHeading, icon: IconComponent, iconType } = listItem;
             return (
               <div
