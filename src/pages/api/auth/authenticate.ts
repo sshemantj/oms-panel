@@ -92,6 +92,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           .json({ message: authenticateResponse.data, success: false });
       }
     } catch (error: any) {
+      console.log("error", error);
       return res.status(500).json({ message: error.message, success: false });
     }
   }
