@@ -1,10 +1,10 @@
 import { handleStatus } from "@/utils/handleStatus";
 import axios, { AxiosError } from "axios";
-import { NEXT_PUBLIC_API_BASE_URL } from "../constants/allEnv";
+import { NEXT_PUBLIC_PREPROD_API_BASE_URL } from "../constants/allEnv";
 import { getCookie } from "cookies-next";
 
 const axiosPrivate = axios.create({
-  baseURL: NEXT_PUBLIC_API_BASE_URL,
+  baseURL: NEXT_PUBLIC_PREPROD_API_BASE_URL,
   headers: { "Content-Type": "application/json" },
   // withCredentials: true,
 });
@@ -28,7 +28,7 @@ axiosPrivate.interceptors.response.use(
 );
 
 const axiosPublic = axios.create({
-  baseURL: NEXT_PUBLIC_API_BASE_URL,
+  baseURL: NEXT_PUBLIC_PREPROD_API_BASE_URL,
   headers: { "Content-Type": "application/json" },
   // withCredentials: true,
 });

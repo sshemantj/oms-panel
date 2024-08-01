@@ -41,7 +41,7 @@ const GenerateOtpModal = (props: IProps) => {
     const config: any = {
       method: "get",
       maxBodyLength: Infinity,
-      url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/PDF/GetInvoice?shipmentno=${shipmentNo}`,
+      url: `${process.env.NEXT_PUBLIC_PREPROD_API_BASE_URL}/PDF/GetInvoice?shipmentno=${shipmentNo}`,
       headers: {
         Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ...",
       },

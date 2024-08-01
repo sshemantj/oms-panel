@@ -1,8 +1,11 @@
 const NEXT_PUBLIC_API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const NEXT_PUBLIC_PREPROD_API_BASE_URL =
+  process.env.NEXT_PUBLIC_PREPROD_API_BASE_URL;
+
 export const isLocal = process.env.NODE_ENV === "development";
 
 export const showLogger = isLocal
   ? true
   : (process.env.NEXT_PUBLIC_SHOW_LOGGER === "true" ?? false);
 
-export { NEXT_PUBLIC_API_BASE_URL };
+export { NEXT_PUBLIC_API_BASE_URL, NEXT_PUBLIC_PREPROD_API_BASE_URL };
