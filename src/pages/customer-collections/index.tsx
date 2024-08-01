@@ -1,4 +1,5 @@
 import MainLayout from "@/layout/MainLayout";
+import { withRoleGuard } from "@/lib/WithRoleGuard";
 import CustomerCollecionModule from "@/modules/CustomerCollectionModule";
 import { NextPage } from "next";
 import Head from "next/head";
@@ -16,4 +17,7 @@ const CustomerCollection: NextPage = () => {
   );
 };
 
-export default CustomerCollection;
+export default withRoleGuard(CustomerCollection, {
+  requiredRoles: ["packer", "storeTL", "globalTL"],
+  fallbackUrl: "/404",
+});
