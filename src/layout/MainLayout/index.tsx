@@ -28,6 +28,7 @@ const MainLayout = (props: IProps) => {
       case IAllRoutes.PICK_SCREEN:
       case IAllRoutes.PACK_SCREEN:
       case IAllRoutes.CUSTOMER_COLLECTIONS:
+      case IAllRoutes.CUSTOMER_SERVICE_PANEL:
         router.push(`${path}`);
         return;
     }

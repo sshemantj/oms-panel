@@ -460,6 +460,25 @@ const CarrierCollectionModule = () => {
                   onKeyDown={handleKeyPress}
                   onChange={handleSearch}
                   onSearchSubmit={handleSearchSubmit}
+                  sx={{
+                    width: "320px",
+                    "& .MuiSelect-outlined": {
+                      padding: "6px",
+                    },
+
+                    "& .MuiInputBase-root": {
+                      height: "40px",
+                    },
+                    "& .MuiInputLabel-shrink": {
+                      top: "0px",
+                    },
+                    "& label": {
+                      top: "-7px",
+                    },
+                    "& .Mui-focused": {
+                      top: "0",
+                    },
+                  }}
                 />
                 <Button
                   sx={{

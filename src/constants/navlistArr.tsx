@@ -6,6 +6,7 @@ import BarChartIcon from "@mui/icons-material/BarChart";
 import ListIcon from "@mui/icons-material/List";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import StoreIcon from "@mui/icons-material/Store";
+import CustomerSupportIcon from "~/svg/customer-support.svg";
 import DeliveryManIcon from "~/svg/delivery-man-icon.svg";
 import PackIcon from "~/svg/packIcon.svg";
 
@@ -70,5 +71,11 @@ export const navListArr: INavListArr[] = [
     icon: PackIcon,
     iconType: "svg",
     path: IAllRoutes.PACK_SCREEN,
+  },
+  {
+    topHeading: "CP Panel",
+    icon: CustomerSupportIcon,
+    iconType: "svg",
+    path: IAllRoutes.CUSTOMER_SERVICE_PANEL,
   },
 ];

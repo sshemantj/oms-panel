@@ -6,6 +6,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 import React from "react";
+import "./Modal.module.css";
 
 interface ModalProps {
   open: boolean;
@@ -28,6 +29,9 @@ const ModalComponent: React.FC<ModalProps> = ({
       onClose={onClose}
       fullWidth
       maxWidth={maxWidth}
+      PaperProps={{
+        className: `modal-paper `,
+      }}
       style={{ zIndex: "999" }}
     >
       <DialogTitle>{title}</DialogTitle>
