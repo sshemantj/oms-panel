@@ -9,52 +9,28 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { username, password } = req.body;
 
     try {
-      // const data = JSON.stringify({
-      //   Username: username,
-      //   Password: password,
-      // });
-
-      // let config = {
-      //   method: "post",
-      //   maxBodyLength: Infinity,
-      //   url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/authenticate`,
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   data: data,
-      //   timeout: 30000,
-      // };
-
-      // console.log("config", config);
-
-      // const authenticateResponse: any = await axios.request(config);
-
-      // console.log(authenticateResponse, "authenticateResponse authenticte");
-      // console.log("authenticateResponse.status", authenticateResponse.status);
-
       const data = JSON.stringify({
-        title: "foo",
-        body: "bar",
-        userId: 1,
+        Username: username,
+        Password: password,
       });
 
       let config = {
         method: "post",
         maxBodyLength: Infinity,
-        url: "https://jsonplaceholder.typicode.com/posts",
+        url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/authenticate`,
         headers: {
           "Content-Type": "application/json",
         },
         data: data,
-        timeout: 30000, // Timeout after 30 seconds
+        timeout: 30000,
       };
 
       console.log("config", config);
 
-      const testApiResponse: any = await axios(config);
+      const authenticateResponse: any = await axios.request(config);
 
-      console.log(testApiResponse, "testApiResponse");
-      console.log("testApiResponse.status", testApiResponse.status);
+      console.log(authenticateResponse, "authenticateResponse authenticte");
+      console.log("authenticateResponse.status", authenticateResponse.status);
 
       // if (
       //   authenticateResponse.status === 200 &&
@@ -68,7 +44,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       //     maxBodyLength: Infinity,
       //     url: `/users/GetByUsername?username=${username}`,
       //     headers: {},
-      // timeout: 30000,
       //   };
 
       //   try {
@@ -120,7 +95,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       // }
       return res
         .status(200)
-        .json({ message: testApiResponse.data, success: false });
+        .json({ message: authenticateResponse.data.message, success: false });
     } catch (error: any) {
       console.log("error", error);
       return res.status(500).json({ message: error.message, success: false });
