@@ -14,22 +14,40 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         Password: password,
       });
 
+      // let config = {
+      //   method: "post",
+      //   maxBodyLength: Infinity,
+      //   url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/authenticate`,
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   data: data,
+      //   timeout: 30000,
+      // };
+
+      // console.log("config", config);
+
+      // const authenticateResponse: any = await axios.request(config);
+
+      // console.log(authenticateResponse, "authenticateResponse authenticte");
+      // console.log("authenticateResponse.status", authenticateResponse.status);
+
       let config = {
-        method: "post",
+        method: "get",
         maxBodyLength: Infinity,
-        url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/authenticate`,
+        url: "https://jsonplaceholder.typicode.com/todos/1",
         headers: {
           "Content-Type": "application/json",
         },
-        data: data,
+        timeout: 30000, // Timeout after 30 seconds
       };
 
       console.log("config", config);
 
-      const authenticateResponse: any = await axios.request(config);
+      const testApiResponse: any = await axios(config);
 
-      console.log(authenticateResponse, "authenticateResponse authenticte");
-      console.log("authenticateResponse.status", authenticateResponse.status);
+      console.log(testApiResponse, "testApiResponse");
+      console.log("testApiResponse.status", testApiResponse.status);
 
       // if (
       //   authenticateResponse.status === 200 &&
@@ -43,6 +61,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       //     maxBodyLength: Infinity,
       //     url: `/users/GetByUsername?username=${username}`,
       //     headers: {},
+      // timeout: 30000,
       //   };
 
       //   try {
@@ -94,7 +113,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       // }
       return res
         .status(200)
-        .json({ message: authenticateResponse.data.message, success: false });
+        .json({ message: testApiResponse.data, success: false });
     } catch (error: any) {
       console.log("error", error);
       return res.status(500).json({ message: error.message, success: false });
