@@ -9,10 +9,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { username, password } = req.body;
 
     try {
-      const data = JSON.stringify({
-        Username: username,
-        Password: password,
-      });
+      // const data = JSON.stringify({
+      //   Username: username,
+      //   Password: password,
+      // });
 
       // let config = {
       //   method: "post",
@@ -32,13 +32,20 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       // console.log(authenticateResponse, "authenticateResponse authenticte");
       // console.log("authenticateResponse.status", authenticateResponse.status);
 
+      const data = JSON.stringify({
+        title: "foo",
+        body: "bar",
+        userId: 1,
+      });
+
       let config = {
-        method: "get",
+        method: "post",
         maxBodyLength: Infinity,
-        url: "https://jsonplaceholder.typicode.com/todos/1",
+        url: "https://jsonplaceholder.typicode.com/posts",
         headers: {
           "Content-Type": "application/json",
         },
+        data: data,
         timeout: 30000, // Timeout after 30 seconds
       };
 
