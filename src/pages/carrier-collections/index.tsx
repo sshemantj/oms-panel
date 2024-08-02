@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import Head from "next/head";
 import MainLayout from "@/layout/MainLayout";
 import CarrierCollectionModule from "@/modules/CarrierCollectionModule";
+import { withRoleGuard } from "@/lib/WithRoleGuard";
 
 const CarrierCollection: NextPage = () => {
   return (
@@ -16,4 +17,8 @@ const CarrierCollection: NextPage = () => {
   );
 };
 
-export default CarrierCollection;
+export default withRoleGuard(CarrierCollection, {
+  requiredRoles: ["packer", "storeTL", "globalTL"],
+  fallbackUrl: "/404",
+  redirectTo: "/login",
+});

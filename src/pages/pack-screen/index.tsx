@@ -5,9 +5,6 @@ import { withRoleGuard } from "@/lib/WithRoleGuard";
 import Head from "next/head";
 
 const PackScreen = () => {
-  const { user } = useUser({
-    redirectTo: "/login",
-  });
   return (
     <>
       <Head>
@@ -23,4 +20,5 @@ const PackScreen = () => {
 export default withRoleGuard(PackScreen, {
   requiredRoles: ["packer", "storeTL", "globalTL"],
   fallbackUrl: "/404",
+  redirectTo: "/login",
 });

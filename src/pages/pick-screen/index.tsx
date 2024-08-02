@@ -8,9 +8,6 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 
 const PickScreen: NextPage = () => {
-  const { user } = useUser({
-    redirectTo: "/login",
-  });
   const [selectedFilters, setSelectedFilters] = useState({});
 
   const router = useRouter();
@@ -36,4 +33,5 @@ const PickScreen: NextPage = () => {
 export default withRoleGuard(PickScreen, {
   requiredRoles: ["picker", "storeTL", "globalTL"],
   fallbackUrl: "/404",
+  redirectTo: "/login",
 });
