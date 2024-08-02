@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import withSession from "@/lib/session";
 import { axiosPublic } from "@/services/client";
+import axios from "axios";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   console.log("req", req);
@@ -16,7 +17,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       let config = {
         method: "post",
         maxBodyLength: Infinity,
-        url: "/users/authenticate",
+        url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/authenticate`,
         headers: {
           "Content-Type": "application/json",
         },
@@ -25,7 +26,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       console.log("config", config);
 
-      const authenticateResponse: any = await axiosPublic(config);
+      const authenticateResponse: any = await axios.request(config);
 
       console.log(authenticateResponse, "authenticateResponse authenticte");
       console.log("authenticateResponse.status", authenticateResponse.status);
