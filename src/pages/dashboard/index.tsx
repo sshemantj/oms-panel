@@ -6,9 +6,6 @@ import { NextPage } from "next";
 import Head from "next/head";
 
 const Dashboard: NextPage = () => {
-  const { user } = useUser({
-    redirectTo: "/login",
-  });
   return (
     <>
       <Head>
@@ -25,4 +22,5 @@ export default withRoleGuard(Dashboard, {
   requiredRoles: ["storeTL", "globalTL"],
 
   fallbackUrl: "/404",
+  redirectTo: "/login",
 });

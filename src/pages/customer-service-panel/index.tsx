@@ -7,9 +7,6 @@ import { NextPage } from "next";
 import Head from "next/head";
 
 const CustomerServicePanel: NextPage = () => {
-  const { user } = useUser({
-    redirectTo: "/login",
-  });
   return (
     <>
       <Head>
@@ -25,4 +22,5 @@ const CustomerServicePanel: NextPage = () => {
 export default withRoleGuard(CustomerServicePanel, {
   requiredRoles: ["customerService"],
   fallbackUrl: "/404",
+  redirectTo: "/login",
 });

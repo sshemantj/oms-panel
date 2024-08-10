@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import withSession from "@/lib/session";
-import axios from "axios";
 import { axiosPublic } from "@/services/client";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
+  console.log("req", req);
   if (req.method === "POST") {
     const { username, password } = req.body;
 
@@ -22,6 +22,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         },
         data: data,
       };
+
+      console.log("config", config);
 
       const authenticateResponse: any = await axiosPublic(config);
 
@@ -90,6 +92,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           .json({ message: authenticateResponse.data, success: false });
       }
     } catch (error: any) {
+      console.log("error", error);
       return res.status(500).json({ message: error.message, success: false });
     }
   }

@@ -20,4 +20,5 @@ const CustomerCollection: NextPage = () => {
 export default withRoleGuard(CustomerCollection, {
   requiredRoles: ["packer", "storeTL", "globalTL"],
   fallbackUrl: "/404",
+  redirectTo: "/login",
 });

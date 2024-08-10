@@ -28,7 +28,7 @@ import { unwrapResult } from "@reduxjs/toolkit";
 import ToastMessage from "../ToastInfoMessage";
 
 const roleRedirects: Record<string, string> = {
-  storeTL: "/",
+  storeTL: "/dashboard",
   picker: "/pick-screen",
   packer: "/pack-screen",
 
